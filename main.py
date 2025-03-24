@@ -25,7 +25,7 @@ while running:
     à chaque frame, on gère les changements, on efface tout l'écran, on enregistre les changements des éléments, puis on réaffiche tout, avec les modifications
     """
     #partie principale du jeu
-    game.update()
+    game.update(screen)
 
     #vider l'ecran
     screen.blit(background, (0, 0))

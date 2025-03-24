@@ -42,7 +42,7 @@ class Game():
 
 
 
-    def update(self):
+    def update(self, screen):
         self.dt = pygame.time.Clock().tick(60) / 1000 # On récupère le temps écoulé depuis la dernière frame, pour ne pas impacter la vitesse du jeu en fonction du framerate
         
         for event in pygame.event.get():
@@ -62,6 +62,7 @@ class Game():
                     world_mouse = self.camera.offset + pygame.Vector2(event.pos) / self.camera.zoom
                     if not self.player.rect.collidepoint(world_mouse):
                         self.camera.dragging = True
+                        self.camera.anchored = False
                         self.camera.drag_start = pygame.Vector2(event.pos)
                         self.camera.drag_offset_start = self.camera.offset.copy()
             elif event.type == pygame.MOUSEBUTTONUP:
@@ -78,10 +79,15 @@ class Game():
             self.camera.offset.y -= pan_speed
         if self.keys[pygame.K_DOWN]:
             self.camera.offset.y += pan_speed
+        
+        if self.keys[pygame.K_SPACE]:
+            self.camera.anchored = not self.camera.anchored
 
-        if self.camera.dragging:
+        if self.camera.anchored:
+            self.camera.offset = self.player.rect.center - pygame.Vector2(screen.get_size()) / 2 / self.camera.zoom
+        elif self.camera.dragging:
             mouse_pos = pygame.Vector2(pygame.mouse.get_pos())
-            drag_delta = (mouse_pos - self.camera.drag_start) / self.camera.zoom
+            drag_delta = ((mouse_pos - self.camera.drag_start) / self.camera.zoom)
             self.camera.offset = self.camera.drag_offset_start - drag_delta
 
         self.player.update(self)
