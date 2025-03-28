@@ -33,6 +33,9 @@ while running:
     #mettre à jour les éléments
     game.etoiles.draw(screen, game.camera)
     game.player.draw(screen, game.camera)
+    for planet in game.planets:
+        planet.draw(screen, game.camera)
+
 #    screen.blit(game.player.image, game.player.rect)
 
     #mettre à jour l'écran

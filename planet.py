@@ -12,8 +12,17 @@ class Planet:
         self.pos = pos
         self.type = type
 
-        # il faudra définir la masse en fonction du type de planète, pour que ça colle avec les calculs de physiques.
-        self.masse = ...
+        self.type = type.split('-')
+        self.taille = self.type[0]
+        self.type = self.type[1]
+        if self.taille == "petite":
+            self.masse = 10
+        elif self.taille == "moyenne":
+            self.masse = 50
+        elif self.taille == "grande":
+            self.masse = 100
+        else:
+            raise ValueError("Taille de la planète non valide")
 
         self.image = pygame.image.load('assets/sprites/planetes/'+type+'.png').convert_alpha()
         self.rect = self.image.get_rect(center=self.pos)
