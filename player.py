@@ -17,22 +17,19 @@ class Player(pygame.sprite.Sprite):
         self.launch_vector = pygame.Vector2(0, 0)
     
     def update(self, game):
-        # ↓ Uniquement pour debug ↓
-        # Les contrôles du joueur s'effectue avec un "tir de golf, ici on ajoute le zqsd"
-        if game.is_pressed(pygame.K_z):
-            self.pos.y -= 10
-        if game.is_pressed(pygame.K_s):
-            self.pos.y += 10
-        if game.is_pressed(pygame.K_q):
-            self.pos.x -= 10
-        if game.is_pressed(pygame.K_d):
-            self.pos.x += 10
-        # ↑ Uniquement pour debug ↑
-
 
         self.pos += self.velocity * game.dt
         self.rect.center = self.pos
-    
+
+        # Gestion de la gravité
+#        for planet in game.planets:
+
+            # Il faut ajouter ici la physique.
+            # Pour cela, on peut modifier le vecteur vitesse du joueur avec self.velocity += ...
+            # On peut récupérer les variables de la planète avec planet.pos, planet.masse
+            
+
+
     def draw(self, screen, camera):
         # appliquer le zoom
         scaled_image = pygame.transform.rotozoom(self.image, 0, camera.zoom)
@@ -62,5 +59,5 @@ class Player(pygame.sprite.Sprite):
                 world_mouse = camera.offset + mouse_pos / camera.zoom
                 self.launch_vector = self.pos - world_mouse
                 # Appliquer un facteur de mise à l'échelle pour la vitesse
-                self.velocity += self.launch_vector * 0.5
+                self.velocity += self.launch_vector * 5
                 self.dragging = False
