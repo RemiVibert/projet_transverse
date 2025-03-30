@@ -7,6 +7,7 @@ class Camera:
         self.dragging = False
         self.drag_start = pygame.Vector2(0, 0)
         self.drag_offset_start = pygame.Vector2(0, 0)
+        self.anchored = True #fixer la camera sur le joueur
     
     def world_pos_to_screen_pos(self, pos):
         """Convertir une position du monde en position à l'écran"""

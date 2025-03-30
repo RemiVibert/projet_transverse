@@ -25,7 +25,7 @@ while running:
     à chaque frame, on gère les changements, on efface tout l'écran, on enregistre les changements des éléments, puis on réaffiche tout, avec les modifications
     """
     #partie principale du jeu
-    game.update()
+    game.update(screen)
 
     #vider l'ecran
     screen.blit(background, (0, 0))
@@ -33,6 +33,9 @@ while running:
     #mettre à jour les éléments
     game.etoiles.draw(screen, game.camera)
     game.player.draw(screen, game.camera)
+    for planet in game.planets:
+        planet.draw(screen, game.camera)
+
 #    screen.blit(game.player.image, game.player.rect)
 
     #mettre à jour l'écran
