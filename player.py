@@ -33,6 +33,7 @@ class Player(pygame.sprite.Sprite):
     def draw(self, screen, camera):
         # appliquer le zoom
         scaled_image = pygame.transform.rotozoom(self.image, 0, camera.zoom)
+        scaled_image = pygame.transform.scale(scaled_image, (scaled_image.get_width() // 8, scaled_image.get_height() // 8))
         new_rect = scaled_image.get_rect(center=camera.world_pos_to_screen_pos(self.pos))
         screen.blit(scaled_image, new_rect)
 
