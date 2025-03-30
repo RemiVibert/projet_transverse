@@ -1,4 +1,7 @@
 import pygame
+import math
+G = 6.67
+g = 9.81
 
 class Player(pygame.sprite.Sprite):
     def __init__(self):
@@ -18,8 +21,22 @@ class Player(pygame.sprite.Sprite):
     
     def update(self, game):
 
-        self.pos += self.velocity * game.dt
-        self.rect.center = self.pos
+        self.pos[0] += self.velocity[0] * game.dt
+        self.pos[1] += self.velocity[1] * game.dt
+        self.rect.center = self.pos[0], self.pos[1]
+
+        for planet in game.planets: #pour gérer la gravité
+            direction_x = planet.pos[0]-self.pos[0]
+            direction_y = planet.pos[1]-self.pos[1]
+            distance = math.sqrt(direction_x**2+direction_y**2)
+            if distance > 0:
+                force = (planet.masse*6.67)/(distance**2) #force gravitationelle
+                acceleration_x = force*(direction_x/distance)
+                acceleration_y = force*(direction_y/distance)#acceleration dans la direction imposée
+                self.velocity[0] += acceleration_x*game.dt #a = v/dt donc v = a*dt, on met a jour la vitesse avec le calcul
+                self.velocity[1] += acceleration_y* game.dt
+
+
 
         # Gestion de la gravité
 #        for planet in game.planets:
@@ -27,6 +44,9 @@ class Player(pygame.sprite.Sprite):
             # Il faut ajouter ici la physique.
             # Pour cela, on peut modifier le vecteur vitesse du joueur avec self.velocity += ...
             # On peut récupérer les variables de la planète avec planet.pos, planet.masse
+
+
+
             
 
 
