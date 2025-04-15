@@ -25,16 +25,17 @@ class Player(pygame.sprite.Sprite):
         self.pos[1] += self.velocity[1] * game.dt
         self.rect.center = self.pos[0], self.pos[1]
 
-        for planet in game.planets: #pour gérer la gravité
-            direction_x = planet.pos[0]-self.pos[0]
-            direction_y = planet.pos[1]-self.pos[1]
-            distance = math.sqrt(direction_x**2+direction_y**2)
+        for planet in game.planets:
+            direction_x = planet.pos[0] - self.pos[0]
+            direction_y = planet.pos[1] - self.pos[1]
+            distance = math.sqrt(direction_x ** 2 + direction_y ** 2)
             if distance > 0:
-                force = (planet.masse*6.67)/(distance**2) #force gravitationelle
-                acceleration_x = force*(direction_x/distance)
-                acceleration_y = force*(direction_y/distance)#acceleration dans la direction imposée
-                self.velocity[0] += acceleration_x*game.dt #a = v/dt donc v = a*dt, on met a jour la vitesse avec le calcul
-                self.velocity[1] += acceleration_y* game.dt
+                force = (planet.masse * G * 5000000) / (distance ** 2)  # J'ai multiplié G par 5000000 pour amplifier l'effet
+                acceleration_x = force * (direction_x / distance)
+                acceleration_y = force * (direction_y / distance)
+                self.velocity[0] += acceleration_x * game.dt
+                self.velocity[1] += acceleration_y * game.dt
+                print(f"Force: {force}, AccX: {acceleration_x}, AccY: {acceleration_y}")
 
 
 
