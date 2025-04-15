@@ -11,7 +11,7 @@ class Player(pygame.sprite.Sprite):
 
         self.pos = pygame.Vector2(0, 0)
         self.velocity = pygame.Vector2(0, 0)
-
+        self.last_direction = pygame.Vector2(0, -1)
 
         self.image = pygame.image.load('assets/sprites/player/idle.png').convert_alpha() #le convert_alpha permet de rendre le fond transparent et d'optimiser l'image
         self.rect = self.image.get_rect(center=self.pos)
@@ -21,9 +21,8 @@ class Player(pygame.sprite.Sprite):
     
     def update(self, game):
 
-        self.pos[0] += self.velocity[0] * game.dt
-        self.pos[1] += self.velocity[1] * game.dt
-        self.rect.center = self.pos[0], self.pos[1]
+        self.pos += self.velocity * game.dt
+        self.rect.center = self.pos
 
         for planet in game.planets:
             direction_x = planet.pos[0] - self.pos[0]
@@ -46,40 +45,41 @@ class Player(pygame.sprite.Sprite):
             # Pour cela, on peut modifier le vecteur vitesse du joueur avec self.velocity += ...
             # On peut récupérer les variables de la planète avec planet.pos, planet.masse
 
-
-
-            
-
-
     def draw(self, screen, camera):
-        # appliquer le zoom
         scaled_image = pygame.transform.rotozoom(self.image, 0, camera.zoom)
-        scaled_image = pygame.transform.scale(scaled_image, (scaled_image.get_width() // 8, scaled_image.get_height() // 8))
-        new_rect = scaled_image.get_rect(center=camera.world_pos_to_screen_pos(self.pos))
-        screen.blit(scaled_image, new_rect)
+        scaled_image = pygame.transform.scale(
+            scaled_image,
+            (scaled_image.get_width() // 8, scaled_image.get_height() // 8))
 
         if self.dragging:
-            # Dessiner la flèche
             mouse_pos = pygame.Vector2(pygame.mouse.get_pos())
             world_mouse = camera.offset + mouse_pos / camera.zoom
-            lenght = self.pos - world_mouse
+            direction = world_mouse - self.pos
+            self.last_direction = direction
+        else:
+            direction = self.velocity if self.velocity.length_squared() > 0.01 else self.last_direction
+
+        angle_deg = direction.angle_to(pygame.Vector2(0, -1))
+        rotated_image = pygame.transform.rotate(scaled_image, angle_deg)
+        new_rect = rotated_image.get_rect(center=camera.world_pos_to_screen_pos(self.pos))
+        screen.blit(rotated_image, new_rect)
+
+        if self.dragging:
             start = camera.world_pos_to_screen_pos(self.pos)
-            end = camera.world_pos_to_screen_pos(self.pos + lenght)
+            end = camera.world_pos_to_screen_pos(self.pos + direction)
             pygame.draw.line(screen, (35, 168, 242), start, end, 5)
-    
+
     def handle_event(self, event, camera):
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if event.button == 1:  # clic gauche
-                # Conversion de la position de la souris en coordonnées du monde
-                world_mouse = camera.offset + pygame.Vector2(event.pos) / camera.zoom
-                if self.rect.collidepoint(world_mouse):
-                    self.dragging = True
-        elif event.type == pygame.MOUSEBUTTONUP:
-            if event.button == 1 and self.dragging:
-                # Calculer le vecteur de lancement à partir de la position de la souris
-                mouse_pos = pygame.Vector2(event.pos)
-                world_mouse = camera.offset + mouse_pos / camera.zoom
-                self.launch_vector = self.pos - world_mouse
-                # Appliquer un facteur de mise à l'échelle pour la vitesse
-                self.velocity += self.launch_vector * 5
-                self.dragging = False
+        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            mouse_pos = pygame.Vector2(event.pos)
+            screen_pos = camera.world_pos_to_screen_pos(self.pos)
+            if (mouse_pos - screen_pos).length() < 30:
+                self.dragging = True
+
+        elif event.type == pygame.MOUSEBUTTONUP and event.button == 1 and self.dragging:
+            mouse_pos = pygame.Vector2(event.pos)
+            world_mouse = camera.offset + mouse_pos / camera.zoom
+            self.launch_vector = world_mouse - self.pos
+            self.velocity += self.launch_vector * 5
+            self.dragging = False
+

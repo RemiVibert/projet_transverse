@@ -6,7 +6,8 @@ import levels
 from planet import Planet
 
 class Game():
-    def __init__(self):
+    def __init__(self, screen):
+        self.screen = screen
         self.dt = None # Delta time, temps écoulé depuis la dernière frame
         self.player = Player()
         self.camera = Camera(self)
@@ -22,7 +23,7 @@ class Game():
         nb_etoiles = (self.max_cam_x - self.min_cam_x) * (self.max_cam_y - self.min_cam_y) // 1000000000000000000 # pour la valeur finale il faudra diviser par ~50000, mais il faudra ajouter un truc pour éviter le lag, là c'est chaud. Plus le nombre est grand, moins ça lag
         self.etoiles = Etoiles(nb_etoiles, self.max_cam_x*2, self.max_cam_y*2, self.min_cam_x, self.min_cam_y)
 
-
+        self.camera = Camera(self)
 
         self.pressed = {
             pygame.K_RIGHT: False,
@@ -46,9 +47,6 @@ class Game():
         self.dt = pygame.time.Clock().tick(60) / 1000 # On récupère le temps écoulé depuis la dernière frame, pour ne pas impacter la vitesse du jeu en fonction du framerate
         
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-                pygame.quit()
             if event.type == pygame.MOUSEWHEEL:
                 if event.y > 0:
                     self.camera.set_zoom(1.1)
@@ -83,8 +81,6 @@ class Game():
         if self.keys[pygame.K_SPACE]:
             self.camera.anchored = not self.camera.anchored
 
-        if self.camera.anchored:
-            self.camera.offset = self.player.rect.center - pygame.Vector2(screen.get_size()) / 2 / self.camera.zoom
         elif self.camera.dragging:
             mouse_pos = pygame.Vector2(pygame.mouse.get_pos())
             drag_delta = ((mouse_pos - self.camera.drag_start) / self.camera.zoom)
