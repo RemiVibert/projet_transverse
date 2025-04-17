@@ -1,7 +1,7 @@
 import pygame
 
 from game import Game
-from button import Button
+from button import ImageButton
 
 
 
@@ -13,7 +13,7 @@ screen = pygame.display.set_mode((1920, 1080))
 
 background = pygame.image.load('assets/UI/background.png')
 clock = pygame.time.Clock()
-
+quit_button = ImageButton(1856, 0, "assets/sprites/buttons/button_close.png", scale=1.0)
 
 game = Game(screen)
 
@@ -38,8 +38,7 @@ while running:
     game.player.draw(screen, game.camera)
     for planet in game.planets:
         planet.draw(screen, game.camera)
-    quit_button = Button(1700, 950, 200, 50, "Quitter", font_size=40, camera=game.camera)
-    quit_button.draw(screen)  # Affichage du bouton
+    quit_button.draw(screen)
 
 
 
@@ -54,6 +53,10 @@ while running:
             running = False
         if event.type == pygame.KEYDOWN:
             game.pressed[event.key] = True
+            if event.key == pygame.K_SPACE:
+                game.camera.anchored = not game.camera.anchored
+                if game.camera.anchored:
+                    game.camera.recenter_on_player()
         if event.type == pygame.KEYUP:
             game.pressed[event.key] = False
         if event.type == pygame.MOUSEWHEEL:

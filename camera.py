@@ -9,6 +9,7 @@ class Camera:
         self.drag_start = pygame.Vector2(0, 0)
         self.drag_offset_start = pygame.Vector2(0, 0)
         self.anchored = True
+        self.max_speed = 15  # Limite la vitesse maximale de déplacement de la caméra
 
     def world_pos_to_screen_pos(self, pos):
         return (pos - self.offset) * self.zoom
@@ -25,7 +26,6 @@ class Camera:
         self.zoom *= zoom_factor
         self.zoom = max(self.game.zoom_min, min(self.zoom, self.game.zoom_max))
 
-
         if self.anchored:
             player_screen_before = self.world_pos_to_screen_pos(self.game.player.pos)
             player_screen_after = self.world_pos_to_screen_pos(self.game.player.pos)
@@ -36,13 +36,21 @@ class Camera:
         if self.anchored:
             screen_center = pygame.Vector2(self.game.screen.get_size()) / 2
             target_offset = self.game.player.pos - (screen_center / self.zoom)
-            # Corriger les valeurs extrêmes de zoom
-            if abs(self.zoom) < 0.001:
-                self.zoom = 0.001
-            elif self.zoom > 100:
-                self.zoom = 100
-            # lisaage
-            smoothing = 0.1
+
+            # Calculer la distance entre la caméra et la position cible
+            distance = (target_offset - self.offset).length()
+
+            # Limiter la vitesse de rattrapage pour éviter un déplacement trop brutal
+            if distance > self.max_speed:
+                distance = self.max_speed  # Limite la distance pour éviter le flash
+
+            # Smoothing basé sur la distance restante (en augmentant légèrement si nécessaire)
+            smoothing = min(0.1 + distance / 500, 0.3)  # Ajustement dynamique de smoothing
             self.offset += (target_offset - self.offset) * smoothing
+
+    def recenter_on_player(self):
+        screen_center = pygame.Vector2(self.game.screen.get_size()) / 2
+        self.offset = self.game.player.pos - (screen_center / self.zoom)
+
 
 
