@@ -52,5 +52,19 @@ class Camera:
         screen_center = pygame.Vector2(self.game.screen.get_size()) / 2
         self.offset = self.game.player.pos - (screen_center / self.zoom)
 
-
+    def is_on_screen(self, pos, profondeur=1.0):
+        """
+        Vérifie si une position est visible à l'écran, en tenant compte de l'effet de parallaxe.
+        
+        Args:
+            pos (pygame.Vector2): Position dans le monde.
+            profondeur (float): Facteur de profondeur pour l'effet de parallaxe (1.0 = pas de parallaxe).
+        
+        Returns:
+            bool: True si la position est visible à l'écran, False sinon.
+        """
+        screen_rect = pygame.Rect(0, 0, self.game.screen.get_width(), self.game.screen.get_height())
+        parallax_offset = self.offset * profondeur
+        world_pos = (pos - parallax_offset) * self.zoom
+        return screen_rect.collidepoint(world_pos)
 

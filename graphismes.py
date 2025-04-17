@@ -16,6 +16,10 @@ class Etoiles(pygame.sprite.Sprite):
     
     def draw(self, screen, camera):
         for etoile in self.etoiles:
+            # Vérifier si l'étoile est visible à l'écran avec l'effet de parallaxe
+            if not camera.is_on_screen(etoile["pos"], etoile["profondeur"]):
+                continue
+            # Calculer la position de l'étoile sur l'écran
             parralax_offset = camera.offset * etoile["profondeur"]
             screen_pos = (etoile["pos"] - parralax_offset) * camera.zoom
             size = camera.zoom * etoile["profondeur"]

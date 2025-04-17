@@ -20,7 +20,7 @@ class Game():
         self.zoom_min = 0.01 # Ne pas mettre négatif ou nul
         self.zoom_max = 10
 
-        nb_etoiles = (self.max_cam_x - self.min_cam_x) * (self.max_cam_y - self.min_cam_y) // 1000000000000000000 # pour la valeur finale il faudra diviser par ~50000, mais il faudra ajouter un truc pour éviter le lag, là c'est chaud. Plus le nombre est grand, moins ça lag
+        nb_etoiles = (self.max_cam_x - self.min_cam_x) * (self.max_cam_y - self.min_cam_y) // 50000 # pour la valeur finale il faudra diviser par ~50000, mais il faudra ajouter un truc pour éviter le lag, là c'est chaud. Plus le nombre est grand, moins ça lag
         self.etoiles = Etoiles(nb_etoiles, self.max_cam_x*2, self.max_cam_y*2, self.min_cam_x, self.min_cam_y)
 
         self.camera = Camera(self)
