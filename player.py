@@ -85,9 +85,9 @@ class Player(pygame.sprite.Sprite):
     def draw(self, screen, camera):
         # Applique un zoom avec transformation + réduction de taille
         scaled_image = pygame.transform.rotozoom(self.image, 0, camera.zoom)
-        scaled_image = pygame.transform.scale(scaled_image, (scaled_image.get_width() // self.SCALE_FACTOR,scaled_image.get_height() // self.SCALE_FACTOR))
+        scaled_image = pygame.transform.scale(scaled_image, (scaled_image.get_width() // self.SCALE_FACTOR, scaled_image.get_height() // self.SCALE_FACTOR))
 
-        if self.dragging: # Si le joueur est en train de drag, on calcule la direction du tir
+        if self.dragging:  # Si le joueur est en train de drag, on calcule la direction du tir
             mouse_pos = pygame.Vector2(pygame.mouse.get_pos())
             world_mouse = camera.offset + mouse_pos / camera.zoom
             direction = world_mouse - self.pos
@@ -95,15 +95,21 @@ class Player(pygame.sprite.Sprite):
         else:
             direction = self.velocity if self.velocity.length_squared() > 0.01 else self.last_direction
 
-        angle_deg = direction.angle_to(pygame.Vector2(0, -1)) # Angle avec l’axe vertical
-        rotated_image = pygame.transform.rotate(scaled_image, angle_deg) # Rotation du vaisseau
-        new_rect = rotated_image.get_rect(center=camera.world_pos_to_screen_pos(self.pos)) # Position sur l’écran
-        screen.blit(rotated_image, new_rect) # Affichage du vaisseau
+        angle_deg = direction.angle_to(pygame.Vector2(0, -1))  # Angle avec l’axe vertical
+        rotated_image = pygame.transform.rotate(scaled_image, angle_deg)  # Rotation du vaisseau
+        new_rect = rotated_image.get_rect(center=camera.world_pos_to_screen_pos(self.pos))  # Position sur l’écran
+        screen.blit(rotated_image, new_rect)  # Affichage du vaisseau
 
-        if self.dragging:  #Affiche la flèche si le drag est en cours
+        if self.dragging:  # Affiche la flèche si le drag est en cours
             start = camera.world_pos_to_screen_pos(self.pos)
             end = camera.world_pos_to_screen_pos(self.pos + direction)
             pygame.draw.line(screen, (35, 168, 242), start, end, 5)
+
+        # === DEBUG === # 
+        # Affiche le rect du joueur avec un rectangle rouge transparent
+        rect_surface = pygame.Surface((new_rect.width, new_rect.height), pygame.SRCALPHA)
+        rect_surface.fill((255, 0, 0, 75))  # Rouge transparent # mettre le "75" à 0 pourrendre invisible
+        screen.blit(rect_surface, new_rect.topleft)
 
     def handle_event(self, event, camera):
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1: # Début du drag
