@@ -31,7 +31,11 @@ class Player(pygame.sprite.Sprite):
 
     def update(self, game):
 
-        self.pos += self.velocity * game.dt # Mise à jour de la position selon la vélocité et le temps
+        if self.dragging:
+            self.pos += (self.velocity)/3 * game.dt # on met un effet de ralentit quand on drag
+        else :
+            self.pos += self.velocity * game.dt
+
         self.rect.center = (int(self.pos.x), int(self.pos.y)) # Mise à jour du rect
 
         # Calcul du rayon du vaisseau
