@@ -39,7 +39,7 @@ class Player(pygame.sprite.Sprite):
         scaled_width = self.image.get_width() * game.camera.zoom / self.SCALE_FACTOR
         self.radius = scaled_width / 2
 
-        if self.has_launched: # La gravité et les collisions ne s'appliquent si le vaisseau a été lancé
+        if self.has_launched: # La gravité et les collisions ne s'appliquent que si le vaisseau a été lancé
             for planet in game.planets:  # Appliquer la gravité de chaque planète
                 direction_x = planet.pos[0] - self.pos[0]
                 direction_y = planet.pos[1] - self.pos[1]
