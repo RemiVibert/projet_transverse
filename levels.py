@@ -24,3 +24,21 @@ level1 = {
         },
     ]
 }
+
+level2 = {
+    "difficulté": 1,
+    "taille" : {
+        "min_x": -20000,
+        "max_x": 20000,
+        "min_y": -20000,
+        "max_y": 20000
+    },
+    "spawn": (1000, 0),
+    "end": (15000, 0),
+    "planetes": [
+        {
+            "position": (000, 0),
+            "type": "grande-rocheuse",
+        },
+    ]
+}

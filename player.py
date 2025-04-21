@@ -16,9 +16,9 @@ class Player(pygame.sprite.Sprite):
         self.max_speed = 1000 # Limite de vitesse maximale (en pixels par seconde)
         self.has_launched = False #le joueur n'a jamais été lancé
 
-        self.pos = pygame.Vector2(0, 0) # Position du vaisseau dans le monde
-        self.velocity = pygame.Vector2(0, 0) # Vitesse actuelle du vaisseau
-        self.last_direction = pygame.Vector2(0, -1) # Dernière direction connue
+        self.pos:pygame.Vector2 = pygame.Vector2(0, 0) # Position du vaisseau dans le monde
+        self.velocity:pygame.Vector2 = pygame.Vector2(0, 0) # Vitesse actuelle du vaisseau
+        self.last_direction:pygame.Vector2 = pygame.Vector2(0, -1) # Dernière direction connue
 
         self.SCALE_FACTOR = 8  # Constante de mise à l’échelle pour l’affichage du vaisseau
 
@@ -30,20 +30,29 @@ class Player(pygame.sprite.Sprite):
 
 
     def update(self, game):
-        from game import Game
 
         self.pos += self.velocity * game.dt # Mise à jour de la position selon la vélocité et le temps
-        self.rect.center = self.pos # Mise à jour du rect
+        self.rect.center = (int(self.pos.x), int(self.pos.y)) # Mise à jour du rect
 
         # Calcul du rayon du vaisseau
         scaled_width = self.image.get_width() * game.camera.zoom / self.SCALE_FACTOR
         self.radius = scaled_width / 2
 
         if self.has_launched: # La gravité et les collisions ne s'appliquent que si le vaisseau a été lancé
+
+            self.pos:pygame.Vector2 = pygame.Vector2(self.pos) # pour s'assurer que c'est un vecteur et non un tuple - solution temporaire - TODO : trouver pourquoi c'est un tuple des fois
+            
+            # Calcul de la gravité - Non fonctionel, juste un test que je laisse si vous voulez
+            # planet:Planet
+            # for planet in game.planets:
+            #     self.velocity.x += (planet.masse / self.pos.distance_to(planet.pos)) * planet.pos[0] * game.dt
+            #     self.velocity.y += (planet.masse / self.pos.distance_to(planet.pos)) * planet.pos[1] * game.dt
+
+
             for planet in game.planets:  # Appliquer la gravité de chaque planète
                 direction_x = planet.pos[0] - self.pos[0]
                 direction_y = planet.pos[1] - self.pos[1]
-                distance = math.sqrt(direction_x ** 2 + direction_y ** 2)
+                distance = self.pos.distance_to(planet.pos) # distance entre le joueur et la planète
 
                 total_radius = self.radius + planet.radius  # Rayon total (vaisseau + planète)
 
@@ -58,8 +67,8 @@ class Player(pygame.sprite.Sprite):
                     direction = (self.pos - planet.pos).normalize() # Calculer la direction du vaisseau à partir de la planète
                     self.pos = planet.pos + direction * (planet.radius + self.radius) # Déplacer le vaisseau à la périphérie de la planète (juste au bord)
 
-        if self.velocity.length() > self.max_speed: # Limiter la vitesse
-            self.velocity.scale_to_length(self.max_speed)
+        # if self.velocity.length() > self.max_speed: # Limiter la vitesse
+        #     self.velocity.scale_to_length(self.max_speed)
 
 
         # Gestion de la gravité
@@ -94,6 +103,7 @@ class Player(pygame.sprite.Sprite):
 
     def handle_event(self, event, camera):
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1: # Début du drag
+            
             mouse_pos = pygame.Vector2(event.pos)
             screen_pos = camera.world_pos_to_screen_pos(self.pos)
             if (mouse_pos - screen_pos).length() < 30:  # Si clic proche du vaisseau
