@@ -9,7 +9,6 @@ class Camera: # Gère le zoom, le déplacement et le suivi du joueur
         self.drag_start = pygame.Vector2(0, 0) # Position de départ du clic de souris
         self.drag_offset_start = pygame.Vector2(0, 0) # Offset de la caméra au moment du clic
         self.anchored = True # Si True, la caméra suit automatiquement le joueur
-        self.max_speed = 15  # Limite la vitesse maximale de déplacement de la caméra
 
     def world_pos_to_screen_pos(self, pos): # Convertit une position du monde en position à l’écran, selon l’offset et le zoom
         return (pos - self.offset) * self.zoom
@@ -32,14 +31,12 @@ class Camera: # Gère le zoom, le déplacement et le suivi du joueur
     def update(self):
         if self.anchored:
             screen_center = pygame.Vector2(self.game.screen.get_size()) / 2  # Centre de l’écran en pixels
-            target_offset = self.game.player.pos - (screen_center / self.zoom) # Calcule l’offset idéal pour que le joueur reste centré
+            target_offset = self.game.player.pos - (screen_center / self.zoom)  # Calcule l’offset idéal pour que le joueur reste centré
 
-            distance = (target_offset - self.offset).length() # Calculer la distance entre la caméra et la position cible
+            distance = (target_offset - self.offset).length()  # Calculer la distance entre la caméra et la position cible
 
-            if distance > self.max_speed:
-                distance = self.max_speed  # Limite la distance pour éviter le flash
 
-            smoothing = min(0.1 + distance / 500, 0.3)  # Ajuste un facteur de lissage dynamique selon la distance
+            smoothing = min(0.1 + distance / 1, 0.3)  # Ajuste un facteur de lissage dynamique selon la distance
             self.offset += (target_offset - self.offset) * smoothing # Déplacement progressif vers l’offset cible
 
     def recenter_on_player(self):

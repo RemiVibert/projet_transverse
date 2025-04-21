@@ -10,9 +10,9 @@ class Game():
         self.screen = screen # Référence vers la surface d'affichage
         self.dt:float = 0 # Temps écoulé entre deux frames
         self.player = Player() # Instancie le joueur
-        self.camera = Camera(self) # Crée la caméra et lui donne accès au contexte du jeu
 
-        self.level = self.load_level(levels.level1) # Charge le niveau actuel à partir du module "levels"
+        self.load_level(levels.level1) # Charge le niveau actuel à partir du module "levels"
+        self.camera = Camera(self)
 
         self.cam_speed = 30 # Vitesse de déplacement manuel de la caméra
         self.zoom = 1 # Facteur de zoom initial
