@@ -4,6 +4,7 @@ from graphismes import Etoiles
 from camera import Camera
 import levels
 from planet import Planet
+from collectible import Collectible
 
 class Game():
     def __init__(self, screen):
@@ -83,6 +84,10 @@ class Game():
         self.player.pos = pygame.Vector2(level["spawn"]) # Position initiale du joueur
         
         self.planets:list[Planet] = [] # Liste des planètes dans le niveau
+
+        self.collectibles = []
+        for collectible in level["collectibles"]:
+            self.collectibles.append(Collectible(pygame.Vector2(collectible))) # Crée une instance de collectible avec sa position
 
         for planete in level["planetes"]:
             self.planets.append(Planet(planete["position"], planete["type"])) # Crée une instance de planète avec sa position et son type

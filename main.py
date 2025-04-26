@@ -59,6 +59,9 @@ while running:
         game.player.draw(screen, game.camera)
         for planet in game.planets:
             planet.draw(screen, game.camera)
+        for collectible in game.collectibles:
+            collectible.update()
+            collectible.draw(screen, game.camera)
         quit_button.draw(screen)
 
     pygame.display.flip() # Met à jour l'affichage de l'écran avec toutes les nouvelles images
