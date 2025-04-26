@@ -72,16 +72,13 @@ class Player(pygame.sprite.Sprite):
                     direction = (self.pos - planet.pos).normalize() # Calculer la direction du vaisseau à partir de la planète
                     self.pos = planet.pos + direction * (planet.radius + self.radius) # Déplacer le vaisseau à la périphérie de la planète (juste au bord)
 
-        # if self.velocity.length() > self.max_speed: # Limiter la vitesse
-        #     self.velocity.scale_to_length(self.max_speed)
+            # === Collection des collectibles === #
+            for collectible in game.collectibles:
+                if self.rect.colliderect(collectible.rect):
+                    collectible.collect()
+                    self.collected_collectibles += 1  # Incrémente le nombre de collectibles ramassés
 
 
-        # Gestion de la gravité
-#        for planet in game.planets:
-
-            # Il faut ajouter ici la physique.
-            # Pour cela, on peut modifier le vecteur vitesse du joueur avec self.velocity += ...
-            # On peut récupérer les variables de la planète avec planet.pos, planet.masse
 
     def draw(self, screen, camera):
         # Applique un zoom avec transformation + réduction de taille
