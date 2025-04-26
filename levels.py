@@ -22,6 +22,11 @@ level1 = {
             "position": (-2000, 0),
             "type": "grande-rocheuse",
         },
+    ],
+    "collectibles": [
+        (1000, -1000),
+        (1500, 1000),
+        (1500, 0),
     ]
 }
 
@@ -40,5 +45,10 @@ level2 = {
             "position": (000, 0),
             "type": "grande-rocheuse",
         },
+    ],
+    "collectibles": [
+        (-1000, 0),
+        (1000, 1000),
+        (0, 1000),
     ]
 }
