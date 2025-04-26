@@ -3,16 +3,27 @@ import random
 
 
 class Collectible:
-    def __init__(self, pos:pygame.Vector2):
+    def __init__(self, pos:pygame.Vector2, game):
         self.pos = pos 
         self.image = pygame.image.load('assets/sprites/collectibles/collectible.png').convert_alpha()
+        self.rect = self.image.get_rect(center=self.pos)  # Crée un rectangle de collision
         self.original_image = self.image  # Garde l’image de base pour les rescalings
         self.rotation = random.randint(0, 360)
         self.rotation_speed = random.randint(-5, 5)
+        self.game = game
 
     def update(self):
         self.rotation += self.rotation_speed
         self.rotation %= 360
+
+    def collect(self):
+        """Retire l'objet de la liste des collectibles"""
+        self.game.collectibles.remove(self)
+        # Pas besoin de détruire l'objet, le retirer de la liste suffit à ne plus l'afficher, et comme on en a pas 500, ça prend pas de place en mémoire
+        
+        
+
+
 
     def draw(self, screen, camera):
         scaled_image = pygame.transform.rotozoom(self.original_image, 0, camera.zoom) # Applique un zoom à l'image de la planète

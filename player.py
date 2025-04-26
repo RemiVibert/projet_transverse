@@ -12,6 +12,7 @@ class Player(pygame.sprite.Sprite):
         super().__init__()
         self.max_fuel = 100 # Quantité maximale de carburant
         self.fuel = 100 # Carburant actuel
+        self.collected_collectibles = 0 # Nombre de collectibles ramassés
 
         self.max_speed = 1000 # Limite de vitesse maximale (en pixels par seconde)
         self.has_launched = False #le joueur n'a jamais été lancé
@@ -110,6 +111,13 @@ class Player(pygame.sprite.Sprite):
         rect_surface = pygame.Surface((new_rect.width, new_rect.height), pygame.SRCALPHA)
         rect_surface.fill((255, 0, 0, 75))  # Rouge transparent # mettre le "75" à 0 pourrendre invisible
         screen.blit(rect_surface, new_rect.topleft)
+
+
+        # === Afficher le nombre de collectibles collectés === #
+        font = pygame.font.Font(None, 36)  # Police par défaut
+        text = font.render(f"Collectibles: {self.collected_collectibles}", True, (255, 255, 255))  # Texte blanc
+        text_rect = text.get_rect(topleft=(10, 10))
+        screen.blit(text, text_rect)  # Affiche le texte à l'écran
 
     def handle_event(self, event, camera):
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1: # Début du drag

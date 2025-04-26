@@ -87,7 +87,7 @@ class Game():
 
         self.collectibles = []
         for collectible in level["collectibles"]:
-            self.collectibles.append(Collectible(pygame.Vector2(collectible))) # Crée une instance de collectible avec sa position
+            self.collectibles.append(Collectible(pygame.Vector2(collectible), self)) # Crée une instance de collectible avec sa position
 
         for planete in level["planetes"]:
             self.planets.append(Planet(planete["position"], planete["type"])) # Crée une instance de planète avec sa position et son type
