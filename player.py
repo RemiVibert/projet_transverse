@@ -88,8 +88,8 @@ class Player(pygame.sprite.Sprite):
         if self.dragging:  # Si le joueur est en train de drag, on calcule la direction du tir
             mouse_pos = pygame.Vector2(pygame.mouse.get_pos())
             world_mouse = camera.offset + mouse_pos / camera.zoom
-            direction = world_mouse - self.pos
-            self.last_direction = -direction  # Inverser la direction du drag
+            direction = self.pos - world_mouse  # Inverser la direction pour que la flèche pointe à l'opposé
+            self.last_direction = direction
         else:
             direction = self.velocity if self.velocity.length_squared() > 0.01 else self.last_direction
 
@@ -117,8 +117,7 @@ class Player(pygame.sprite.Sprite):
         screen.blit(text, text_rect)  # Affiche le texte à l'écran
 
     def handle_event(self, event, camera):
-        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1: # Début du drag
-            
+        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:  # Début du drag
             mouse_pos = pygame.Vector2(event.pos)
             screen_pos = camera.world_pos_to_screen_pos(self.pos)
             if (mouse_pos - screen_pos).length() < 30:  # Si clic proche du vaisseau
@@ -126,8 +125,8 @@ class Player(pygame.sprite.Sprite):
 
         elif event.type == pygame.MOUSEBUTTONUP and event.button == 1 and self.dragging:  # Fin du drag
             mouse_pos = pygame.Vector2(event.pos)
-            world_mouse = camera.offset + mouse_pos / camera.zoom # Coordonnées dans le monde
-            self.launch_vector = world_mouse - self.pos # Vecteur de propulsion
+            world_mouse = camera.offset + mouse_pos / camera.zoom  # Coordonnées dans le monde
+            self.launch_vector = self.pos - world_mouse  # Inverser la direction pour que le vaisseau parte dans la direction indiquée
             self.velocity += self.launch_vector * 5  # Applique une poussée
             self.dragging = False
-            self.has_launched = True #le vaisseau a été lancé une fois
+            self.has_launched = True  # Le vaisseau a été lancé une fois
