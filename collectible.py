@@ -9,7 +9,7 @@ class Collectible:
         self.rect = self.image.get_rect(center=self.pos)  # Crée un rectangle de collision
         self.original_image = self.image  # Garde l’image de base pour les rescalings
         self.rotation = random.randint(0, 360)
-        self.rotation_speed = random.randint(-5, 5)
+        self.rotation_speed = random.randint(1, 4)
         self.game = game
 
     def update(self):
@@ -36,6 +36,6 @@ class Collectible:
 
         # === DEBUG == #
         # Affiche le rect du collectible avec un rectangle vert transparent
-        rect_surface = pygame.Surface((new_rect.width, new_rect.height), pygame.SRCALPHA)
-        rect_surface.fill((0, 255, 0, 50))  # Vert transparent # mettre le "50" à 0 pour rendre invisible
-        screen.blit(rect_surface, new_rect.topleft)
+        #rect_surface = pygame.Surface((new_rect.width, new_rect.height), pygame.SRCALPHA)
+        #rect_surface.fill((0, 255, 0, 50))  # Vert transparent # mettre le "50" à 0 pour rendre invisible
+        #screen.blit(rect_surface, new_rect.topleft)

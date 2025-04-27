@@ -62,7 +62,7 @@ class Player(pygame.sprite.Sprite):
                 total_radius = self.radius + planet.radius  # Rayon total (vaisseau + planète)
 
                 if distance > 0:
-                    force = (planet.masse * G * 1000000) / (distance ** 2) # Force gravitationnelle
+                    force = (planet.masse * G * 50 ) / (distance ** 2) # Force gravitationnelle
                     acceleration_x = force * (direction_x / distance)
                     acceleration_y = force * (direction_y / distance)
                     self.velocity[0] += acceleration_x * game.dt
@@ -106,7 +106,7 @@ class Player(pygame.sprite.Sprite):
         # === DEBUG === # 
         # Affiche le rect du joueur avec un rectangle rouge transparent
         rect_surface = pygame.Surface((new_rect.width, new_rect.height), pygame.SRCALPHA)
-        rect_surface.fill((255, 0, 0, 75))  # Rouge transparent # mettre le "75" à 0 pourrendre invisible
+        rect_surface.fill((255, 0, 0, 75))  # Rouge transparent # mettre le "75" à 0 pour rendre invisible
         screen.blit(rect_surface, new_rect.topleft)
 
 
@@ -126,7 +126,11 @@ class Player(pygame.sprite.Sprite):
         elif event.type == pygame.MOUSEBUTTONUP and event.button == 1 and self.dragging:  # Fin du drag
             mouse_pos = pygame.Vector2(event.pos)
             world_mouse = camera.offset + mouse_pos / camera.zoom  # Coordonnées dans le monde
+            max_launch_strength = 1000  # Valeur max de puissance
             self.launch_vector = self.pos - world_mouse  # Inverser la direction pour que le vaisseau parte dans la direction indiquée
+            # On limite la longueur du vecteur
+            if self.launch_vector.length() > max_launch_strength:
+                self.launch_vector.scale_to_length(max_launch_strength)
             self.velocity += self.launch_vector * 5  # Applique une poussée
             self.dragging = False
             self.has_launched = True  # Le vaisseau a été lancé une fois
