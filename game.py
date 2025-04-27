@@ -4,15 +4,16 @@ from graphismes import Etoiles
 from camera import Camera
 import levels
 from planet import Planet
+from collectible import Collectible
 
 class Game():
     def __init__(self, screen):
         self.screen = screen # Référence vers la surface d'affichage
-        self.dt = None # Temps écoulé entre deux frames
+        self.dt:float = 0 # Temps écoulé entre deux frames
         self.player = Player() # Instancie le joueur
-        self.camera = Camera(self) # Crée la caméra et lui donne accès au contexte du jeu
 
-        self.level = self.load_level(levels.level1) # Charge le niveau actuel à partir du module "levels"
+        self.load_level(levels.level1) # Charge le niveau actuel à partir du module "levels"
+        self.camera = Camera(self)
 
         self.cam_speed = 30 # Vitesse de déplacement manuel de la caméra
         self.zoom = 1 # Facteur de zoom initial
@@ -42,29 +43,6 @@ class Game():
 
 
     def update(self, screen):
-        self.dt = pygame.time.Clock().tick(60) / 1000 # On récupère le temps écoulé depuis la dernière frame, pour ne pas impacter la vitesse du jeu en fonction du framerate
-        
-        for event in pygame.event.get():
-            if event.type == pygame.MOUSEWHEEL: # Gestion du zoom via la molette
-                if event.y > 0:
-                    self.camera.set_zoom(1.1) # Zoom avant
-                else:
-                    self.camera.set_zoom(0.9) # Zoom arrière
-            
-            self.player.handle_event(event, self.camera) # Délègue les événements clavier/souris au joueur
-
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == 1: # Clic gauche
-                    world_mouse = self.camera.offset + pygame.Vector2(event.pos) / self.camera.zoom # Convertit la position souris écran en position dans le monde.
-                    if not self.player.rect.collidepoint(world_mouse):   # Si clic hors du joueur, active le déplacement libre de la caméra
-                        self.camera.dragging = True
-                        self.camera.anchored = False
-                        self.camera.drag_start = pygame.Vector2(event.pos)
-                        self.camera.drag_offset_start = self.camera.offset.copy()
-            elif event.type == pygame.MOUSEBUTTONUP:
-                if event.button == 1:
-                    self.camera.dragging = False # Arrêt du déplacement libre à la souris
-
         self.keys = pygame.key.get_pressed() # Liste des touches pressées en continu
         pan_speed = 300 * self.dt / self.camera.zoom # Vitesse de déplacement caméra dépendant du temps + zoom
 
@@ -105,7 +83,11 @@ class Game():
 
         self.player.pos = pygame.Vector2(level["spawn"]) # Position initiale du joueur
         
-        self.planets = [] # Liste des planètes dans le niveau
+        self.planets:list[Planet] = [] # Liste des planètes dans le niveau
+
+        self.collectibles = []
+        for collectible in level["collectibles"]:
+            self.collectibles.append(Collectible(pygame.Vector2(collectible), self)) # Crée une instance de collectible avec sa position
 
         for planete in level["planetes"]:
             self.planets.append(Planet(planete["position"], planete["type"])) # Crée une instance de planète avec sa position et son type

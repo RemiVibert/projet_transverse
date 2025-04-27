@@ -22,6 +22,7 @@ class Planet:
         self.radius = self.rect.width / 2  # Rayon monde, sans zoom # Rayon utilisé pour les collisions et la gravité
 
         # Définit la masse gravitationnelle de la planète selon sa taille
+        # la masse d'une planète 2x plus grosse devra être + que 2x plus grande, car il faut compenser le fait qu'on soit plus loin du centre de la planète (à cause de la taille de la planète) 
         if self.taille == "petite":
             self.masse = 10
         elif self.taille == "moyenne":
