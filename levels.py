@@ -11,15 +11,15 @@ level1 = {
     "end": (15000, 0),
     "planetes": [
         {
-            "position": (1000, 0),
+            "position": (2000, 0),
             "type": "petite-rocheuse",
         },
         {
-            "position": (0, 1000),
+            "position": (0, 2000),
             "type": "moyenne-rocheuse",
         },
         {
-            "position": (-2000, 0),
+            "position": (-4000, 0),
             "type": "grande-rocheuse",
         },
     ],

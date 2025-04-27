@@ -23,12 +23,13 @@ class Planet:
 
         # Définit la masse gravitationnelle de la planète selon sa taille
         # la masse d'une planète 2x plus grosse devra être + que 2x plus grande, car il faut compenser le fait qu'on soit plus loin du centre de la planète (à cause de la taille de la planète) 
+        base_mass = 20
         if self.taille == "petite":
-            self.masse = 10
+            self.masse = base_mass * (self.radius ** 2)
         elif self.taille == "moyenne":
-            self.masse = 50
+            self.masse = base_mass * (self.radius ** 2)
         elif self.taille == "grande":
-            self.masse = 100
+            self.masse = base_mass * (self.radius ** 2)
         else:
             raise ValueError("Taille de la planète non valide")
 

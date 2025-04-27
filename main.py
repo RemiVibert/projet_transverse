@@ -20,6 +20,8 @@ quit_button = ImageButton(  # Crée un bouton de fermeture en haut à droite
 )
 
 game = Game(screen)
+game.camera.recenter_on_player()
+
 
 running = True # Contrôle la boucle principale du jeu
 
