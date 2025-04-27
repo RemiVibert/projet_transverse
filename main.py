@@ -57,8 +57,7 @@ while running:
     Un tour de boucle = un frame du jeu
     à chaque frame, on gère les changements, on efface tout l'écran, on enregistre les changements des éléments, puis on réaffiche tout, avec les modifications
     """
-
-    clock.tick(60) # Limite les FPS à 60
+    game.dt = clock.tick(60) / 1000
     screen.blit(background, (0, 0)) # Vide l'écran
 
     if show_menu:
@@ -79,11 +78,13 @@ while running:
         game.player.draw(screen, game.camera)
         for planet in game.planets:
             planet.draw(screen, game.camera)
+        for collectible in game.collectibles:
+            collectible.update()
+            collectible.draw(screen, game.camera)
         quit_button.draw(screen)
 
     pygame.display.flip() # Met à jour l'affichage de l'écran avec toutes les nouvelles images
 
-    old_zoom = game.zoom # Stocke l’ancien zoom
 
     for event in pygame.event.get():
 
@@ -110,4 +111,24 @@ while running:
                     running = False  # Ferme le jeu
                 if show_menu and play_button.is_clicked(event.pos):
                     show_menu = False  # Quitte le menu et lance le jeu
+
+        if event.type == pygame.MOUSEWHEEL: # Gestion du zoom via la molette
+                if event.y > 0:
+                    game.camera.set_zoom(1.1) # Zoom avant
+                else:
+                    game.camera.set_zoom(0.9) # Zoom arrière
+            
+        game.player.handle_event(event, game.camera) # Délègue les événements clavier/souris au joueur
+
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1: # Clic gauche
+                world_mouse = game.camera.offset + pygame.Vector2(event.pos) / game.camera.zoom # Convertit la position souris écran en position dans le monde.
+                if not game.player.rect.collidepoint(world_mouse):   # Si clic hors du joueur, active le déplacement libre de la caméra
+                    game.camera.dragging = True
+                    game.camera.anchored = False
+                    game.camera.drag_start = pygame.Vector2(event.pos)
+                    game.camera.drag_offset_start = game.camera.offset.copy()
+        elif event.type == pygame.MOUSEBUTTONUP:
+            if event.button == 1:
+                game.camera.dragging = False # Arrêt du déplacement libre à la souris
 
