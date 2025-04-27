@@ -34,6 +34,21 @@ play_button = ImageButton( # Crée un bouton de play sur le menu d'accueil
     width=280, height=64
 )
 
+rules_button = ImageButton( # Crée le bouton des règles sur le menu d'accueil
+    360, 800,
+    "assets/sprites/buttons/button_regle_inerte.png",
+    "assets/sprites/buttons/button_regle_survol.png",
+    width=280, height=64
+)
+
+levels_button = ImageButton( # Crée le bouton des niveaux sur le menu d'accueil
+    355, 675,
+    "assets/sprites/buttons/button_niveaux_inerte.png",
+    "assets/sprites/buttons/button_niveaux_survol.png",
+    width=280, height=64
+)
+
+
 show_menu = True
 
 while running:
@@ -51,8 +66,12 @@ while running:
         mouse_pos = pygame.mouse.get_pos()
         screen.blit(logo, logo_rect)
         play_button.update(mouse_pos)
+        rules_button.update(mouse_pos)
+        levels_button.update(mouse_pos)
         play_button.draw(screen)
         quit_button.draw(screen)
+        rules_button.draw(screen)
+        levels_button.draw(screen)
     else : #Dessine tous les éléments
         game.camera.update()  # Met à jour la position et zoom de la caméra
         game.update(screen)  # Met à jour tous les objets du jeu
