@@ -14,7 +14,7 @@ class Player(pygame.sprite.Sprite):
         self.fuel = 100 # Carburant actuel
         self.collected_collectibles = 0 # Nombre de collectibles ramassés
 
-        self.max_speed = 1000 # Limite de vitesse maximale (en pixels par seconde)
+        self.max_speed = 2000 # Limite de vitesse maximale (en pixels par seconde)
         self.has_launched = False #le joueur n'a jamais été lancé
 
         self.pos:pygame.Vector2 = pygame.Vector2(0, 0) # Position du vaisseau dans le monde
@@ -106,7 +106,7 @@ class Player(pygame.sprite.Sprite):
         # === DEBUG === # 
         # Affiche le rect du joueur avec un rectangle rouge transparent
         rect_surface = pygame.Surface((new_rect.width, new_rect.height), pygame.SRCALPHA)
-        rect_surface.fill((255, 0, 0, 75))  # Rouge transparent # mettre le "75" à 0 pour rendre invisible
+        rect_surface.fill((255, 0, 0, 0))  # Rouge transparent # mettre le dernier "0" à 75 pour rendre faire apparaitre
         screen.blit(rect_surface, new_rect.topleft)
 
 
@@ -132,5 +132,8 @@ class Player(pygame.sprite.Sprite):
             if self.launch_vector.length() > max_launch_strength:
                 self.launch_vector.scale_to_length(max_launch_strength)
             self.velocity += self.launch_vector * 5  # Applique une poussée
+            # Limiter la vitesse au maximum autorisé
+            if self.velocity.length() > self.max_speed:
+                self.velocity.scale_to_length(self.max_speed)
             self.dragging = False
             self.has_launched = True  # Le vaisseau a été lancé une fois
