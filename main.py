@@ -23,13 +23,21 @@ show_rules = False
 
 # Boutons
 quit_button = ImageButton(1856, 0, "assets/sprites/buttons/button_close.png", width=64, height=64)
+
 play_button = ImageButton(350, 550, "assets/sprites/buttons/button_play_inerte.png",
                           "assets/sprites/buttons/button_play_survol.png", width=280, height=64)
+
 rules_button = ImageButton(360, 800, "assets/sprites/buttons/button_regle_inerte.png",
                            "assets/sprites/buttons/button_regle_survol.png", width=280, height=64)
+
 levels_button = ImageButton(355, 675, "assets/sprites/buttons/button_niveaux_inerte.png",
                             "assets/sprites/buttons/button_niveaux_survol.png", width=280, height=64)
+
 back_button = ImageButton(50, 50, "assets/sprites/buttons/button_back.png", width=100, height=50)
+
+# Image en bas à droite
+image_bas_droite = pygame.image.load("assets/UI/astronaute_haute_def.PNG")
+image_bas_droite = pygame.transform.scale(image_bas_droite, (200, 200))
 
 # Logo
 logo = pygame.image.load('assets/sprites/buttons/logo_jeu.png')
@@ -102,6 +110,10 @@ while running:
         # Bouton retour
         back_button.update(mouse_pos)
         back_button.draw(screen)
+
+        image_rect = image_bas_droite.get_rect() # Permet d'afficher une image d'astronaute en bas à droite
+        image_rect.bottomright = (screen.get_width() - 20, screen.get_height() - 20)  # 20px de marge
+        screen.blit(image_bas_droite, image_rect)
     else:
         # Jeu en cours
         game.camera.update()
