@@ -72,6 +72,9 @@ class Player(pygame.sprite.Sprite):
                     direction = (self.pos - planet.pos).normalize() # Calculer la direction du vaisseau à partir de la planète
                     self.pos = planet.pos + direction * (planet.radius + self.radius) # Déplacer le vaisseau à la périphérie de la planète (juste au bord)
 
+                    self.velocity = self.velocity.reflect(direction) # On reflète la vélocité pour simuler un rebond
+                    self.velocity *= 0.8  # On peut aussi réduire un peu la vitesse pour simuler de la perte d'énergie
+
             # === Collection des collectibles === #
             for collectible in game.collectibles:
                 if self.rect.colliderect(collectible.rect):
