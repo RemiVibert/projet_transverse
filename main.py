@@ -15,7 +15,7 @@ background = pygame.image.load('assets/UI/background.png')
 clock = pygame.time.Clock()
 
 # Police pour les règles
-rules_font = pygame.font.SysFont('Terraforming', 18)
+rules_font = pygame.font.SysFont('DIN', 18)
 
 # États de l'interface
 show_menu = True
@@ -68,7 +68,7 @@ while running:
         pygame.draw.rect(screen, (100, 100, 150), rules_rect, 5)
 
         # Titre
-        title = pygame.font.SysFont('Arial', 60).render("Règles du Jeu", True, (255, 255, 255))
+        title = pygame.font.SysFont('DIN', 60).render("Règles du Jeu", True, (255, 255, 0))
         screen.blit(title, (rules_rect.centerx - title.get_width() // 2, rules_rect.y + 30))
 
         # Texte des règles
