@@ -2,6 +2,7 @@ import pygame
 
 from game import Game
 from button import ImageButton
+from levels import level1
 
 
 
@@ -20,7 +21,6 @@ quit_button = ImageButton(  # Crée un bouton de fermeture en haut à droite
 )
 
 game = Game(screen)
-game.camera.recenter_on_player()
 
 
 running = True # Contrôle la boucle principale du jeu
@@ -113,6 +113,10 @@ while running:
                     running = False  # Ferme le jeu
                 if show_menu and play_button.is_clicked(event.pos):
                     show_menu = False  # Quitte le menu et lance le jeu
+                    game.load_level(level1)
+                    game.camera.anchored = True # S'assure que la caméra est ancrée
+                    game.camera.recenter_on_player() # S'assure que la caméra est bien centrée sur le joueur
+                    game.camera.update()
 
         if event.type == pygame.MOUSEWHEEL: # Gestion du zoom via la molette
                 if event.y > 0:
