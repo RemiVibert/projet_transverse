@@ -8,14 +8,17 @@ g = 9.81 # Gravité terrestre
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self):
+    def __init__(self, game):
         super().__init__()
+        self.game = game
+
         self.max_fuel = 100 # Quantité maximale de carburant
         self.fuel = 100 # Carburant actuel
         self.collected_collectibles = 0 # Nombre de collectibles ramassés
 
-        self.max_speed = 2000 # Limite de vitesse maximale (en pixels par seconde)
+        self.max_speed = 20000 # Limite de vitesse maximale (en pixels par seconde)
         self.has_launched = False #le joueur n'a jamais été lancé
+        
 
         self.pos:pygame.Vector2 = pygame.Vector2(0, 0) # Position du vaisseau dans le monde
         self.velocity:pygame.Vector2 = pygame.Vector2(0, 0) # Vitesse actuelle du vaisseau
@@ -29,18 +32,20 @@ class Player(pygame.sprite.Sprite):
         self.launch_vector = pygame.Vector2(0, 0) # Vecteur de lancement stocké lors du drag
         self.rect = self.image.get_rect(center=self.pos)  # Rect du sprite
 
+        self.godmod = False # Debug, penser à supprimer avant la fin (ça va quand même spam la console avec le message de mort histoire de voir si on meurt)
 
-    def update(self, game):
+
+    def update(self):
 
         if self.dragging:
-            self.pos += (self.velocity)/3 * game.dt # on met un effet de ralentit quand on drag
+            self.pos += (self.velocity)/3 * self.game.dt # on met un effet de ralentit quand on drag
         else :
-            self.pos += self.velocity * game.dt
+            self.pos += self.velocity * self.game.dt
 
         self.rect.center = (int(self.pos.x), int(self.pos.y)) # Mise à jour du rect
 
         # Calcul du rayon du vaisseau
-        scaled_width = self.image.get_width() * game.camera.zoom / self.SCALE_FACTOR
+        scaled_width = self.image.get_width() * self.game.camera.zoom / self.SCALE_FACTOR
         self.radius = scaled_width / 2
 
         if self.has_launched: # La gravité et les collisions ne s'appliquent que si le vaisseau a été lancé
@@ -54,7 +59,7 @@ class Player(pygame.sprite.Sprite):
             #     self.velocity.y += (planet.masse / self.pos.distance_to(planet.pos)) * planet.pos[1] * game.dt
 
 
-            for planet in game.planets:  # Appliquer la gravité de chaque planète
+            for planet in self.game.planets:  # Appliquer la gravité de chaque planète
                 direction_x = planet.pos[0] - self.pos[0]
                 direction_y = planet.pos[1] - self.pos[1]
                 distance = self.pos.distance_to(planet.pos) # distance entre le joueur et la planète
@@ -65,8 +70,8 @@ class Player(pygame.sprite.Sprite):
                     force = (planet.masse * G * 50 ) / (distance ** 2) # Force gravitationnelle
                     acceleration_x = force * (direction_x / distance)
                     acceleration_y = force * (direction_y / distance)
-                    self.velocity[0] += acceleration_x * game.dt
-                    self.velocity[1] += acceleration_y * game.dt
+                    self.velocity[0] += acceleration_x * self.game.dt
+                    self.velocity[1] += acceleration_y * self.game.dt
 
                 if distance < total_radius: #calculer la collison
                     self.game.game_over("crash", False)
@@ -78,7 +83,7 @@ class Player(pygame.sprite.Sprite):
                     self.velocity *= 0.8  # On peut aussi réduire un peu la vitesse pour simuler de la perte d'énergie
 
             # === Collection des collectibles === #
-            for collectible in game.collectibles:
+            for collectible in self.game.collectibles:
                 if self.rect.colliderect(collectible.rect):
                     collectible.collect()
                     self.collected_collectibles += 1  # Incrémente le nombre de collectibles ramassés
