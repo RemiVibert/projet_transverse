@@ -14,6 +14,8 @@ class Player(pygame.sprite.Sprite):
 
         self.max_fuel = 100 # Quantité maximale de carburant
         self.fuel = 100 # Carburant actuel
+        self.fuel_cost = None
+    
         self.collected_collectibles = 0 # Nombre de collectibles ramassés
 
         self.max_speed = 20000 # Limite de vitesse maximale (en pixels par seconde)
@@ -113,6 +115,51 @@ class Player(pygame.sprite.Sprite):
             end = camera.world_pos_to_screen_pos(self.pos + direction)
             pygame.draw.line(screen, (35, 168, 242), start, end, 5)
 
+            # Calculer le coût en carburant en direct pendant le drag
+            current_launch_vector = self.pos - world_mouse  # Vecteur actuel du tir
+            self.fuel_cost = int(current_launch_vector.length() * 0.005) + 1  # Exemple : 10% de la puissance du tir
+
+            # Afficher le coût en carburant en bas à droite - TEMPORAIRE, plus tard on mettra ce feedback directement sur la flèche de lancement (ou la découpe en 5 segment pour une puissance de 5)
+            font = pygame.font.Font(None, 36)  # Police par défaut
+            text = font.render(f"Fuel Cost: {self.fuel_cost}", True, (255, 255, 255))  # Texte blanc
+            text_rect = text.get_rect(bottomright=(screen.get_width() - 10, screen.get_height() - 10))
+            screen.blit(text, text_rect)
+
+        # === Afficher la barre de carburant === #
+        fuel_bar_height = 500  # Hauteur maximale de la barre
+        fuel_bar_width = 50  # Largeur de la barre
+        fuel_bar_x = 10  # Position X de la barre
+        fuel_bar_y = 100  # Position Y de la barre
+
+        # Calculer la hauteur de la barre en fonction du carburant restant
+        current_fuel_height = int((self.fuel / self.max_fuel) * fuel_bar_height)
+
+        # Dessiner le fond de la barre (gris)
+        pygame.draw.rect(screen, (50, 50, 50), (fuel_bar_x, fuel_bar_y, fuel_bar_width, fuel_bar_height))
+
+        # Dessiner la barre de carburant (rouge)
+        pygame.draw.rect(screen, (255, 0, 0), (fuel_bar_x, fuel_bar_y + (fuel_bar_height - current_fuel_height), fuel_bar_width, current_fuel_height))
+
+        # Charger et redimensionner l'image de carburant une seule fois
+        if not hasattr(self, 'fuel_icon'): # Pour vérifier si l'icône a déjà été chargée
+            fuel_icon_original = pygame.image.load('assets/UI/carburant.png').convert_alpha()
+            self.fuel_icon = pygame.transform.scale(fuel_icon_original, (fuel_bar_width, fuel_bar_width))
+
+        # Afficher l'icône de carburant sous la barre
+        icon_x = fuel_bar_x
+        icon_y = fuel_bar_y + fuel_bar_height + 5  # Positionner juste en dessous de la barre avec un petit espace
+        screen.blit(self.fuel_icon, (icon_x, icon_y))
+
+        # Afficher la diminution prévue
+        if self.fuel_cost is not None:
+            fuel_apres_tir = max(self.fuel - self.fuel_cost, 0)
+            hauteur_diminution = int((fuel_apres_tir / self.max_fuel) * fuel_bar_height)
+
+            # Dessiner la diminution prévue (orange)
+            pygame.draw.rect(screen, (255, 165, 0), (fuel_bar_x, fuel_bar_y + (fuel_bar_height - current_fuel_height), fuel_bar_width, current_fuel_height - hauteur_diminution))
+
+
+
         # === DEBUG === # 
         # Affiche le rect du joueur avec un rectangle rouge transparent
         rect_surface = pygame.Surface((new_rect.width, new_rect.height), pygame.SRCALPHA)
@@ -147,3 +194,9 @@ class Player(pygame.sprite.Sprite):
                 self.velocity.scale_to_length(self.max_speed)
             self.dragging = False
             self.has_launched = True  # Le vaisseau a été lancé une fois
+            
+            if self.fuel_cost is not None: 
+                self.fuel -= self.fuel_cost
+                self.fuel_cost = None
+            if self.fuel < 0:
+                self.game.game_over("out of fuel", False)

@@ -123,12 +123,12 @@ while running:
         game.camera.update()
         game.update(screen)
         game.etoiles.draw(screen, game.camera)
-        game.player.draw(screen, game.camera)
         for planet in game.planets:
             planet.draw(screen, game.camera)
         for collectible in game.collectibles:
             collectible.update()
             collectible.draw(screen, game.camera)
+        game.player.draw(screen, game.camera)
         quit_button.draw(screen)
 
     pygame.display.flip()

@@ -96,6 +96,8 @@ class Game():
         self.max_cam_y = level["taille"]["max_y"]
 
         self.player.pos = pygame.Vector2(level["spawn"]) # Position initiale du joueur
+        self.player.max_fuel = level["max_fuel"]
+        self.player.fuel = level["start_fuel"]
         
         self.planets:list[Planet] = [] # Liste des planètes dans le niveau
 
