@@ -21,17 +21,8 @@ class Planet:
         self.rect = self.image.get_rect(center=self.pos) # Crée un rectangle de collision
         self.radius = self.rect.width / 2  # Rayon monde, sans zoom # Rayon utilisé pour les collisions et la gravité
 
-        # Définit la masse gravitationnelle de la planète selon sa taille
-        # la masse d'une planète 2x plus grosse devra être + que 2x plus grande, car il faut compenser le fait qu'on soit plus loin du centre de la planète (à cause de la taille de la planète) 
-        base_mass = 20
-        if self.taille == "petite":
-            self.masse = base_mass * (self.radius ** 2)
-        elif self.taille == "moyenne":
-            self.masse = base_mass * (self.radius ** 2)
-        elif self.taille == "grande":
-            self.masse = base_mass * (self.radius ** 2)
-        else:
-            raise ValueError("Taille de la planète non valide")
+        self.masse = 20 * (self.radius ** 2) #il faut compenser le fait qu'on soit plus loin du centre de la planète si la planète est plus grande, 20 est la masse de base (= de référence)
+
 
     def draw(self, screen, camera):
         scaled_image = pygame.transform.rotozoom(self.original_image, 0, camera.zoom) # Applique un zoom à l'image de la planète
