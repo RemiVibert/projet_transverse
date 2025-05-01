@@ -174,9 +174,9 @@ class Player(pygame.sprite.Sprite):
 
         # === DEBUG === # 
         # Affiche le rect du joueur avec un rectangle rouge transparent
-        rect_surface = pygame.Surface((new_rect.width, new_rect.height), pygame.SRCALPHA)
-        rect_surface.fill((255, 0, 0, 0))  # Rouge transparent # mettre le dernier "0" à 75 pour rendre faire apparaitre
-        screen.blit(rect_surface, new_rect.topleft)
+        #rect_surface = pygame.Surface((new_rect.width, new_rect.height), pygame.SRCALPHA)
+        #rect_surface.fill((255, 0, 0, 0))  # Rouge transparent # mettre le dernier "0" à 75 pour rendre faire apparaitre
+        #screen.blit(rect_surface, new_rect.topleft)
 
 
         # === Afficher le nombre de collectibles collectés === #
