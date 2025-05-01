@@ -115,8 +115,13 @@ class Player(pygame.sprite.Sprite):
 
             # Afficher la flèche
             start = camera.world_pos_to_screen_pos(self.pos)
-            end = camera.world_pos_to_screen_pos(self.pos + direction)
-            pygame.draw.line(screen, (35, 168, 242), start, end, 5)
+            segment_length = direction.length() / self.fuel_cost -10 # Longueur de chaque segment
+            segment_direction = direction.normalize() * segment_length
+
+            for i in range(self.fuel_cost):
+                end = camera.world_pos_to_screen_pos(self.pos + segment_direction * (i + 1))
+                pygame.draw.line(screen, (35, 168, 242), start, end, 5)
+                start = end  # Le début du prochain segment est la fin du précédent
 
             # Afficher le coût en carburant
             font = pygame.font.Font(None, 36)  # Police par défaut
