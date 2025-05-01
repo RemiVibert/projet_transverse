@@ -33,7 +33,7 @@ rules_button = ImageButton(360, 800, "assets/sprites/buttons/button_regle_inerte
 levels_button = ImageButton(355, 675, "assets/sprites/buttons/button_niveaux_inerte.png",
                             "assets/sprites/buttons/button_niveaux_survol.png", width=280, height=64)
 
-back_button = ImageButton(50, 50, "assets/sprites/buttons/button_back.png", width=100, height=50)
+back_button = ImageButton(50, 50, "assets/sprites/buttons/button_back.png", width=50, height=50)
 
 # Image en bas à droite
 image_bas_droite = pygame.image.load("assets/UI/astronaute_haute_def.PNG")
