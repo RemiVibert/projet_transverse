@@ -3,12 +3,16 @@ from game import Game
 from button import ImageButton
 from levels import level1
 
+SCREEN_SIZE = (1920, 1080)
+# SCREEN_SIZE = (960, 540)  # Pour le test sur l'ordinateur portable
+
+
 pygame.init()
 pygame.font.init()  # Initialisation du module de polices
 
 # Création de la fenêtre
 pygame.display.set_caption("Space mission")
-screen = pygame.display.set_mode((1920, 1080))
+screen = pygame.display.set_mode(SCREEN_SIZE)
 
 # Chargement des éléments
 background = pygame.image.load('assets/UI/background.png')
@@ -66,7 +70,7 @@ while running:
     elif show_rules:
         # Écran des règles
         # Fond semi-transparent
-        overlay = pygame.Surface((1920, 1080), pygame.SRCALPHA)
+        overlay = pygame.Surface(SCREEN_SIZE, pygame.SRCALPHA)
         overlay.fill((0, 0, 0, 200))
         screen.blit(overlay, (0, 0))
 
@@ -119,12 +123,12 @@ while running:
         game.camera.update()
         game.update(screen)
         game.etoiles.draw(screen, game.camera)
-        game.player.draw(screen, game.camera)
         for planet in game.planets:
             planet.draw(screen, game.camera)
         for collectible in game.collectibles:
             collectible.update()
             collectible.draw(screen, game.camera)
+        game.player.draw(screen, game.camera)
         quit_button.draw(screen)
 
     pygame.display.flip()
