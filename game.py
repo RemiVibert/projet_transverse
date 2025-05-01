@@ -56,8 +56,7 @@ class Game():
         if self.keys[pygame.K_DOWN]:
             self.camera.offset.y += pan_speed
         
-        if self.keys[pygame.K_SPACE]:
-            self.camera.anchored = not self.camera.anchored  # Active/désactive le suivi automatique du joueur
+
 
         elif self.camera.dragging: # Si la souris est en train de déplacer la caméra
             mouse_pos = pygame.Vector2(pygame.mouse.get_pos())
