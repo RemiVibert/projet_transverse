@@ -9,6 +9,8 @@ level1 = {
     },
     "spawn": (0, 0),
     "end": (15000, 0),
+    "max_fuel": 30,
+    "start_fuel": 30,
     "planetes": [
         {
             "position": (2000, 0),
@@ -27,6 +29,11 @@ level1 = {
         (1000, -1000),
         (1500, 1000),
         (1500, 0),
+    ],
+    "carburant": [
+        ((-1000, 500), 50),
+        ((1000, -500), 10),
+        ((-2000, 500), 3),
     ]
 }
 
@@ -40,9 +47,11 @@ level2 = {
     },
     "spawn": (1000, 0),
     "end": (15000, 0),
+    "max_fuel": 30,
+    "start_fuel": 30,
     "planetes": [
         {
-            "position": (000, 0),
+            "position": (0, 0),
             "type": "grande-rocheuse",
         },
     ],
@@ -50,6 +59,9 @@ level2 = {
         (-1000, 0),
         (1000, 1000),
         (0, 1000),
+    ],
+    "carburant": [
+        
     ]
 }
 
@@ -63,8 +75,13 @@ level3 = {
     },
     "spawn": (0, 0),
     "end": (15000, 0),
+    "max_fuel": 30,
+    "start_fuel": 30,
     "planetes": [
     ],
     "collectibles": [
+    ],
+    "carburant": [
+
     ]
 }

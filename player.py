@@ -8,14 +8,20 @@ g = 9.81 # Gravité terrestre
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self):
+    def __init__(self, game):
         super().__init__()
+        self.game = game
+
         self.max_fuel = 100 # Quantité maximale de carburant
         self.fuel = 100 # Carburant actuel
+        self.fuel_cost = None
+    
         self.collected_collectibles = 0 # Nombre de collectibles ramassés
 
-        self.max_speed = 2000 # Limite de vitesse maximale (en pixels par seconde)
+        self.puissance_tir_max = 10_000
+        self.max_speed = 20000 # Limite de vitesse maximale (en pixels par seconde)
         self.has_launched = False #le joueur n'a jamais été lancé
+        
 
         self.pos:pygame.Vector2 = pygame.Vector2(0, 0) # Position du vaisseau dans le monde
         self.velocity:pygame.Vector2 = pygame.Vector2(0, 0) # Vitesse actuelle du vaisseau
@@ -29,18 +35,20 @@ class Player(pygame.sprite.Sprite):
         self.launch_vector = pygame.Vector2(0, 0) # Vecteur de lancement stocké lors du drag
         self.rect = self.image.get_rect(center=self.pos)  # Rect du sprite
 
+        self.godmod = False # Debug, penser à supprimer avant la fin (ça va quand même spam la console avec le message de mort histoire de voir si on meurt)
 
-    def update(self, game):
+
+    def update(self):
 
         if self.dragging:
-            self.pos += (self.velocity)/3 * game.dt # on met un effet de ralentit quand on drag
+            self.pos += (self.velocity)/3 * self.game.dt # on met un effet de ralentit quand on drag
         else :
-            self.pos += self.velocity * game.dt
+            self.pos += self.velocity * self.game.dt
 
         self.rect.center = (int(self.pos.x), int(self.pos.y)) # Mise à jour du rect
 
         # Calcul du rayon du vaisseau
-        scaled_width = self.image.get_width() * game.camera.zoom / self.SCALE_FACTOR
+        scaled_width = self.image.get_width() * self.game.camera.zoom / self.SCALE_FACTOR
         self.radius = scaled_width / 2
 
         if self.has_launched: # La gravité et les collisions ne s'appliquent que si le vaisseau a été lancé
@@ -54,7 +62,7 @@ class Player(pygame.sprite.Sprite):
             #     self.velocity.y += (planet.masse / self.pos.distance_to(planet.pos)) * planet.pos[1] * game.dt
 
 
-            for planet in game.planets:  # Appliquer la gravité de chaque planète
+            for planet in self.game.planets:  # Appliquer la gravité de chaque planète
                 direction_x = planet.pos[0] - self.pos[0]
                 direction_y = planet.pos[1] - self.pos[1]
                 distance = self.pos.distance_to(planet.pos) # distance entre le joueur et la planète
@@ -65,10 +73,12 @@ class Player(pygame.sprite.Sprite):
                     force = (planet.masse * G * 50 ) / (distance ** 2) # Force gravitationnelle
                     acceleration_x = force * (direction_x / distance)
                     acceleration_y = force * (direction_y / distance)
-                    self.velocity[0] += acceleration_x * game.dt
-                    self.velocity[1] += acceleration_y * game.dt
+                    self.velocity[0] += acceleration_x * self.game.dt
+                    self.velocity[1] += acceleration_y * self.game.dt
 
                 if distance < total_radius: #calculer la collison
+                    self.game.game_over("crash", False)
+
                     direction = (self.pos - planet.pos).normalize() # Calculer la direction du vaisseau à partir de la planète
                     self.pos = planet.pos + direction * (planet.radius + self.radius) # Déplacer le vaisseau à la périphérie de la planète (juste au bord)
 
@@ -76,7 +86,7 @@ class Player(pygame.sprite.Sprite):
                     self.velocity *= 0.8  # On peut aussi réduire un peu la vitesse pour simuler de la perte d'énergie
 
             # === Collection des collectibles === #
-            for collectible in game.collectibles:
+            for collectible in self.game.collectibles:
                 if self.rect.colliderect(collectible.rect):
                     collectible.collect()
                     self.collected_collectibles += 1  # Incrémente le nombre de collectibles ramassés
@@ -92,7 +102,33 @@ class Player(pygame.sprite.Sprite):
             mouse_pos = pygame.Vector2(pygame.mouse.get_pos())
             world_mouse = camera.offset + mouse_pos / camera.zoom
             direction = self.pos - world_mouse  # Inverser la direction pour que la flèche pointe à l'opposé
+
+            # Calculer la longueur maximale de la flèche en fonction du carburant disponible
+            max_launch_strength = min(self.fuel * 200, 1000)  # 200 pixels de flèche par unité de carburant, max 1000 pixels
+            if direction.length() > max_launch_strength:
+                direction.scale_to_length(max_launch_strength)
+
             self.last_direction = direction
+
+            # Calculer le coût en carburant pour la longueur actuelle de la flèche
+            self.fuel_cost = int(direction.length() / 200) + 1  # 1 unité de carburant pour 200 pixels de flèche
+
+            # Afficher la flèche
+            start = camera.world_pos_to_screen_pos(self.pos)
+            segment_length = direction.length() / self.fuel_cost -10 # Longueur de chaque segment
+            segment_direction = direction.normalize() * segment_length
+
+            for i in range(self.fuel_cost):
+                end = camera.world_pos_to_screen_pos(self.pos + segment_direction * (i + 1))
+                pygame.draw.line(screen, (35, 168, 242), start, end, 5)
+                start = end  # Le début du prochain segment est la fin du précédent
+
+            # Afficher le coût en carburant
+            font = pygame.font.Font(None, 36)  # Police par défaut
+            text = font.render(f"Fuel Cost: {self.fuel_cost}", True, (255, 255, 255))  # Texte blanc
+            text_rect = text.get_rect(bottomright=(screen.get_width() - 10, screen.get_height() - 10))
+            screen.blit(text, text_rect)
+
         else:
             direction = self.velocity if self.velocity.length_squared() > 0.01 else self.last_direction
 
@@ -101,16 +137,46 @@ class Player(pygame.sprite.Sprite):
         new_rect = rotated_image.get_rect(center=camera.world_pos_to_screen_pos(self.pos))  # Position sur l’écran
         screen.blit(rotated_image, new_rect)  # Affichage du vaisseau
 
-        if self.dragging:  # Affiche la flèche si le drag est en cours
-            start = camera.world_pos_to_screen_pos(self.pos)
-            end = camera.world_pos_to_screen_pos(self.pos + direction)
-            pygame.draw.line(screen, (35, 168, 242), start, end, 5)
+        # === Afficher la barre de carburant === #
+        fuel_bar_height = 500  # Hauteur maximale de la barre
+        fuel_bar_width = 50  # Largeur de la barre
+        fuel_bar_x = 10  # Position X de la barre
+        fuel_bar_y = 100  # Position Y de la barre
+
+        # Calculer la hauteur de la barre en fonction du carburant restant
+        current_fuel_height = int((self.fuel / self.max_fuel) * fuel_bar_height)
+
+        # Dessiner le fond de la barre (gris)
+        pygame.draw.rect(screen, (50, 50, 50), (fuel_bar_x, fuel_bar_y, fuel_bar_width, fuel_bar_height))
+
+        # Dessiner la barre de carburant (rouge)
+        pygame.draw.rect(screen, (255, 0, 0), (fuel_bar_x, fuel_bar_y + (fuel_bar_height - current_fuel_height), fuel_bar_width, current_fuel_height))
+
+        # Charger et redimensionner l'image de carburant une seule fois
+        if not hasattr(self, 'fuel_icon'): # Pour vérifier si l'icône a déjà été chargée
+            fuel_icon_original = pygame.image.load('assets/UI/carburant.png').convert_alpha()
+            self.fuel_icon = pygame.transform.scale(fuel_icon_original, (fuel_bar_width, fuel_bar_width))
+
+        # Afficher l'icône de carburant sous la barre
+        icon_x = fuel_bar_x
+        icon_y = fuel_bar_y + fuel_bar_height + 5  # Positionner juste en dessous de la barre avec un petit espace
+        screen.blit(self.fuel_icon, (icon_x, icon_y))
+
+        # Afficher la diminution prévue
+        if self.fuel_cost is not None:
+            fuel_apres_tir = max(self.fuel - self.fuel_cost, 0)
+            hauteur_diminution = int((fuel_apres_tir / self.max_fuel) * fuel_bar_height)
+
+            # Dessiner la diminution prévue (orange)
+            pygame.draw.rect(screen, (255, 165, 0), (fuel_bar_x, fuel_bar_y + (fuel_bar_height - current_fuel_height), fuel_bar_width, current_fuel_height - hauteur_diminution))
+
+
 
         # === DEBUG === # 
         # Affiche le rect du joueur avec un rectangle rouge transparent
-        rect_surface = pygame.Surface((new_rect.width, new_rect.height), pygame.SRCALPHA)
-        rect_surface.fill((255, 0, 0, 0))  # Rouge transparent # mettre le dernier "0" à 75 pour rendre faire apparaitre
-        screen.blit(rect_surface, new_rect.topleft)
+        #rect_surface = pygame.Surface((new_rect.width, new_rect.height), pygame.SRCALPHA)
+        #rect_surface.fill((255, 0, 0, 0))  # Rouge transparent # mettre le dernier "0" à 75 pour rendre faire apparaitre
+        #screen.blit(rect_surface, new_rect.topleft)
 
 
         # === Afficher le nombre de collectibles collectés === #
@@ -129,14 +195,24 @@ class Player(pygame.sprite.Sprite):
         elif event.type == pygame.MOUSEBUTTONUP and event.button == 1 and self.dragging:  # Fin du drag
             mouse_pos = pygame.Vector2(event.pos)
             world_mouse = camera.offset + mouse_pos / camera.zoom  # Coordonnées dans le monde
-            max_launch_strength = 1000  # Valeur max de puissance
-            self.launch_vector = self.pos - world_mouse  # Inverser la direction pour que le vaisseau parte dans la direction indiquée
-            # On limite la longueur du vecteur
+            max_launch_strength = min(self.fuel * 200, self.puissance_tir_max)  # Limite de puissance en fonction du carburant
+            self.launch_vector = self.pos - world_mouse
+
+            # Limiter la longueur du vecteur de lancement
             if self.launch_vector.length() > max_launch_strength:
                 self.launch_vector.scale_to_length(max_launch_strength)
+
             self.velocity += self.launch_vector * 5  # Applique une poussée
             # Limiter la vitesse au maximum autorisé
             if self.velocity.length() > self.max_speed:
                 self.velocity.scale_to_length(self.max_speed)
+
             self.dragging = False
             self.has_launched = True  # Le vaisseau a été lancé une fois
+
+            # Réduire le carburant en fonction du coût
+            if self.fuel_cost is not None:
+                self.fuel -= self.fuel_cost
+                self.fuel_cost = None
+            if self.fuel < 0:
+                self.game.game_over("out of fuel", False)

@@ -6,14 +6,29 @@ import levels
 from planet import Planet
 from collectible import Collectible
 
+
+MAX_DISTANCE_OUT_OF_SPACE = 20_000
+
 class Game():
     def __init__(self, screen):
         self.screen = screen # Référence vers la surface d'affichage
         self.dt:float = 0 # Temps écoulé entre deux frames
-        self.player = Player() # Instancie le joueur
+        self.player = Player(self) # Instancie le joueur
 
-        self.load_level(levels.level1) # Charge le niveau actuel à partir du module "levels"
+        self.min_cam_x = 0
+        self.min_cam_y = 0
+        self.max_cam_x = 10000
+        self.max_cam_y = 10000
+
         self.camera = Camera(self)
+
+        self.cam_speed = 30  # Vitesse de déplacement manuel de la caméra
+        self.zoom = 1  # Facteur de zoom initial
+        self.zoom_speed = 0.1  # Vitesse de changement de zoom
+        self.zoom_min = 0.01  # Zoom minimal autorisé
+        self.zoom_max = 10  # Zoom maximal autorisé
+
+        self.load_level(levels.level1)  # Charge le niveau actuel à partir du module "levels"
 
         self.cam_speed = 30 # Vitesse de déplacement manuel de la caméra
         self.zoom = 1 # Facteur de zoom initial
@@ -31,8 +46,10 @@ class Game():
             pygame.K_DOWN: False,
 
         }
+        self.end_screen_active = False
+        self.end_message = ""  # Message à afficher à la fin
+        self.victoire = False
 
-        
     def is_pressed(self, key): # Retourne l’état d’une touche si elle est surveillée
         if key in self.pressed:
             return self.pressed[key]
@@ -46,25 +63,36 @@ class Game():
         self.keys = pygame.key.get_pressed() # Liste des touches pressées en continu
         pan_speed = 300 * self.dt / self.camera.zoom # Vitesse de déplacement caméra dépendant du temps + zoom
 
-        # Déplacement manuel de la caméra via les touches fléchées
-        if self.keys[pygame.K_LEFT]:
-            self.camera.offset.x -= pan_speed
-        if self.keys[pygame.K_RIGHT]:
-            self.camera.offset.x += pan_speed
-        if self.keys[pygame.K_UP]:
-            self.camera.offset.y -= pan_speed
-        if self.keys[pygame.K_DOWN]:
-            self.camera.offset.y += pan_speed
+        # === Déplacement manuel de la caméra via les touches fléchées === #
+        if not self.camera.anchored:
+            if self.keys[pygame.K_LEFT]:
+                self.camera.offset.x -= pan_speed
+            if self.keys[pygame.K_RIGHT]:
+                self.camera.offset.x += pan_speed
+            if self.keys[pygame.K_UP]:
+                self.camera.offset.y -= pan_speed
+            if self.keys[pygame.K_DOWN]:
+                self.camera.offset.y += pan_speed
         
-        if self.keys[pygame.K_SPACE]:
-            self.camera.anchored = not self.camera.anchored  # Active/désactive le suivi automatique du joueur
 
-        elif self.camera.dragging: # Si la souris est en train de déplacer la caméra
+
+        if self.camera.dragging: # Si la souris est en train de déplacer la caméra
             mouse_pos = pygame.Vector2(pygame.mouse.get_pos())
             drag_delta = ((mouse_pos - self.camera.drag_start) / self.camera.zoom)
             self.camera.offset = self.camera.drag_offset_start - drag_delta # Met à jour l’offset selon le mouvement souris
 
-        self.player.update(self) # Met à jour le joueur
+        self.player.update() # Met à jour le joueur
+
+        # === Conditions de fin de niveau === #
+
+        # mort par crash : déclenché dans la gestion des collisions
+        # mort d'out of fuel : declenché dans la gestion du tir
+        # win : déclenché dans la gestion des collisions
+
+        # Out of space
+        if all(self.player.pos.distance_to(planet.pos) >= planet.radius + MAX_DISTANCE_OUT_OF_SPACE for planet in self.planets):
+            self.game_over("out_of_space", False)
+        
         
         
     def load_level(self, level):
@@ -82,6 +110,8 @@ class Game():
         self.max_cam_y = level["taille"]["max_y"]
 
         self.player.pos = pygame.Vector2(level["spawn"]) # Position initiale du joueur
+        self.player.max_fuel = level["max_fuel"]
+        self.player.fuel = level["start_fuel"]
         
         self.planets:list[Planet] = [] # Liste des planètes dans le niveau
 
@@ -91,3 +121,43 @@ class Game():
 
         for planete in level["planetes"]:
             self.planets.append(Planet(planete["position"], planete["type"])) # Crée une instance de planète avec sa position et son type
+
+        self.end_screen_active = False
+        self.victoire = False
+        self.camera.anchored = True
+        self.camera.recenter_on_player()
+        self.camera.update()
+        self.player.velocity = pygame.Vector2(0, 0)
+        self.player.has_launched = False
+        self.player.dragging = False
+        self.player.fuel_cost = None
+        self.player.last_direction = pygame.Vector2(0, -1)
+
+    def game_over(self, message: str, victoire: bool = False):
+        """
+        Déclenche le menu de fin de niveau (victoire ou défaite) correspondant au message.
+        Messages possibles :
+        - "out_of_space"
+        - "out_of_fuel"
+        - "crash"
+        - "win" (pas besoin en soit, la variable victoire est suffisante)
+        """
+        print(f"\033[1;31mFIN DU NIVEAU : {message}\033[0m")
+
+        if self.player.godmod:
+            return
+
+        if message == "out_of_fuel":
+            self.show_end_screen("Vous n'avez plus de carburant.", victoire=False)
+        elif message == "out_of_space":
+            self.show_end_screen("Vous avez quitté l'espace.", victoire=False)
+        elif message == "crash":
+            self.show_end_screen("Vous avez percuté une planète.", victoire=False)
+        elif message == "win" or victoire:
+            self.show_end_screen("Niveau terminé ! Victoire.", victoire=True)
+
+    def show_end_screen(self, message: str, victoire: bool):
+        """Met à jour l'état pour afficher l'écran de fin."""
+        self.end_screen_active = True
+        self.end_message = message
+        self.victoire = victoire
