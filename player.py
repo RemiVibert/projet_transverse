@@ -18,6 +18,7 @@ class Player(pygame.sprite.Sprite):
     
         self.collected_collectibles = 0 # Nombre de collectibles ramassés
 
+        self.puissance_tir_max = 10_000
         self.max_speed = 20000 # Limite de vitesse maximale (en pixels par seconde)
         self.has_launched = False #le joueur n'a jamais été lancé
         
@@ -189,7 +190,7 @@ class Player(pygame.sprite.Sprite):
         elif event.type == pygame.MOUSEBUTTONUP and event.button == 1 and self.dragging:  # Fin du drag
             mouse_pos = pygame.Vector2(event.pos)
             world_mouse = camera.offset + mouse_pos / camera.zoom  # Coordonnées dans le monde
-            max_launch_strength = min(self.fuel * 200, 1000)  # Limite de puissance en fonction du carburant
+            max_launch_strength = min(self.fuel * 200, self.puissance_tir_max)  # Limite de puissance en fonction du carburant
             self.launch_vector = self.pos - world_mouse
 
             # Limiter la longueur du vecteur de lancement

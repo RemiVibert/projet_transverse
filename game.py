@@ -118,7 +118,7 @@ class Game():
         - "crash"
         - "win" (pas besoin en soit, la variable victoire est suffisante)
         """
-        print(message)
+        print(f"\033[1;31mFIN DU NIVEAU : {message}\033[0m") 
         if self.player.godmod:
             return
         
