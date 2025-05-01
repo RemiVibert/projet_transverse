@@ -101,7 +101,28 @@ class Player(pygame.sprite.Sprite):
             mouse_pos = pygame.Vector2(pygame.mouse.get_pos())
             world_mouse = camera.offset + mouse_pos / camera.zoom
             direction = self.pos - world_mouse  # Inverser la direction pour que la flèche pointe à l'opposé
+
+            # Calculer la longueur maximale de la flèche en fonction du carburant disponible
+            max_launch_strength = min(self.fuel * 200, 1000)  # 200 pixels de flèche par unité de carburant, max 1000 pixels
+            if direction.length() > max_launch_strength:
+                direction.scale_to_length(max_launch_strength)
+
             self.last_direction = direction
+
+            # Calculer le coût en carburant pour la longueur actuelle de la flèche
+            self.fuel_cost = int(direction.length() / 200) + 1  # 1 unité de carburant pour 200 pixels de flèche
+
+            # Afficher la flèche
+            start = camera.world_pos_to_screen_pos(self.pos)
+            end = camera.world_pos_to_screen_pos(self.pos + direction)
+            pygame.draw.line(screen, (35, 168, 242), start, end, 5)
+
+            # Afficher le coût en carburant
+            font = pygame.font.Font(None, 36)  # Police par défaut
+            text = font.render(f"Fuel Cost: {self.fuel_cost}", True, (255, 255, 255))  # Texte blanc
+            text_rect = text.get_rect(bottomright=(screen.get_width() - 10, screen.get_height() - 10))
+            screen.blit(text, text_rect)
+
         else:
             direction = self.velocity if self.velocity.length_squared() > 0.01 else self.last_direction
 
@@ -109,21 +130,6 @@ class Player(pygame.sprite.Sprite):
         rotated_image = pygame.transform.rotate(scaled_image, angle_deg)  # Rotation du vaisseau
         new_rect = rotated_image.get_rect(center=camera.world_pos_to_screen_pos(self.pos))  # Position sur l’écran
         screen.blit(rotated_image, new_rect)  # Affichage du vaisseau
-
-        if self.dragging:  # Affiche la flèche si le drag est en cours
-            start = camera.world_pos_to_screen_pos(self.pos)
-            end = camera.world_pos_to_screen_pos(self.pos + direction)
-            pygame.draw.line(screen, (35, 168, 242), start, end, 5)
-
-            # Calculer le coût en carburant en direct pendant le drag
-            current_launch_vector = self.pos - world_mouse  # Vecteur actuel du tir
-            self.fuel_cost = int(current_launch_vector.length() * 0.005) + 1  # Exemple : 10% de la puissance du tir
-
-            # Afficher le coût en carburant en bas à droite - TEMPORAIRE, plus tard on mettra ce feedback directement sur la flèche de lancement (ou la découpe en 5 segment pour une puissance de 5)
-            font = pygame.font.Font(None, 36)  # Police par défaut
-            text = font.render(f"Fuel Cost: {self.fuel_cost}", True, (255, 255, 255))  # Texte blanc
-            text_rect = text.get_rect(bottomright=(screen.get_width() - 10, screen.get_height() - 10))
-            screen.blit(text, text_rect)
 
         # === Afficher la barre de carburant === #
         fuel_bar_height = 500  # Hauteur maximale de la barre
@@ -183,19 +189,23 @@ class Player(pygame.sprite.Sprite):
         elif event.type == pygame.MOUSEBUTTONUP and event.button == 1 and self.dragging:  # Fin du drag
             mouse_pos = pygame.Vector2(event.pos)
             world_mouse = camera.offset + mouse_pos / camera.zoom  # Coordonnées dans le monde
-            max_launch_strength = 1000  # Valeur max de puissance
-            self.launch_vector = self.pos - world_mouse  # Inverser la direction pour que le vaisseau parte dans la direction indiquée
-            # On limite la longueur du vecteur
+            max_launch_strength = min(self.fuel * 200, 1000)  # Limite de puissance en fonction du carburant
+            self.launch_vector = self.pos - world_mouse
+
+            # Limiter la longueur du vecteur de lancement
             if self.launch_vector.length() > max_launch_strength:
                 self.launch_vector.scale_to_length(max_launch_strength)
+
             self.velocity += self.launch_vector * 5  # Applique une poussée
             # Limiter la vitesse au maximum autorisé
             if self.velocity.length() > self.max_speed:
                 self.velocity.scale_to_length(self.max_speed)
+
             self.dragging = False
             self.has_launched = True  # Le vaisseau a été lancé une fois
-            
-            if self.fuel_cost is not None: 
+
+            # Réduire le carburant en fonction du coût
+            if self.fuel_cost is not None:
                 self.fuel -= self.fuel_cost
                 self.fuel_cost = None
             if self.fuel < 0:
