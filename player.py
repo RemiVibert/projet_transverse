@@ -69,6 +69,8 @@ class Player(pygame.sprite.Sprite):
                     self.velocity[1] += acceleration_y * game.dt
 
                 if distance < total_radius: #calculer la collison
+                    self.game.game_over("crash", False)
+
                     direction = (self.pos - planet.pos).normalize() # Calculer la direction du vaisseau à partir de la planète
                     self.pos = planet.pos + direction * (planet.radius + self.radius) # Déplacer le vaisseau à la périphérie de la planète (juste au bord)
 
