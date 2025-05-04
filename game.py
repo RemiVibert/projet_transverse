@@ -5,6 +5,7 @@ from camera import Camera
 import levels
 from planet import Planet
 from collectible import Collectible
+from fuel import Fuel
 
 
 MAX_DISTANCE_OUT_OF_SPACE = 20_000
@@ -69,6 +70,10 @@ class Game():
 
         self.player.update() # Met à jour le joueur
 
+        for fuel in self.fuels[:]:  # Parcours une copie de la liste pour éviter les problèmes de suppression
+            if self.player.rect.colliderect(fuel.rect):
+                fuel.collect()  # Collecte le fuel
+
         # === Conditions de fin de niveau === #
 
         # mort par crash : déclenché dans la gestion des collisions
@@ -100,15 +105,18 @@ class Game():
         self.player.fuel = level["start_fuel"]
         
         self.planets:list[Planet] = [] # Liste des planètes dans le niveau
-
         self.collectibles = []
-        for collectible in level["collectibles"]:
-            self.collectibles.append(Collectible(pygame.Vector2(collectible), self)) # Crée une instance de collectible avec sa position
+        self.fuels = [] 
 
         for planete in level["planetes"]:
             self.planets.append(Planet(planete["position"], planete["type"])) # Crée une instance de planète avec sa position et son type
 
-    
+        for collectible in level["collectibles"]:
+            self.collectibles.append(Collectible(pygame.Vector2(collectible), self)) # Crée une instance de collectible avec sa position
+
+        for fuel in level["carburant"]:
+            self.fuels.append(Fuel(pygame.Vector2(fuel[0]), fuel[1], self)) 
+
     def game_over(self, message:str, victoire:bool = False):
         """
         Déclenche le menu de fin de niveau (victoire ou défaite) correspondant au message. 

@@ -128,6 +128,8 @@ while running:
         for collectible in game.collectibles:
             collectible.update()
             collectible.draw(screen, game.camera)
+        for fuel in game.fuels:
+            fuel.draw(screen, game.camera)
         game.player.draw(screen, game.camera)
         quit_button.draw(screen)
 
