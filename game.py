@@ -16,8 +16,20 @@ class Game():
         self.dt:float = 0 # Temps écoulé entre deux frames
         self.player = Player(self) # Instancie le joueur
 
-        self.load_level(levels.level1) # Charge le niveau actuel à partir du module "levels"
+        self.min_cam_x = 0
+        self.min_cam_y = 0
+        self.max_cam_x = 10000
+        self.max_cam_y = 10000
+
         self.camera = Camera(self)
+
+        self.cam_speed = 30  # Vitesse de déplacement manuel de la caméra
+        self.zoom = 1  # Facteur de zoom initial
+        self.zoom_speed = 0.1  # Vitesse de changement de zoom
+        self.zoom_min = 0.01  # Zoom minimal autorisé
+        self.zoom_max = 10  # Zoom maximal autorisé
+
+        self.load_level(levels.level1)  # Charge le niveau actuel à partir du module "levels"
 
         self.cam_speed = 30 # Vitesse de déplacement manuel de la caméra
         self.zoom = 1 # Facteur de zoom initial
@@ -35,8 +47,10 @@ class Game():
             pygame.K_DOWN: False,
 
         }
+        self.end_screen_active = False
+        self.end_message = ""  # Message à afficher à la fin
+        self.victoire = False
 
-        
     def is_pressed(self, key): # Retourne l’état d’une touche si elle est surveillée
         if key in self.pressed:
             return self.pressed[key]
@@ -118,16 +132,43 @@ class Game():
             self.fuels.append(Fuel(pygame.Vector2(fuel[0]), fuel[1], self)) 
 
     def game_over(self, message:str, victoire:bool = False):
+
+        self.end_screen_active = False
+        self.victoire = False
+        self.camera.anchored = True
+        self.camera.recenter_on_player()
+        self.camera.update()
+        self.player.velocity = pygame.Vector2(0, 0)
+        self.player.has_launched = False
+        self.player.dragging = False
+        self.player.fuel_cost = None
+        self.player.last_direction = pygame.Vector2(0, -1)
+
+    def game_over(self, message: str, victoire: bool = False):
         """
-        Déclenche le menu de fin de niveau (victoire ou défaite) correspondant au message. 
+        Déclenche le menu de fin de niveau (victoire ou défaite) correspondant au message.
         Messages possibles :
         - "out_of_space"
         - "out_of_fuel"
         - "crash"
         - "win" (pas besoin en soit, la variable victoire est suffisante)
         """
-        print(f"\033[1;31mFIN DU NIVEAU : {message}\033[0m") 
+        print(f"\033[1;31mFIN DU NIVEAU : {message}\033[0m")
+
         if self.player.godmod:
             return
-        
-        raise NotImplementedError("Menu de fin de niveau pas encore implémenté") # Avant de supprimer ça, va jeter un oeil au player.godmod
+
+        if message == "out_of_fuel":
+            self.show_end_screen("Vous n'avez plus de carburant.", victoire=False)
+        elif message == "out_of_space":
+            self.show_end_screen("Vous avez quitté l'espace.", victoire=False)
+        elif message == "crash":
+            self.show_end_screen("Vous avez percuté une planète.", victoire=False)
+        elif message == "win" or victoire:
+            self.show_end_screen("Niveau terminé ! Victoire.", victoire=True)
+
+    def show_end_screen(self, message: str, victoire: bool):
+        """Met à jour l'état pour afficher l'écran de fin."""
+        self.end_screen_active = True
+        self.end_message = message
+        self.victoire = victoire
