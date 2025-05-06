@@ -24,6 +24,47 @@ level1 = {
             "position": (-4000, 0),
             "type": "grande-rocheuse",
         },
+        {
+            "position": (4100, 100),
+            "type": "x-asteroide",
+        },
+        {
+            "position": (3900, -100),
+            "type": "x-asteroide",
+        },
+        {
+            "position": (4200, 200),
+            "type": "x-asteroide",
+        },
+        {
+            "position": (3800, -200),
+            "type": "x-asteroide",
+        },
+        {
+            "position": (4000, 300),
+            "type": "x-asteroide",
+        },
+        {
+            "position": (4000, -300),
+            "type": "x-asteroide",
+        },
+        {
+            "position": (4300, 0),
+            "type": "x-asteroide",
+        },
+        {
+            "position": (3700, 0),
+            "type": "x-asteroide",
+        },
+        {
+            "position": (4100, -200),
+            "type": "x-asteroide",
+        },
+        {
+            "position": (3900, 200),
+            "type": "x-asteroide",
+        },
+        
     ],
     "collectibles": [
         (1000, -1000),
