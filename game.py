@@ -8,10 +8,11 @@ from collectible import Collectible
 from fuel import Fuel
 
 
-MAX_DISTANCE_OUT_OF_SPACE = 20_000
+
 
 class Game():
     def __init__(self, screen):
+        self.MAX_DISTANCE_OUT_OF_SPACE = 20_000
         self.screen = screen # Référence vers la surface d'affichage
         self.dt:float = 0 # Temps écoulé entre deux frames
         self.player = Player(self) # Instancie le joueur
@@ -39,7 +40,7 @@ class Game():
 
         nb_etoiles = (self.max_cam_x - self.min_cam_x) * (self.max_cam_y - self.min_cam_y) // 500000 #  # Calcule un nombre d’étoiles basé sur la taille de la carte
         self.etoiles = Etoiles(nb_etoiles, self.max_cam_x*2, self.max_cam_y*2, self.min_cam_x, self.min_cam_y)  # Crée les étoiles avec une zone étendue pour éviter qu’elles disparaissent
-
+        
         self.pressed = {  # Dictionnaire pour gérer l’état des touches fléchées.
             pygame.K_RIGHT: False,
             pygame.K_LEFT: False,
@@ -95,8 +96,9 @@ class Game():
         # win : déclenché dans la gestion des collisions
 
         # Out of space
-        if all(self.player.pos.distance_to(planet.pos) >= planet.radius + MAX_DISTANCE_OUT_OF_SPACE for planet in self.planets):
+        if all(self.player.pos.distance_to(planet.pos) >= planet.radius + self.MAX_DISTANCE_OUT_OF_SPACE for planet in self.planets):
             self.game_over("out_of_space", False)
+
         
         
         
