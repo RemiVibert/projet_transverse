@@ -1,6 +1,6 @@
 import pygame
-
-
+import random # utilisé pour choisir une couleur aléatoire d'asteroide
+import os
 class Planet:
     def __init__(self, pos, type):
         """
@@ -14,14 +14,22 @@ class Planet:
         self.type = type.split('-') # Sépare la chaîne en deux parties : taille et type
         self.taille = self.type[0] # Extrait la taille
         self.type = self.type[1] # Extrait le type
-
-        self.image = pygame.image.load('assets/sprites/planetes/'+type+'.png').convert_alpha()
+        if self.type == "asteroide":
+            nb_fichiers = len(os.listdir('assets/sprites/asteroide'))
+            self.image = pygame.image.load(f'assets/sprites/asteroide/x-asteroide{random.randint(1, nb_fichiers)}.png').convert_alpha()
+            self.image = pygame.transform.scale(self.image, (self.image.get_width() // 20, self.image.get_height() // 20))  # Redimensionne l'image
+            self.image = pygame.transform.rotate(self.image, random.randint(0, 360))  # Tourne l'image d'un angle aléatoire
+        else:
+            self.image = pygame.image.load('assets/sprites/planetes/'+type+'.png').convert_alpha()
         self.original_image = self.image  # Garde l’image de base pour les rescalings
 
         self.rect = self.image.get_rect(center=self.pos) # Crée un rectangle de collision
         self.radius = self.rect.width / 2  # Rayon monde, sans zoom # Rayon utilisé pour les collisions et la gravité
 
-        self.masse = 200 * (self.radius ** 1.7) #il faut compenser le fait qu'on soit plus loin du centre de la planète si la planète est plus grande, 20 est la masse de base (= de référence)
+        if self.type == "asteroide":
+            self.masse = 0
+        else:
+            self.masse = 200 * (self.radius ** 1.7) #il faut compenser le fait qu'on soit plus loin du centre de la planète si la planète est plus grande, 20 est la masse de base (= de référence)
 
 
     def draw(self, screen, camera):
