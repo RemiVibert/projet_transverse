@@ -69,11 +69,65 @@ next_level_button = ImageButton(1115, 540, "assets/sprites/buttons/button_next_l
 
 # Boutons pour les niveaux
 level1_button = ImageButton(600, 300, "assets/sprites/buttons/button_level1.png",
-                           "assets/sprites/buttons/button_level1_hover.png", width=200, height=80)
+                           "assets/sprites/buttons/button_level1_hover.png", width=80, height=80)
 level2_button = ImageButton(900, 300, "assets/sprites/buttons/button_level2.png",
-                           "assets/sprites/buttons/button_level2_hover.png", width=200, height=80)
+                           "assets/sprites/buttons/button_level2_hover.png", width=80, height=80)
 level3_button = ImageButton(1200, 300, "assets/sprites/buttons/button_level3.png",
-                           "assets/sprites/buttons/button_level3_hover.png", width=200, height=80)
+                           "assets/sprites/buttons/button_level3_hover.png", width=80, height=80)
+level4_button = ImageButton(600, 300, "assets/sprites/buttons/button_level4.png",
+                           "assets/sprites/buttons/button_level4_hover.png", width=80, height=80)
+level5_button = ImageButton(900, 300, "assets/sprites/buttons/button_level5.png",
+                           "assets/sprites/buttons/button_level5_hover.png", width=80, height=80)
+level6_button = ImageButton(1200, 300, "assets/sprites/buttons/button_level6.png",
+                           "assets/sprites/buttons/button_level6_hover.png", width=80, height=80)
+level7_button = ImageButton(600, 300, "assets/sprites/buttons/button_level7.png",
+                           "assets/sprites/buttons/button_level7_hover.png", width=80, height=80)
+level8_button = ImageButton(900, 300, "assets/sprites/buttons/button_level8.png",
+                           "assets/sprites/buttons/button_level8_hover.png", width=80, height=80)
+level9_button = ImageButton(1200, 300, "assets/sprites/buttons/button_level9.png",
+                           "assets/sprites/buttons/button_level9_hover.png", width=80, height=80)
+level10_button = ImageButton(600, 300, "assets/sprites/buttons/button_level10.png",
+                           "assets/sprites/buttons/button_level10_hover.png", width=80, height=80)
+level11_button = ImageButton(900, 300, "assets/sprites/buttons/button_level11.png",
+                           "assets/sprites/buttons/button_level11_hover.png", width=80, height=80)
+level12_button = ImageButton(1200, 300, "assets/sprites/buttons/button_level12.png",
+                           "assets/sprites/buttons/button_level12_hover.png", width=80, height=80)
+level13_button = ImageButton(600, 300, "assets/sprites/buttons/button_level13.png",
+                           "assets/sprites/buttons/button_level13_hover.png", width=80, height=80)
+level14_button = ImageButton(900, 300, "assets/sprites/buttons/button_level14.png",
+                           "assets/sprites/buttons/button_level14_hover.png", width=80, height=80)
+level15_button = ImageButton(1200, 300, "assets/sprites/buttons/button_level15.png",
+                           "assets/sprites/buttons/button_level15_hover.png", width=80, height=80)
+level16_button = ImageButton(600, 300, "assets/sprites/buttons/button_level16.png",
+                           "assets/sprites/buttons/button_level16_hover.png", width=80, height=80)
+level17_button = ImageButton(900, 300, "assets/sprites/buttons/button_level17.png",
+                           "assets/sprites/buttons/button_level17_hover.png", width=80, height=80)
+level18_button = ImageButton(1200, 300, "assets/sprites/buttons/button_level18.png",
+                           "assets/sprites/buttons/button_level18_hover.png", width=80, height=80)
+level19_button = ImageButton(600, 300, "assets/sprites/buttons/button_level19.png",
+                           "assets/sprites/buttons/button_level19_hover.png", width=80, height=80)
+level20_button = ImageButton(900, 300, "assets/sprites/buttons/button_level20.png",
+                           "assets/sprites/buttons/button_level20_hover.png", width=80, height=80)
+level21_button = ImageButton(1200, 300, "assets/sprites/buttons/button_level21.png",
+                           "assets/sprites/buttons/button_level21_hover.png", width=80, height=80)
+level22_button = ImageButton(600, 300, "assets/sprites/buttons/button_level22.png",
+                           "assets/sprites/buttons/button_level22_hover.png", width=80, height=80)
+level23_button = ImageButton(900, 300, "assets/sprites/buttons/button_level23.png",
+                           "assets/sprites/buttons/button_level23_hover.png", width=80, height=80)
+level24_button = ImageButton(1200, 300, "assets/sprites/buttons/button_level24.png",
+                           "assets/sprites/buttons/button_level24_hover.png", width=80, height=80)
+level25_button = ImageButton(600, 300, "assets/sprites/buttons/button_level25.png",
+                           "assets/sprites/buttons/button_level25_hover.png", width=80, height=80)
+level26_button = ImageButton(900, 300, "assets/sprites/buttons/button_level26.png",
+                           "assets/sprites/buttons/button_level26_hover.png", width=80, height=80)
+level27_button = ImageButton(1200, 300, "assets/sprites/buttons/button_level27.png",
+                           "assets/sprites/buttons/button_level27_hover.png", width=80, height=80)
+level28_button = ImageButton(600, 300, "assets/sprites/buttons/button_level28.png",
+                           "assets/sprites/buttons/button_level28_hover.png", width=80, height=80)
+level29_button = ImageButton(900, 300, "assets/sprites/buttons/button_level29.png",
+                           "assets/sprites/buttons/button_level29_hover.png", width=80, height=80)
+level30_button = ImageButton(1200, 300, "assets/sprites/buttons/button_level30.png",
+                           "assets/sprites/buttons/button_level30_hover.png", width=80, height=80)
 
 # Image en bas à droite
 image_bas_droite = pygame.image.load("assets/UI/astronaute_haute_def.PNG")
@@ -148,9 +202,63 @@ while running:
         level1_button.update(mouse_pos)
         level2_button.update(mouse_pos)
         level3_button.update(mouse_pos)
+        level4_button.update(mouse_pos)
+        level5_button.update(mouse_pos)
+        level6_button.update(mouse_pos)
+        level7_button.update(mouse_pos)
+        level8_button.update(mouse_pos)
+        level9_button.update(mouse_pos)
+        level10_button.update(mouse_pos)
+        level11_button.update(mouse_pos)
+        level12_button.update(mouse_pos)
+        level13_button.update(mouse_pos)
+        level14_button.update(mouse_pos)
+        level15_button.update(mouse_pos)
+        level16_button.update(mouse_pos)
+        level17_button.update(mouse_pos)
+        level18_button.update(mouse_pos)
+        level19_button.update(mouse_pos)
+        level20_button.update(mouse_pos)
+        level21_button.update(mouse_pos)
+        level22_button.update(mouse_pos)
+        level23_button.update(mouse_pos)
+        level24_button.update(mouse_pos)
+        level25_button.update(mouse_pos)
+        level26_button.update(mouse_pos)
+        level27_button.update(mouse_pos)
+        level28_button.update(mouse_pos)
+        level29_button.update(mouse_pos)
+        level30_button.update(mouse_pos)
         level1_button.draw(screen)
         level2_button.draw(screen)
         level3_button.draw(screen)
+        level4_button.draw(screen)
+        level5_button.draw(screen)
+        level6_button.draw(screen)
+        level7_button.draw(screen)
+        level8_button.draw(screen)
+        level9_button.draw(screen)
+        level10_button.draw(screen)
+        level11_button.draw(screen)
+        level12_button.draw(screen)
+        level13_button.draw(screen)
+        level14_button.draw(screen)
+        level15_button.draw(screen)
+        level16_button.draw(screen)
+        level17_button.draw(screen)
+        level18_button.draw(screen)
+        level19_button.draw(screen)
+        level20_button.draw(screen)
+        level21_button.draw(screen)
+        level22_button.draw(screen)
+        level23_button.draw(screen)
+        level24_button.draw(screen)
+        level25_button.draw(screen)
+        level26_button.draw(screen)
+        level27_button.draw(screen)
+        level28_button.draw(screen)
+        level29_button.draw(screen)
+        level30_button.draw(screen)
 
         back_button.update(mouse_pos)
         back_button.draw(screen)
