@@ -55,6 +55,10 @@ class Game():
         self.victoire = False
         self.end_background = None
 
+        level_data = self.levels[self.niveau_actuel]
+        self.total_collectibles = len(level_data["collectibles"])
+        self.collected_collectibles = 0
+
     def is_pressed(self, key): # Retourne l’état d’une touche si elle est surveillée
         if key in self.pressed:
             return self.pressed[key]
@@ -191,3 +195,16 @@ class Game():
         self.victoire = victoire
         if image:
             screen.blit(image, (100, 200))
+
+def calculate_stars(self):
+    if self.total_collectibles == 0:
+        return 0
+    ratio = self.collected_collectibles / self.total_collectibles
+    if ratio >= 1:
+        return 3
+    elif ratio >= 2/3:
+        return 2
+    elif ratio >= 1/3:
+        return 1
+    else:
+        return 0

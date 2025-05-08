@@ -112,6 +112,16 @@ while running:
             play_again_button_victory.draw(screen)
             next_level_button.draw(screen)
             quit_button.draw(screen)
+
+            star_image = pygame.image.load("assets/ui/star.png").convert_alpha()
+            star_spacing = 70
+            star_size = 64
+            num_stars = game.calculate_stars()
+            for i in range(num_stars):
+                x = screen.get_width() // 2 - (star_spacing * (num_stars - 1)) // 2 + i * star_spacing
+                y = 200
+                star_scaled = pygame.transform.scale(star_image, (star_size, star_size))
+                screen.blit(star_scaled, (x, y))
         else :
             screen.blit(end_background_game_over, (0, 0))
             if hasattr(game, 'death_overlay') and game.death_overlay:

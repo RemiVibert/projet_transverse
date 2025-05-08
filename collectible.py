@@ -19,6 +19,8 @@ class Collectible:
     def collect(self):
         """Retire l'objet de la liste des collectibles"""
         self.game.collectibles.remove(self)
+        self.game.collectibles.remove(self)
+        self.game.collected_collectibles += 1
         # Pas besoin de détruire l'objet, le retirer de la liste suffit à ne plus l'afficher, et comme on en a pas 500, ça prend pas de place en mémoire
         
         
