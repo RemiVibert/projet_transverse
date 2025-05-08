@@ -6,7 +6,7 @@ import levels
 from planet import Planet
 from collectible import Collectible
 from fuel import Fuel
-
+import json
 
 
 
@@ -30,7 +30,9 @@ class Game():
         self.zoom_min = 0.01  # Zoom minimal autorisé
         self.zoom_max = 10  # Zoom maximal autorisé
 
-        self.load_level(levels.level1)  # Charge le niveau actuel à partir du module "levels"
+        self.levels = []  # Liste des niveaux
+        self.niveau_actuel = 0  # Niveau actuel
+        self.load_levels()  # Charge les niveaux depuis le fichier JSON
 
         self.cam_speed = 30 # Vitesse de déplacement manuel de la caméra
         self.zoom = 1 # Facteur de zoom initial
@@ -100,16 +102,20 @@ class Game():
         if all(self.player.pos.distance_to(planet.pos) >= planet.radius + self.MAX_DISTANCE_OUT_OF_SPACE for planet in self.planets):
             self.game_over("out_of_space", False)
 
-        
-        
-        
-    def load_level(self, level):
-        """
-        Charge un niveau.
-        """
+    def load_levels(self):
+        with open("levels.json", "r", encoding="utf-8") as f:
+            data = json.load(f)  # Charge le contenu du fichier JSON
+            self.levels = data["levels"]  # Récupère la liste des niveaux
 
-        self.cam_x = level["spawn"][0] # Position caméra x initiale
-        self.cam_y = level["spawn"][1] # Position caméra y initiale
+    def load_level(self, niveau_index=None):
+        if niveau_index is None:
+            niveau_index = self.niveau_actuel
+
+        level = self.levels[niveau_index]  # Charge le niveau spécifié
+
+
+        self.cam_x = level["spawn"][0]  # Position caméra x initiale
+        self.cam_y = level["spawn"][1]  # Position caméra y initiale
 
         # Récupère les dimensions du monde à partir du niveau
         self.min_cam_x = level["taille"]["min_x"]
@@ -117,24 +123,32 @@ class Game():
         self.max_cam_x = level["taille"]["max_x"]
         self.max_cam_y = level["taille"]["max_y"]
 
-        self.player.pos = pygame.Vector2(level["spawn"]) # Position initiale du joueur
+        self.player.pos = pygame.Vector2(level["spawn"])  # Position initiale du joueur
         self.player.max_fuel = level["max_fuel"]
         self.player.fuel = level["start_fuel"]
-        
-        self.planets:list[Planet] = [] # Liste des planètes dans le niveau
+
+        self.planets = []  # Liste des planètes dans le niveau
         self.collectibles = []
-        self.fuels = [] 
+        self.fuels = []
 
         for planete in level["planetes"]:
-            self.planets.append(Planet(planete["position"], planete["type"])) # Crée une instance de planète avec sa position et son type
+            self.planets.append(Planet(planete["position"],
+                                       planete["type"]))  # Crée une instance de planète avec sa position et son type
 
         for collectible in level["collectibles"]:
-            self.collectibles.append(Collectible(pygame.Vector2(collectible), self)) # Crée une instance de collectible avec sa position
+            self.collectibles.append(
+                Collectible(pygame.Vector2(collectible), self))  # Crée une instance de collectible avec sa position
 
         for fuel in level["carburant"]:
-            self.fuels.append(Fuel(pygame.Vector2(fuel[0]), fuel[1], self))
+            position = pygame.Vector2(fuel["position"])  # Utilise "position" du carburant
+            quantité = fuel["quantité"]  # Récupère la quantité de carburant
+            self.fuels.append(Fuel(position, quantité, self))
 
         self.camera.recenter_on_player()
+
+    def next_level(self):
+        self.niveau_actuel = (self.niveau_actuel + 1) % len(self.levels)  # Passe au niveau suivant et retourne au début si on dépasse le dernier niveau
+        self.load_level()
 
 
     def game_over(self, message: str, victoire: bool = False):

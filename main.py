@@ -241,7 +241,7 @@ while running:
                     if play_button.is_clicked(event.pos):
                         show_menu = False
                         show_levels = False
-                        game.load_level(level1)
+                        game.load_level()
                         game.camera.anchored = True
                         game.camera.recenter_on_player()
                     elif rules_button.is_clicked(event.pos):
@@ -261,19 +261,19 @@ while running:
                     elif level1_button.is_clicked(event.pos):
                         show_menu = False
                         show_levels = False
-                        game.load_level(level1)
+                        game.load_level(0)
                         game.camera.anchored = True
                         game.camera.recenter_on_player()
                     elif level2_button.is_clicked(event.pos):
                         show_menu = False
                         show_levels = False
-                        game.load_level(level2)
+                        game.load_level(1)
                         game.camera.anchored = True
                         game.camera.recenter_on_player()
                     elif level3_button.is_clicked(event.pos):
                         show_menu = False
                         show_levels = False
-                        game.load_level(level3)
+                        game.load_level(2)
                         game.camera.anchored = True
                         game.camera.recenter_on_player()
 
@@ -283,15 +283,18 @@ while running:
                             game.end_screen_active = False
                             show_menu = True
                         elif play_again_button_victory.is_clicked(event.pos):
-                            game.load_level(level1)
+                            game.end_screen_active = False
+                            game.load_level()
                         elif next_level_button.is_clicked(event.pos):
-                            game.load_level(level2)  # ou appel à load_next_level
+                            game.end_screen_active = False
+                            game.next_level()
                     else:
                         if main_menu_button_game_over.is_clicked(event.pos):
                             game.end_screen_active = False
                             show_menu = True
                         elif play_again_button_game_over.is_clicked(event.pos):
-                            game.load_level(level1)
+                            game.end_screen_active = False
+                            game.load_level()
 
             elif event.type == pygame.MOUSEBUTTONUP:
                 if event.button == 1:
