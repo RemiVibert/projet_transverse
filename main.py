@@ -193,7 +193,7 @@ while running:
 
         levels_rect = pygame.Rect(300, 150, 1320, 780)
 
-        title = pygame.font.SysFont('DIN', 60).render("Choisissez votre niveau", True, (255, 255, 0))
+        title = pygame.font.SysFont('DIN', 60).render("Choisissez votre niveau : ", True, (255, 255, 0))
         screen.blit(title, (levels_rect.centerx - title.get_width() // 2, levels_rect.y + 30))
 
         # Boutons des niveaux
