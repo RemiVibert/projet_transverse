@@ -120,7 +120,10 @@ class Player(pygame.sprite.Sprite):
             # Afficher la flèche
             start = camera.world_pos_to_screen_pos(self.pos)
             segment_length = direction.length() / self.fuel_cost -10 # Longueur de chaque segment
-            segment_direction = direction.normalize() * segment_length
+            if direction.length() > 0:
+                segment_direction = direction.normalize() * segment_length
+            else:
+                segment_direction = pygame.Vector2(0, 0)
 
             for i in range(self.fuel_cost):
                 end = camera.world_pos_to_screen_pos(self.pos + segment_direction * (i + 1))

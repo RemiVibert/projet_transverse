@@ -1,7 +1,7 @@
 import pygame
 from game import Game
 from button import ImageButton
-from levels import level1
+from levels import level1, level2, level3
 from base import Base
 from player import Player
 
@@ -22,9 +22,16 @@ background = pygame.image.load('assets/UI/background.png')
 clock = pygame.time.Clock()
 base_img = pygame.image.load("assets/sprites/base/base.png").convert_alpha()
 base = Base(2000, 2000, base_img)
+
+# images de fin de niveau
 end_background_victory = pygame.image.load("assets/level_end_screen/image_fin_niveau.PNG").convert()
-end_background_victory = pygame.image.load("assets/level_end_screen/game_over_screen.png").convert()
-player = Player(Game)
+end_background_game_over = pygame.image.load("assets/level_end_screen/game_over_screen.png").convert()
+dead_crash = pygame.image.load("assets/level_end_screen/dead_crash.png").convert_alpha()
+dead_no_fuel = pygame.image.load("assets/level_end_screen/dead_no_fuel.png").convert_alpha()
+dead_lost = pygame.image.load("assets/level_end_screen/dead_lost.png").convert_alpha()
+
+game = Game(screen)
+player = game.player
 
 
 # Police pour les règles
@@ -34,6 +41,7 @@ rules_font = pygame.font.SysFont('DIN', 18)
 show_menu = True
 show_rules = False
 show_end_screen = False
+show_levels = False
 
 # Boutons
 quit_button = ImageButton(1856, 0, "assets/sprites/buttons/button_close.png", width=64, height=64)
@@ -58,6 +66,14 @@ main_menu_button_victory = ImageButton(805, 540, "assets/sprites/buttons/button_
 play_again_button_victory = ImageButton(925, 540, "assets/sprites/buttons/button_play_again.png", width=70, height=70)
 
 next_level_button = ImageButton(1115, 540, "assets/sprites/buttons/button_next_level.png", width=70, height=70)
+
+# Boutons pour les niveaux
+level1_button = ImageButton(600, 300, "assets/sprites/buttons/button_level1.png",
+                           "assets/sprites/buttons/button_level1_hover.png", width=200, height=80)
+level2_button = ImageButton(900, 300, "assets/sprites/buttons/button_level2.png",
+                           "assets/sprites/buttons/button_level2_hover.png", width=200, height=80)
+level3_button = ImageButton(1200, 300, "assets/sprites/buttons/button_level3.png",
+                           "assets/sprites/buttons/button_level3_hover.png", width=200, height=80)
 
 # Image en bas à droite
 image_bas_droite = pygame.image.load("assets/UI/astronaute_haute_def.PNG")
@@ -97,12 +113,38 @@ while running:
             next_level_button.draw(screen)
             quit_button.draw(screen)
         else :
-            screen.blit(end_background_victory, (0, 0))
+            screen.blit(end_background_game_over, (0, 0))
             main_menu_button_game_over.draw(screen)
             play_again_button_game_over.draw(screen)
             quit_button.draw(screen)
 
 
+    elif show_levels:
+        # Ecran pour les niveaux
+        overlay = pygame.Surface((1920, 1080), pygame.SRCALPHA)
+        overlay.fill((0, 0, 0, 200))
+        screen.blit(overlay, (0, 0))
+
+        levels_rect = pygame.Rect(300, 150, 1320, 780)
+        pygame.draw.rect(screen, (50, 50, 80), levels_rect)
+        pygame.draw.rect(screen, (100, 100, 150), levels_rect, 5)
+
+        title = pygame.font.SysFont('DIN', 60).render("Sélection du Niveau", True, (255, 255, 0))
+        screen.blit(title, (levels_rect.centerx - title.get_width() // 2, levels_rect.y + 30))
+
+        # Boutons des niveaux
+        level1_button.update(mouse_pos)
+        level2_button.update(mouse_pos)
+        level3_button.update(mouse_pos)
+        level1_button.draw(screen)
+        level2_button.draw(screen)
+        level3_button.draw(screen)
+
+        back_button.update(mouse_pos)
+        back_button.draw(screen)
+
+        image_rect = image_bas_droite.get_rect()
+        image_rect.bottomright = (screen.get_width() - 20, screen.get_height() - 20)
     elif show_rules:
         # Écran des règles
         overlay = pygame.Surface(SCREEN_SIZE, pygame.SRCALPHA)
@@ -185,44 +227,77 @@ while running:
             zoom_factor = 1.1 if event.y > 0 else 0.9
             game.camera.set_zoom(zoom_factor)
 
+
         elif event.type == pygame.MOUSEBUTTONDOWN:
+            world_mouse = game.camera.offset + pygame.Vector2(event.pos) / game.camera.zoom
+            if not game.player.rect.collidepoint(world_mouse):
+                game.camera.dragging = True
+                game.camera.drag_start = pygame.Vector2(event.pos)
+                game.camera.drag_offset_start = game.camera.offset.copy()
             if event.button == 1:
                 if quit_button.is_clicked(event.pos):
                     running = False
-                elif show_menu and not show_rules:
+                if show_menu and not show_rules:
                     if play_button.is_clicked(event.pos):
                         show_menu = False
+                        show_levels = False
                         game.load_level(level1)
                         game.camera.anchored = True
                         game.camera.recenter_on_player()
-                        game.camera.update()
                     elif rules_button.is_clicked(event.pos):
                         show_rules = True
-                elif show_rules and back_button.is_clicked(event.pos):
-                    show_rules = False
-                elif game.end_screen_active and main_menu_button_game_over.is_clicked(event.pos):
-                    show_menu = True
-                    game.end_screen_active = False
-                elif game.end_screen_active and main_menu_button_victory.is_clicked(event.pos):
-                    show_menu = True
-                    game.end_screen_active = False
-                elif game.end_screen_active and play_again_button_game_over.is_clicked(event.pos):
-                    game.load_level(level1)
-                elif game.end_screen_active and play_again_button_victory.is_clicked(event.pos):
-                    game.load_level(level1)
+                    elif levels_button.is_clicked(event.pos):
+                        show_levels = True
+                        show_menu = False
 
+                if show_rules and back_button.is_clicked(event.pos):
+                    show_rules = False
+                    show_menu = True
+
+                if show_levels:
+                    if back_button.is_clicked(event.pos):
+                        show_levels = False
+                        show_menu = True
+                    elif level1_button.is_clicked(event.pos):
+                        show_menu = False
+                        show_levels = False
+                        game.load_level(level1)
+                        game.camera.anchored = True
+                        game.camera.recenter_on_player()
+                    elif level2_button.is_clicked(event.pos):
+                        show_menu = False
+                        show_levels = False
+                        game.load_level(level2)
+                        game.camera.anchored = True
+                        game.camera.recenter_on_player()
+                    elif level3_button.is_clicked(event.pos):
+                        show_menu = False
+                        show_levels = False
+                        game.load_level(level3)
+                        game.camera.anchored = True
+                        game.camera.recenter_on_player()
+
+                if game.end_screen_active:
+                    if game.victoire:
+                        if main_menu_button_victory.is_clicked(event.pos):
+                            game.end_screen_active = False
+                            show_menu = True
+                        elif play_again_button_victory.is_clicked(event.pos):
+                            game.load_level(level1)
+                        elif next_level_button.is_clicked(event.pos):
+                            game.load_level(level2)  # ou appel à load_next_level
+                    else:
+                        if main_menu_button_game_over.is_clicked(event.pos):
+                            game.end_screen_active = False
+                            show_menu = True
+                        elif play_again_button_game_over.is_clicked(event.pos):
+                            game.load_level(level1)
+
+            elif event.type == pygame.MOUSEBUTTONUP:
+                if event.button == 1:
+                    game.camera.dragging = False
         game.player.handle_event(event, game.camera)
 
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if event.button == 1 and not show_menu:
-                world_mouse = game.camera.offset + pygame.Vector2(event.pos) / game.camera.zoom
-                if not game.player.rect.collidepoint(world_mouse):
-                    game.camera.dragging = True
-                    game.camera.anchored = False
-                    game.camera.drag_start = pygame.Vector2(event.pos)
-                    game.camera.drag_offset_start = game.camera.offset.copy()
-        elif event.type == pygame.MOUSEBUTTONUP:
-            if event.button == 1:
-                game.camera.dragging = False
+
 
 pygame.quit()

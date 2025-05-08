@@ -51,6 +51,7 @@ class Game():
         self.end_screen_active = False
         self.end_message = ""  # Message à afficher à la fin
         self.victoire = False
+        self.end_background = None
 
     def is_pressed(self, key): # Retourne l’état d’une touche si elle est surveillée
         if key in self.pressed:
@@ -78,7 +79,7 @@ class Game():
         
 
 
-        if self.camera.dragging: # Si la souris est en train de déplacer la caméra
+        if self.camera.dragging and not self.camera.anchored: # Si la souris est en train de déplacer la caméra
             mouse_pos = pygame.Vector2(pygame.mouse.get_pos())
             drag_delta = ((mouse_pos - self.camera.drag_start) / self.camera.zoom)
             self.camera.offset = self.camera.drag_offset_start - drag_delta # Met à jour l’offset selon le mouvement souris
@@ -131,10 +132,17 @@ class Game():
             self.collectibles.append(Collectible(pygame.Vector2(collectible), self)) # Crée une instance de collectible avec sa position
 
         for fuel in level["carburant"]:
-            self.fuels.append(Fuel(pygame.Vector2(fuel[0]), fuel[1], self)) 
+            self.fuels.append(Fuel(pygame.Vector2(fuel[0]), fuel[1], self))
 
-    def game_over(self, message:str, victoire:bool = False):
+        self.camera.recenter_on_player()
 
+
+    def game_over(self, message: str, victoire: bool = False):
+        """ MODIF : Méthode fusionnée + choix image en fonction du message """
+        print(f"\033[1;31mFIN DU NIVEAU : {message}\033[0m")
+
+        if self.player.godmod:
+            return
         self.end_screen_active = False
         self.victoire = False
         self.camera.anchored = True
@@ -145,32 +153,28 @@ class Game():
         self.player.dragging = False
         self.player.fuel_cost = None
         self.player.last_direction = pygame.Vector2(0, -1)
-
-    def game_over(self, message: str, victoire: bool = False):
-        """
-        Déclenche le menu de fin de niveau (victoire ou défaite) correspondant au message.
-        Messages possibles :
-        - "out_of_space"
-        - "out_of_fuel"
-        - "crash"
-        - "win" (pas besoin en soit, la variable victoire est suffisante)
-        """
-        print(f"\033[1;31mFIN DU NIVEAU : {message}\033[0m")
-
-        if self.player.godmod:
-            return
+        image_path = None
 
         if message == "out_of_fuel":
-            self.show_end_screen("Vous n'avez plus de carburant.", victoire=False)
+            msg = "Vous n'avez plus de carburant."
+            image_path = "assets/level_end_screen/dead_no_fuel.png"
         elif message == "out_of_space":
-            self.show_end_screen("Vous avez quitté l'espace.", victoire=False)
+            msg = "Vous avez quitté l'espace."
+            image_path = "assets/level_end_screen/dead_lost.png"
         elif message == "crash":
-            self.show_end_screen("Vous avez percuté une planète.", victoire=False)
+            msg = "Vous avez percuté une planète."
+            image_path = "assets/level_end_screen/dead_crash.png"
         elif message == "win" or victoire:
-            self.show_end_screen("Niveau terminé ! Victoire.", victoire=True)
+            msg = "Niveau terminé ! Victoire."
+            victoire = True
+            image_path = "assets/level_end_screen/victory.png"
+        else:
+            msg = "Fin de niveau."
 
-    def show_end_screen(self, message: str, victoire: bool):
-        """Met à jour l'état pour afficher l'écran de fin."""
+        self.show_end_screen(msg, victoire, image_path)
+
+    def show_end_screen(self, message: str, victoire: bool, image_path: str = None):
         self.end_screen_active = True
-        self.end_message = message
         self.victoire = victoire
+        if image_path:
+            self.end_background = pygame.image.load(image_path).convert_alpha()
