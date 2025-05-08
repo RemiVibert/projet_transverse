@@ -35,7 +35,10 @@ class Player(pygame.sprite.Sprite):
         self.launch_vector = pygame.Vector2(0, 0) # Vecteur de lancement stocké lors du drag
         self.rect = self.image.get_rect(center=self.pos)  # Rect du sprite
 
-        self.godmod = False # Debug, penser à supprimer avant la fin (ça va quand même spam la console avec le message de mort histoire de voir si on meurt)
+        self.image_out_of_bounds = pygame.image.load('assets/UI/bound.png').convert_alpha()
+        self.rect_out_of_bounds = self.image_out_of_bounds.get_rect(center=self.pos)  # Rect du sprite
+
+        self.godmod = False # Debug, penser à supprimer avant la fin (ça va quand même spa  m la console avec le message de mort histoire de voir si on meurt)
 
 
     def update(self):
@@ -77,13 +80,14 @@ class Player(pygame.sprite.Sprite):
                     self.velocity[1] += acceleration_y * self.game.dt
 
                 if distance < total_radius: #calculer la collison
-                    self.game.game_over("crash", False)
+                    if planet.type != "gazeuse":
+                        self.game.game_over("crash", False)
 
-                    direction = (self.pos - planet.pos).normalize() # Calculer la direction du vaisseau à partir de la planète
-                    self.pos = planet.pos + direction * (planet.radius + self.radius) # Déplacer le vaisseau à la périphérie de la planète (juste au bord)
+                        direction = (self.pos - planet.pos).normalize() # Calculer la direction du vaisseau à partir de la planète
+                        self.pos = planet.pos + direction * (planet.radius + self.radius) # Déplacer le vaisseau à la périphérie de la planète (juste au bord)
 
-                    self.velocity = self.velocity.reflect(direction) # On reflète la vélocité pour simuler un rebond
-                    self.velocity *= 0.8  # On peut aussi réduire un peu la vitesse pour simuler de la perte d'énergie
+                        self.velocity = self.velocity.reflect(direction) # On reflète la vélocité pour simuler un rebond
+                        self.velocity *= 0.8  # On peut aussi réduire un peu la vitesse pour simuler de la perte d'énergie
 
             # === Collection des collectibles === #
             for collectible in self.game.collectibles:
@@ -116,7 +120,10 @@ class Player(pygame.sprite.Sprite):
             # Afficher la flèche
             start = camera.world_pos_to_screen_pos(self.pos)
             segment_length = direction.length() / self.fuel_cost -10 # Longueur de chaque segment
-            segment_direction = direction.normalize() * segment_length
+            if direction.length() > 0:
+                segment_direction = direction.normalize() * segment_length
+            else:
+                segment_direction = pygame.Vector2(0, 0)
 
             for i in range(self.fuel_cost):
                 end = camera.world_pos_to_screen_pos(self.pos + segment_direction * (i + 1))
@@ -170,6 +177,19 @@ class Player(pygame.sprite.Sprite):
             # Dessiner la diminution prévue (orange)
             pygame.draw.rect(screen, (255, 165, 0), (fuel_bar_x, fuel_bar_y + (fuel_bar_height - current_fuel_height), fuel_bar_width, current_fuel_height - hauteur_diminution))
 
+
+        # Afficher les bordures rouges en plus ou moins transparentes en fonction de la distance du out of bounds
+        closest_distance = min(self.pos.distance_to(planet.pos) for planet in self.game.planets)
+
+        max_distance = self.game.MAX_DISTANCE_OUT_OF_SPACE
+        
+        transparency = 255- (max(0, min(255, int(500 * (1 - closest_distance / max_distance)))))  # Calculer la transparence proportionnellement
+        
+        self.image_out_of_bounds.set_alpha(transparency)  # Appliquer la transparence
+        # new_rect_out_of_bounds = self.image_out_of_bounds.get_rect(center=camera.world_pos_to_screen_pos(self.pos))  # Position sur l’écran
+        
+        self.rect_out_of_bounds.center = (screen.get_width() // 2, screen.get_height() // 2)  # Centrer sur l'écran
+        screen.blit(self.image_out_of_bounds, self.rect_out_of_bounds)  # Affichage du vaisseau
 
 
         # === DEBUG === # 

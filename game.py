@@ -5,12 +5,14 @@ from camera import Camera
 import levels
 from planet import Planet
 from collectible import Collectible
+from fuel import Fuel
+import json
 
 
-MAX_DISTANCE_OUT_OF_SPACE = 20_000
 
 class Game():
     def __init__(self, screen):
+        self.MAX_DISTANCE_OUT_OF_SPACE = 20_000
         self.screen = screen # Référence vers la surface d'affichage
         self.dt:float = 0 # Temps écoulé entre deux frames
         self.player = Player(self) # Instancie le joueur
@@ -28,7 +30,9 @@ class Game():
         self.zoom_min = 0.01  # Zoom minimal autorisé
         self.zoom_max = 10  # Zoom maximal autorisé
 
-        self.load_level(levels.level1)  # Charge le niveau actuel à partir du module "levels"
+        self.levels = []  # Liste des niveaux
+        self.niveau_actuel = 0  # Niveau actuel
+        self.load_levels()  # Charge les niveaux depuis le fichier JSON
 
         self.cam_speed = 30 # Vitesse de déplacement manuel de la caméra
         self.zoom = 1 # Facteur de zoom initial
@@ -38,7 +42,7 @@ class Game():
 
         nb_etoiles = (self.max_cam_x - self.min_cam_x) * (self.max_cam_y - self.min_cam_y) // 500000 #  # Calcule un nombre d’étoiles basé sur la taille de la carte
         self.etoiles = Etoiles(nb_etoiles, self.max_cam_x*2, self.max_cam_y*2, self.min_cam_x, self.min_cam_y)  # Crée les étoiles avec une zone étendue pour éviter qu’elles disparaissent
-
+        
         self.pressed = {  # Dictionnaire pour gérer l’état des touches fléchées.
             pygame.K_RIGHT: False,
             pygame.K_LEFT: False,
@@ -49,6 +53,7 @@ class Game():
         self.end_screen_active = False
         self.end_message = ""  # Message à afficher à la fin
         self.victoire = False
+        self.end_background = None
 
     def is_pressed(self, key): # Retourne l’état d’une touche si elle est surveillée
         if key in self.pressed:
@@ -76,12 +81,16 @@ class Game():
         
 
 
-        if self.camera.dragging: # Si la souris est en train de déplacer la caméra
+        if self.camera.dragging and not self.camera.anchored: # Si la souris est en train de déplacer la caméra
             mouse_pos = pygame.Vector2(pygame.mouse.get_pos())
             drag_delta = ((mouse_pos - self.camera.drag_start) / self.camera.zoom)
             self.camera.offset = self.camera.drag_offset_start - drag_delta # Met à jour l’offset selon le mouvement souris
 
         self.player.update() # Met à jour le joueur
+
+        for fuel in self.fuels[:]:  # Parcours une copie de la liste pour éviter les problèmes de suppression
+            if self.player.rect.colliderect(fuel.rect):
+                fuel.collect()  # Collecte le fuel
 
         # === Conditions de fin de niveau === #
 
@@ -90,18 +99,23 @@ class Game():
         # win : déclenché dans la gestion des collisions
 
         # Out of space
-        if all(self.player.pos.distance_to(planet.pos) >= planet.radius + MAX_DISTANCE_OUT_OF_SPACE for planet in self.planets):
+        if all(self.player.pos.distance_to(planet.pos) >= planet.radius + self.MAX_DISTANCE_OUT_OF_SPACE for planet in self.planets):
             self.game_over("out_of_space", False)
-        
-        
-        
-    def load_level(self, level):
-        """
-        Charge un niveau.
-        """
 
-        self.cam_x = level["spawn"][0] # Position caméra x initiale
-        self.cam_y = level["spawn"][1] # Position caméra y initiale
+    def load_levels(self):
+        with open("levels.json", "r", encoding="utf-8") as f:
+            data = json.load(f)  # Charge le contenu du fichier JSON
+            self.levels = data["levels"]  # Récupère la liste des niveaux
+
+    def load_level(self, niveau_index=None):
+        if niveau_index is None:
+            niveau_index = self.niveau_actuel
+
+        level = self.levels[niveau_index]  # Charge le niveau spécifié
+
+
+        self.cam_x = level["spawn"][0]  # Position caméra x initiale
+        self.cam_y = level["spawn"][1]  # Position caméra y initiale
 
         # Récupère les dimensions du monde à partir du niveau
         self.min_cam_x = level["taille"]["min_x"]
@@ -109,19 +123,40 @@ class Game():
         self.max_cam_x = level["taille"]["max_x"]
         self.max_cam_y = level["taille"]["max_y"]
 
-        self.player.pos = pygame.Vector2(level["spawn"]) # Position initiale du joueur
+        self.player.pos = pygame.Vector2(level["spawn"])  # Position initiale du joueur
         self.player.max_fuel = level["max_fuel"]
         self.player.fuel = level["start_fuel"]
-        
-        self.planets:list[Planet] = [] # Liste des planètes dans le niveau
 
+        self.planets = []  # Liste des planètes dans le niveau
         self.collectibles = []
-        for collectible in level["collectibles"]:
-            self.collectibles.append(Collectible(pygame.Vector2(collectible), self)) # Crée une instance de collectible avec sa position
+        self.fuels = []
 
         for planete in level["planetes"]:
-            self.planets.append(Planet(planete["position"], planete["type"])) # Crée une instance de planète avec sa position et son type
+            self.planets.append(Planet(planete["position"],
+                                       planete["type"]))  # Crée une instance de planète avec sa position et son type
 
+        for collectible in level["collectibles"]:
+            self.collectibles.append(
+                Collectible(pygame.Vector2(collectible), self))  # Crée une instance de collectible avec sa position
+
+        for fuel in level["carburant"]:
+            position = pygame.Vector2(fuel["position"])  # Utilise "position" du carburant
+            quantité = fuel["quantité"]  # Récupère la quantité de carburant
+            self.fuels.append(Fuel(position, quantité, self))
+
+        self.camera.recenter_on_player()
+
+    def next_level(self):
+        self.niveau_actuel = (self.niveau_actuel + 1) % len(self.levels)  # Passe au niveau suivant et retourne au début si on dépasse le dernier niveau
+        self.load_level()
+
+
+    def game_over(self, message: str, victoire: bool = False):
+        """ MODIF : Méthode fusionnée + choix image en fonction du message """
+        print(f"\033[1;31mFIN DU NIVEAU : {message}\033[0m")
+
+        if self.player.godmod:
+            return
         self.end_screen_active = False
         self.victoire = False
         self.camera.anchored = True
@@ -132,32 +167,28 @@ class Game():
         self.player.dragging = False
         self.player.fuel_cost = None
         self.player.last_direction = pygame.Vector2(0, -1)
-
-    def game_over(self, message: str, victoire: bool = False):
-        """
-        Déclenche le menu de fin de niveau (victoire ou défaite) correspondant au message.
-        Messages possibles :
-        - "out_of_space"
-        - "out_of_fuel"
-        - "crash"
-        - "win" (pas besoin en soit, la variable victoire est suffisante)
-        """
-        print(f"\033[1;31mFIN DU NIVEAU : {message}\033[0m")
-
-        if self.player.godmod:
-            return
+        image_path = None
 
         if message == "out_of_fuel":
-            self.show_end_screen("Vous n'avez plus de carburant.", victoire=False)
+            msg = "Vous n'avez plus de carburant."
+            image_path = "assets/level_end_screen/dead_no_fuel.png"
         elif message == "out_of_space":
-            self.show_end_screen("Vous avez quitté l'espace.", victoire=False)
+            msg = "Vous avez quitté l'espace."
+            image_path = "assets/level_end_screen/dead_lost.png"
         elif message == "crash":
-            self.show_end_screen("Vous avez percuté une planète.", victoire=False)
+            msg = "Vous avez percuté une planète."
+            image_path = "assets/level_end_screen/dead_crash.png"
         elif message == "win" or victoire:
-            self.show_end_screen("Niveau terminé ! Victoire.", victoire=True)
+            msg = "Niveau terminé ! Victoire."
+            victoire = True
+            image_path = "assets/level_end_screen/victory.png"
+        else:
+            msg = "Fin de niveau."
 
-    def show_end_screen(self, message: str, victoire: bool):
-        """Met à jour l'état pour afficher l'écran de fin."""
+        self.show_end_screen(msg, victoire, image_path)
+
+    def show_end_screen(self, message: str, victoire: bool, image_path: str = None):
         self.end_screen_active = True
-        self.end_message = message
         self.victoire = victoire
+        if image_path:
+            self.end_background = pygame.image.load(image_path).convert_alpha()
