@@ -26,9 +26,9 @@ base = Base(2000, 2000, base_img)
 # images de fin de niveau
 end_background_victory = pygame.image.load("assets/level_end_screen/image_fin_niveau.PNG").convert()
 end_background_game_over = pygame.image.load("assets/level_end_screen/game_over_screen.png").convert()
-dead_crash = pygame.image.load("assets/level_end_screen/dead_crash.png").convert_alpha()
-dead_no_fuel = pygame.image.load("assets/level_end_screen/dead_no_fuel.png").convert_alpha()
-dead_lost = pygame.image.load("assets/level_end_screen/dead_lost.png").convert_alpha()
+dead_crash_img = pygame.image.load("assets/level_end_screen/dead_crash.png").convert_alpha()
+dead_no_fuel_img = pygame.image.load("assets/level_end_screen/dead_no_fuel.png").convert_alpha()
+dead_lost_img = pygame.image.load("assets/level_end_screen/dead_lost.png").convert_alpha()
 
 game = Game(screen)
 player = game.player
@@ -57,9 +57,9 @@ levels_button = ImageButton(355, 675, "assets/sprites/buttons/button_niveaux_ine
 
 back_button = ImageButton(50, 50, "assets/sprites/buttons/button_back.png", width=50, height=50)
 
-main_menu_button_game_over = ImageButton(855, 540, "assets/sprites/buttons/button_return_main_menu.png", width=70, height=70)
+main_menu_button_game_over = ImageButton(855, 640, "assets/sprites/buttons/button_return_main_menu.png", width=70, height=70)
 
-play_again_button_game_over = ImageButton(995, 540, "assets/sprites/buttons/button_play_again.png", width=70, height=70)
+play_again_button_game_over = ImageButton(995, 640, "assets/sprites/buttons/button_play_again.png", width=70, height=70)
 
 main_menu_button_victory = ImageButton(805, 540, "assets/sprites/buttons/button_return_main_menu.png", width=70, height=70)
 
@@ -77,7 +77,7 @@ level3_button = ImageButton(1200, 300, "assets/sprites/buttons/button_level3.png
 
 # Image en bas à droite
 image_bas_droite = pygame.image.load("assets/UI/astronaute_haute_def.PNG")
-image_bas_droite = pygame.transform.scale(image_bas_droite, (200, 200))
+image_bas_droite = pygame.transform.scale(image_bas_droite, (250, 250))
 
 # Logo
 logo = pygame.image.load('assets/sprites/buttons/logo_jeu.png')
@@ -114,6 +114,8 @@ while running:
             quit_button.draw(screen)
         else :
             screen.blit(end_background_game_over, (0, 0))
+            if hasattr(game, 'death_overlay') and game.death_overlay:
+                 screen.blit(game.death_overlay, (710, 300))
             main_menu_button_game_over.draw(screen)
             play_again_button_game_over.draw(screen)
             quit_button.draw(screen)
@@ -155,30 +157,28 @@ while running:
         pygame.draw.rect(screen, (50, 50, 80), rules_rect)
         pygame.draw.rect(screen, (100, 100, 150), rules_rect, 5)
 
-        title = pygame.font.SysFont('DIN', 60).render("Règles du Jeu", True, (255, 255, 0))
+        title = pygame.font.SysFont('DIN', 60).render("Règles du Jeu", True, (255, 255, 255))
         screen.blit(title, (rules_rect.centerx - title.get_width() // 2, rules_rect.y + 30))
 
         # Texte des règles
         rules_text = [
             "Bienvenue dans Derive!",
-            "QU'EST-CE QUE DERIVE ?",
-            "Derive est un jeu indépendant créé par des étudiants en ingénierie",
-            "Nous espérons que vous passerez un très bon moment !",
-            "Objectif du jeu: Naviguer dans l'espace et collecter tous les carburants",
-            "Avant de rejoindre la station spatiale d'arrivée.",
+            "Derive est un jeu indépendant créé par des étudiants en ingénierie. Nous espérons que vous passerez un bon moment !",
+            "L'objectif du jeu est de naviguer dans l'espace et collecter tous les carburants avant de rejoindre la station spatiale d'arrivée.",
             "",
             "Contrôles:",
             "- Tirer la souris dans une direction pour lancer le vaisseau dans la direction opposée !",
-            "- Clic gauche et bouger la souris pour déplacer la caméra",
             "- Molette de souris pour zoomer/dézoomer",
-            "- Espace pour centrer la caméra sur le vaisseau",
+            "- Espace pour centrer ou décentrer la caméra sur le vaisseau",
+            "- Une fois décentrée, bouger la souris pour déplacer la caméra",
             "",
             "CONSEILS",
             "Attention aux planètes (surtout les gazeuses) !",
-            "Avoir une souris",
-            "Bonne chance dans votre mission spatiale Commandant!",
+            "Jouer à la souris est recommandé",
+            "Bonne chance dans votre mission spatiale Commandant !",
         ]
         y_offset = 150
+        rules_font = pygame.font.SysFont('DIN', 27)
         for line in rules_text:
             text_surface = rules_font.render(line, True, (255, 255, 255))
             screen.blit(text_surface, (rules_rect.x + 50, rules_rect.y + y_offset))
