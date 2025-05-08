@@ -14,7 +14,8 @@
             "start_fuel": 30,
             "planetes": [
                 {"position": [2000, 0], "type": "petite-rocheuse"},
-                {"position": [0, 2000], "type": "moyenne-rocheuse"}
+                {"position": [0, 2000], "type": "moyenne-rocheuse"},
+                {"position": [-4000, 0], "type": "grande-rocheuse"}
             ],
             "collectibles": [[1000, -1000], [1500, 1000]],
             "carburant": [{"position": [-1000, 500], "quantité": 50}

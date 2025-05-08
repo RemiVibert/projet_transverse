@@ -152,13 +152,15 @@ class Game():
 
 
     def game_over(self, message: str, victoire: bool = False):
-        """ MODIF : Méthode fusionnée + choix image en fonction du message """
+        if self.end_screen_active:  # Empêche de la relancer si déjà morte
+            return
+
         print(f"\033[1;31mFIN DU NIVEAU : {message}\033[0m")
 
         if self.player.godmod:
             return
-        self.end_screen_active = False
-        self.victoire = False
+        self.end_screen_active = True
+        self.victoire = victoire
         self.camera.anchored = True
         self.camera.recenter_on_player()
         self.camera.update()
@@ -169,26 +171,23 @@ class Game():
         self.player.last_direction = pygame.Vector2(0, -1)
         image_path = None
 
-        if message == "out_of_fuel":
-            msg = "Vous n'avez plus de carburant."
+        if message == "out of fuel":
             image_path = "assets/level_end_screen/dead_no_fuel.png"
         elif message == "out_of_space":
-            msg = "Vous avez quitté l'espace."
             image_path = "assets/level_end_screen/dead_lost.png"
         elif message == "crash":
-            msg = "Vous avez percuté une planète."
             image_path = "assets/level_end_screen/dead_crash.png"
         elif message == "win" or victoire:
-            msg = "Niveau terminé ! Victoire."
             victoire = True
             image_path = "assets/level_end_screen/victory.png"
         else:
             msg = "Fin de niveau."
+        if image_path:
+            death_overlay = pygame.image.load(image_path).convert_alpha()
+            self.death_overlay = pygame.transform.scale(death_overlay, (500, 500))
 
-        self.show_end_screen(msg, victoire, image_path)
-
-    def show_end_screen(self, message: str, victoire: bool, image_path: str = None):
+    def show_end_screen(self, message: str, victoire: bool, screen: pygame.Surface, image: pygame.Surface = None):
         self.end_screen_active = True
         self.victoire = victoire
-        if image_path:
-            self.end_background = pygame.image.load(image_path).convert_alpha()
+        if image:
+            screen.blit(image, (100, 200))
