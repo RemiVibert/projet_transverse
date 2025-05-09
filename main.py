@@ -64,7 +64,7 @@ main_menu_button_victory = ImageButton(805, 540, "assets/sprites/buttons/button_
 
 play_again_button_victory = ImageButton(925, 540, "assets/sprites/buttons/button_play_again.png", width=70, height=70)
 
-next_level_button = ImageButton(1095, 540, "assets/sprites/buttons/button_next_level.png", width=70, height=70)
+next_level_button = ImageButton(1045, 540, "assets/sprites/buttons/button_next_level.png", width=70, height=70)
 
 # Boutons pour les niveaux
 level1_button = ImageButton(500, 300, "assets/sprites/buttons/button_level1.png",
@@ -167,14 +167,19 @@ while running:
             quit_button.draw(screen)
 
             star_image = pygame.image.load("assets/level_end_screen/star_end_level.png").convert_alpha()
-            star_spacing = 150
             star_size = 200
             num_stars = game.calculate_stars()
+            star_positions = [
+                (700, 200),  # Position de la 1ère étoile
+                (900, 200),  # Position de la 2ème étoile
+                (1100, 200)  # Position de la 3ème étoile
+            ]
+
             for i in range(num_stars):
-                x = screen.get_width() // 2 - (star_spacing * (num_stars - 1)) // 2 + i * star_spacing
-                y = 200
-                star_scaled = pygame.transform.scale(star_image, (star_size, star_size))
-                screen.blit(star_scaled, (x, y))
+                if i < len(star_positions):
+                    x, y = star_positions[i]
+                    star_scaled = pygame.transform.scale(star_image, (star_size, star_size))
+                    screen.blit(star_scaled, (x, y))
         else :
             screen.blit(end_background_game_over, (0, 0))
             if hasattr(game, 'death_overlay') and game.death_overlay:
@@ -275,8 +280,9 @@ while running:
 
         # Texte des règles
         rules_text = [
-            "Bienvenue dans Derive!",
-            "Derive est un jeu indépendant créé par des étudiants en ingénierie. Nous espérons que vous passerez un bon moment !",
+            "HISTOIRE",
+            "Vous êtes le Capitaine Meko, traversant l'espace pour rejoindre la station spatiale. ",
+            "En cours de route, vous rencontrez des astronautes qui ont l'air d'avoir besoin d'aide... !",
             "L'objectif du jeu est de naviguer dans l'espace et de rejoindre la station spatiale d'arrivée tout en évitant de tomber à court de carburant.",
             "",
             "Contrôles:",
@@ -390,6 +396,42 @@ while running:
                         show_menu = False
                         show_levels = False
                         game.load_level(2)
+                        game.camera.anchored = True
+                        game.camera.recenter_on_player()
+                    elif level4_button.is_clicked(event.pos):
+                        show_menu = False
+                        show_levels = False
+                        game.load_level(3)
+                        game.camera.anchored = True
+                        game.camera.recenter_on_player()
+                    elif level5_button.is_clicked(event.pos):
+                        show_menu = False
+                        show_levels = False
+                        game.load_level(4)
+                        game.camera.anchored = True
+                        game.camera.recenter_on_player()
+                    elif level6_button.is_clicked(event.pos):
+                        show_menu = False
+                        show_levels = False
+                        game.load_level(5)
+                        game.camera.anchored = True
+                        game.camera.recenter_on_player()
+                    elif level7_button.is_clicked(event.pos):
+                        show_menu = False
+                        show_levels = False
+                        game.load_level(6)
+                        game.camera.anchored = True
+                        game.camera.recenter_on_player()
+                    elif level8_button.is_clicked(event.pos):
+                        show_menu = False
+                        show_levels = False
+                        game.load_level(7)
+                        game.camera.anchored = True
+                        game.camera.recenter_on_player()
+                    elif level9_button.is_clicked(event.pos):
+                        show_menu = False
+                        show_levels = False
+                        game.load_level(8)
                         game.camera.anchored = True
                         game.camera.recenter_on_player()
 
