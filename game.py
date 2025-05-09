@@ -146,8 +146,7 @@ class Game():
 
 
         for planete in level["planetes"]:
-            self.planets.append(Planet(planete["position"],
-                                       planete["type"]))  # Crée une instance de planète avec sa position et son type
+            self.planets.append(Planet(planete["position"],planete["type"]))  # Crée une instance de planète avec sa position et son type
 
         for collectible in level["collectibles"]:
             self.collectibles.append(

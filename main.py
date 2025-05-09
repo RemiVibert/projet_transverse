@@ -392,6 +392,42 @@ while running:
                         game.load_level(2)
                         game.camera.anchored = True
                         game.camera.recenter_on_player()
+                    elif level4_button.is_clicked(event.pos):
+                        show_menu = False
+                        show_levels = False
+                        game.load_level(3)
+                        game.camera.anchored = True
+                        game.camera.recenter_on_player()
+                    elif level5_button.is_clicked(event.pos):
+                        show_menu = False
+                        show_levels = False
+                        game.load_level(4)
+                        game.camera.anchored = True
+                        game.camera.recenter_on_player()
+                    elif level6_button.is_clicked(event.pos):
+                        show_menu = False
+                        show_levels = False
+                        game.load_level(5)
+                        game.camera.anchored = True
+                        game.camera.recenter_on_player()
+                    elif level7_button.is_clicked(event.pos):
+                        show_menu = False
+                        show_levels = False
+                        game.load_level(6)
+                        game.camera.anchored = True
+                        game.camera.recenter_on_player()
+                    elif level8_button.is_clicked(event.pos):
+                        show_menu = False
+                        show_levels = False
+                        game.load_level(7)
+                        game.camera.anchored = True
+                        game.camera.recenter_on_player()
+                    elif level9_button.is_clicked(event.pos):
+                        show_menu = False
+                        show_levels = False
+                        game.load_level(8)
+                        game.camera.anchored = True
+                        game.camera.recenter_on_player()
 
                 if game.end_screen_active:
                     if game.victoire:
