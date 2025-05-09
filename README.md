@@ -121,7 +121,7 @@ Les tâches se sont crées petit à petit au fur et à mesure du projet.
 Myriam MOUTTALIB: A codé une partie importante du projet, implémenté les différents designs artistiques et a testé et débuggé le projet.
 Kévin-Seng TEK: A codé les différents menus du projet, la physique, crée et implémenté les différents niveaux et rédigé le readME et testé et débuggé le projet.
 Rémi VIBERT: A codé la base du projet, et a crée et implenté les différents niveaux.
-Eliott LE GUEN: A fait le PowerPoint et a été présent aux réunions.
+Eliott LE GUEN: A fait le PowerPoint, géré le Notion et le Monday et a été présent aux réunions.
 Valentin BOINAY: A été présent aux réunions.
 
 ## TESTS ET VALIDATION
