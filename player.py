@@ -179,9 +179,10 @@ class Player(pygame.sprite.Sprite):
 
 
         # Afficher les bordures rouges en plus ou moins transparentes en fonction de la distance du out of bounds
-        closest_distance = min(self.pos.distance_to(planet.pos) for planet in self.game.planets)
-
         max_distance = self.game.MAX_DISTANCE_OUT_OF_SPACE
+        closest_distance = min(self.pos.distance_to(planet.pos) for planet in self.game.planets)
+        closest_distance = min(closest_distance, max_distance)  # Limiter la distance à la distance maximale
+
         
         transparency = 255- (max(0, min(255, int(500 * (1 - closest_distance / max_distance)))))  # Calculer la transparence proportionnellement
         
