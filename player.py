@@ -193,14 +193,15 @@ class Player(pygame.sprite.Sprite):
             pygame.draw.rect(screen, (255, 165, 0), (fuel_bar_x, fuel_bar_y + (fuel_bar_height - current_fuel_height), fuel_bar_width, current_fuel_height - hauteur_diminution))
 
 
+
         # Afficher les bordures rouges en plus ou moins transparentes en fonction de la distance du out of bounds
         max_distance = self.game.MAX_DISTANCE_OUT_OF_SPACE
         closest_distance = min(self.pos.distance_to(planet.pos) for planet in self.game.planets)
-        closest_distance = min(closest_distance, max_distance)  # Limiter la distance à la distance maximale
+        closest_distance = min(closest_distance, self.pos.distance_to(self.game.base.pos))  # Limiter la distance à la distance maximale
 
         
         transparency = 255- (max(0, min(255, int(500 * (1 - closest_distance / max_distance)))))  # Calculer la transparence proportionnellement
-        
+
         self.image_out_of_bounds.set_alpha(transparency)  # Appliquer la transparence
         # new_rect_out_of_bounds = self.image_out_of_bounds.get_rect(center=camera.world_pos_to_screen_pos(self.pos))  # Position sur l’écran
         
