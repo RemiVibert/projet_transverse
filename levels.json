@@ -24,12 +24,12 @@
         {
             "difficulté": 2,
             "taille": {
-                "min_x": -10000,
-                "max_x": 10000,
-                "min_y": -10000,
-                "max_y": 10000
+                "min_x": -50000,
+                "max_x": 50000,
+                "min_y": -50000,
+                "max_y": 50000
             },
-            "spawn": [500, 0],
+            "spawn": [500, 40000],
             "end": [10000, 0],
             "max_fuel": 40,
             "start_fuel": 40,
