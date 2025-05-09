@@ -11,6 +11,9 @@ class Player(pygame.sprite.Sprite):
     def __init__(self, game):
         super().__init__()
         self.game = game
+        self.fuel_empty = False
+        self.fuel_empty_time = 0
+        self.fuel_empty_delay = 0.5
 
         self.max_fuel = 100 # Quantité maximale de carburant
         self.fuel = 100 # Carburant actuel
@@ -18,8 +21,8 @@ class Player(pygame.sprite.Sprite):
     
         self.collected_collectibles = 0 # Nombre de collectibles ramassés
 
-        self.puissance_tir_max = 10_000
-        self.max_speed = 20000 # Limite de vitesse maximale (en pixels par seconde)
+        self.puissance_tir_max = 8_000
+        self.max_speed = 7000 # Limite de vitesse maximale (en pixels par seconde)
         self.has_launched = False #le joueur n'a jamais été lancé
         
 
@@ -227,6 +230,10 @@ class Player(pygame.sprite.Sprite):
             screen_pos = camera.world_pos_to_screen_pos(self.pos)
             if (mouse_pos - screen_pos).length() < 30:  # Si clic proche du vaisseau
                 self.dragging = True
+            if self.rect.collidepoint(mouse_pos):
+                self.velocity = pygame.Vector2(0,0)
+                self.angular_velocity = 0
+                self.external_forces = pygame.Vector2(0,0)
 
         elif event.type == pygame.MOUSEBUTTONUP and event.button == 1 and self.dragging:  # Fin du drag
             mouse_pos = pygame.Vector2(event.pos)
@@ -250,5 +257,9 @@ class Player(pygame.sprite.Sprite):
             if self.fuel_cost is not None:
                 self.fuel -= self.fuel_cost
                 self.fuel_cost = None
-            if self.fuel < 0:
+            if self.fuel <= 0 and not self.fuel_empty:
+                self.fuel_empty = True
+                self.fuel_empty_time = pygame.time.get_ticks() / 1000 #on laisse un délai en ticksdra
+            if self.fuel_empty and (pygame.time.get_ticks() / 1000 - self.fuel_empty_time) >= self.fuel_empty_delay:
                 self.game.game_over("out of fuel", False)
+                self.fuel_empty = False #on réinitialise pour la prochaine partie
