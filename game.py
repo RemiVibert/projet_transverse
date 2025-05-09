@@ -6,7 +6,7 @@ import levels
 from planet import Planet
 from collectible import Collectible
 from fuel import Fuel
-
+import json
 
 
 
@@ -30,7 +30,9 @@ class Game():
         self.zoom_min = 0.01  # Zoom minimal autorisé
         self.zoom_max = 10  # Zoom maximal autorisé
 
-        self.load_level(levels.level1)  # Charge le niveau actuel à partir du module "levels"
+        self.levels = []  # Liste des niveaux
+        self.niveau_actuel = 0  # Niveau actuel
+        self.load_levels()  # Charge les niveaux depuis le fichier JSON
 
         self.cam_speed = 30 # Vitesse de déplacement manuel de la caméra
         self.zoom = 1 # Facteur de zoom initial
@@ -51,6 +53,11 @@ class Game():
         self.end_screen_active = False
         self.end_message = ""  # Message à afficher à la fin
         self.victoire = False
+        self.end_background = None
+
+        level_data = self.levels[self.niveau_actuel]
+        self.total_collectibles = len(level_data["collectibles"])
+        self.collected_collectibles = 0
 
     def is_pressed(self, key): # Retourne l’état d’une touche si elle est surveillée
         if key in self.pressed:
@@ -78,7 +85,7 @@ class Game():
         
 
 
-        if self.camera.dragging: # Si la souris est en train de déplacer la caméra
+        if self.camera.dragging and not self.camera.anchored: # Si la souris est en train de déplacer la caméra
             mouse_pos = pygame.Vector2(pygame.mouse.get_pos())
             drag_delta = ((mouse_pos - self.camera.drag_start) / self.camera.zoom)
             self.camera.offset = self.camera.drag_offset_start - drag_delta # Met à jour l’offset selon le mouvement souris
@@ -99,16 +106,20 @@ class Game():
         if all(self.player.pos.distance_to(planet.pos) >= planet.radius + self.MAX_DISTANCE_OUT_OF_SPACE for planet in self.planets):
             self.game_over("out_of_space", False)
 
-        
-        
-        
-    def load_level(self, level):
-        """
-        Charge un niveau.
-        """
+    def load_levels(self):
+        with open("levels.json", "r", encoding="utf-8") as f:
+            data = json.load(f)  # Charge le contenu du fichier JSON
+            self.levels = data["levels"]  # Récupère la liste des niveaux
 
-        self.cam_x = level["spawn"][0] # Position caméra x initiale
-        self.cam_y = level["spawn"][1] # Position caméra y initiale
+    def load_level(self, niveau_index=None):
+        if niveau_index is None:
+            niveau_index = self.niveau_actuel
+
+        level = self.levels[niveau_index]  # Charge le niveau spécifié
+
+
+        self.cam_x = level["spawn"][0]  # Position caméra x initiale
+        self.cam_y = level["spawn"][1]  # Position caméra y initiale
 
         # Récupère les dimensions du monde à partir du niveau
         self.min_cam_x = level["taille"]["min_x"]
@@ -116,27 +127,44 @@ class Game():
         self.max_cam_x = level["taille"]["max_x"]
         self.max_cam_y = level["taille"]["max_y"]
 
-        self.player.pos = pygame.Vector2(level["spawn"]) # Position initiale du joueur
+        self.player.pos = pygame.Vector2(level["spawn"])  # Position initiale du joueur
         self.player.max_fuel = level["max_fuel"]
         self.player.fuel = level["start_fuel"]
-        
-        self.planets:list[Planet] = [] # Liste des planètes dans le niveau
+
+        self.planets = []  # Liste des planètes dans le niveau
         self.collectibles = []
-        self.fuels = [] 
+        self.fuels = []
 
         for planete in level["planetes"]:
-            self.planets.append(Planet(planete["position"], planete["type"])) # Crée une instance de planète avec sa position et son type
+            self.planets.append(Planet(planete["position"],
+                                       planete["type"]))  # Crée une instance de planète avec sa position et son type
 
         for collectible in level["collectibles"]:
-            self.collectibles.append(Collectible(pygame.Vector2(collectible), self)) # Crée une instance de collectible avec sa position
+            self.collectibles.append(
+                Collectible(pygame.Vector2(collectible), self))  # Crée une instance de collectible avec sa position
 
         for fuel in level["carburant"]:
-            self.fuels.append(Fuel(pygame.Vector2(fuel[0]), fuel[1], self)) 
+            position = pygame.Vector2(fuel["position"])  # Utilise "position" du carburant
+            quantité = fuel["quantité"]  # Récupère la quantité de carburant
+            self.fuels.append(Fuel(position, quantité, self))
 
-    def game_over(self, message:str, victoire:bool = False):
+        self.camera.recenter_on_player()
 
-        self.end_screen_active = False
-        self.victoire = False
+    def next_level(self):
+        self.niveau_actuel = (self.niveau_actuel + 1) % len(self.levels)  # Passe au niveau suivant et retourne au début si on dépasse le dernier niveau
+        self.load_level()
+
+
+    def game_over(self, message: str, victoire: bool = False):
+        if self.end_screen_active:  # Empêche de la relancer si déjà morte
+            return
+
+        print(f"\033[1;31mFIN DU NIVEAU : {message}\033[0m")
+
+        if self.player.godmod:
+            return
+        self.end_screen_active = True
+        self.victoire = victoire
         self.camera.anchored = True
         self.camera.recenter_on_player()
         self.camera.update()
@@ -145,32 +173,38 @@ class Game():
         self.player.dragging = False
         self.player.fuel_cost = None
         self.player.last_direction = pygame.Vector2(0, -1)
+        image_path = None
 
-    def game_over(self, message: str, victoire: bool = False):
-        """
-        Déclenche le menu de fin de niveau (victoire ou défaite) correspondant au message.
-        Messages possibles :
-        - "out_of_space"
-        - "out_of_fuel"
-        - "crash"
-        - "win" (pas besoin en soit, la variable victoire est suffisante)
-        """
-        print(f"\033[1;31mFIN DU NIVEAU : {message}\033[0m")
-
-        if self.player.godmod:
-            return
-
-        if message == "out_of_fuel":
-            self.show_end_screen("Vous n'avez plus de carburant.", victoire=False)
+        if message == "out of fuel":
+            image_path = "assets/level_end_screen/dead_no_fuel.png"
         elif message == "out_of_space":
-            self.show_end_screen("Vous avez quitté l'espace.", victoire=False)
+            image_path = "assets/level_end_screen/dead_lost.png"
         elif message == "crash":
-            self.show_end_screen("Vous avez percuté une planète.", victoire=False)
+            image_path = "assets/level_end_screen/dead_crash.png"
         elif message == "win" or victoire:
-            self.show_end_screen("Niveau terminé ! Victoire.", victoire=True)
+            victoire = True
+            image_path = "assets/level_end_screen/victory.png"
+        else:
+            msg = "Fin de niveau."
+        if image_path:
+            death_overlay = pygame.image.load(image_path).convert_alpha()
+            self.death_overlay = pygame.transform.scale(death_overlay, (500, 500))
 
-    def show_end_screen(self, message: str, victoire: bool):
-        """Met à jour l'état pour afficher l'écran de fin."""
+    def show_end_screen(self, message: str, victoire: bool, screen: pygame.Surface, image: pygame.Surface = None):
         self.end_screen_active = True
-        self.end_message = message
         self.victoire = victoire
+        if image:
+            screen.blit(image, (100, 200))
+
+def calculate_stars(self):
+    if self.total_collectibles == 0:
+        return 0
+    ratio = self.collected_collectibles / self.total_collectibles
+    if ratio >= 1:
+        return 3
+    elif ratio >= 2/3:
+        return 2
+    elif ratio >= 1/3:
+        return 1
+    else:
+        return 0

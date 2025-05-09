@@ -11,6 +11,7 @@ class Collectible:
         self.rotation = random.randint(0, 360)
         self.rotation_speed = random.randint(1, 4)
         self.game = game
+        self.collected = False
 
     def update(self):
         self.rotation += self.rotation_speed
@@ -18,8 +19,11 @@ class Collectible:
 
     def collect(self):
         """Retire l'objet de la liste des collectibles"""
-        self.game.collectibles.remove(self)
-        # Pas besoin de détruire l'objet, le retirer de la liste suffit à ne plus l'afficher, et comme on en a pas 500, ça prend pas de place en mémoire
+        if not self.collected:
+            self.collected = True
+            if self in self.game.collectibles:
+                self.game.collectibles.remove(self)
+            self.game.collected_collectibles += 1
         
         
 

@@ -15,18 +15,27 @@ class Camera: # Gère le zoom, le déplacement et le suivi du joueur
 
     def world_rect_to_screen_rect(self, rect):
         new_topleft = self.world_pos_to_screen_pos(pygame.Vector2(rect.topleft))  # Convertit le coin supérieur gauche du rectangle dans les coordonnées écran
-        return pygame.Rect(new_topleft, (rect.width * self.zoom, rect.height * self.zoom)) # Renvoie un nouveau rectangle avec une taille adaptée
+        return pygame.Rect(  # Renvoie un nouveau rectangle avec une taille adaptée
+            int(new_topleft.x),
+            int(new_topleft.y),
+            int(rect.width * self.zoom),
+            int(rect.height * self.zoom)
+        )
 
     def set_zoom(self, zoom_factor):
-        old_zoom = self.zoom # Sauvegarde du zoom actuel
-        self.zoom *= zoom_factor # Applique le facteur de zoom
-        self.zoom = max(self.game.zoom_min, min(self.zoom, self.game.zoom_max)) # Clamp le zoom entre des valeurs minimales et maximales définies
+        old_zoom = self.zoom  # Sauvegarde du zoom actuel
+        self.zoom *= zoom_factor  # Applique le facteur de zoom
+        self.zoom = max(self.game.zoom_min, min(self.zoom,self.game.zoom_max))  # Clamp le zoom entre des valeurs minimales et maximales définies
 
         if self.anchored:
-            player_screen_before = self.world_pos_to_screen_pos(self.game.player.pos) # Position écran du joueur avant le zoom
-            player_screen_after = self.world_pos_to_screen_pos(self.game.player.pos) # Position écran du joueur après le zoom
-            zoom_offset_diff = (player_screen_after - player_screen_before) / self.zoom # Calcule la différence de position à compenser
-            self.offset += zoom_offset_diff # Ajuste l’offset pour éviter que le joueur ne saute à l’écran
+            player_screen_before = (self.game.player.pos - self.offset) * old_zoom  # Position écran du joueur avant le zoom
+            player_screen_after = (self.game.player.pos - self.offset) * self.zoom  # Position écran du joueur après le zoom
+            zoom_offset_diff = (player_screen_before - player_screen_after) / self.zoom  # Calcule la différence de position à compenser
+            self.offset += zoom_offset_diff  # Ajuste l’offset pour éviter que le joueur ne saute à l’écran
+
+        # Recentre la caméra sur le joueur après chaque zoom
+        self.recenter_on_player()
+
 
     def update(self):
         if self.anchored:
