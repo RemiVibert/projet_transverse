@@ -32,7 +32,7 @@
             "max_fuel": 50,
             "start_fuel": 50,
             "planetes": [
-                {"position": [653, 653], "type": "petite-rocheuse"}
+                {"position": [353, 353], "type": "petite-rocheuse"}
             ],
             "collectibles": [[-170000, -170000]],
             "carburant": [{"position": [-190000, -190000], "quantité": 1}
