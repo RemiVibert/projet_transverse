@@ -22,7 +22,7 @@ class Player(pygame.sprite.Sprite):
         self.collected_collectibles = 0 # Nombre de collectibles ramassés
 
         self.puissance_tir_max = 8_000
-        self.max_speed = 7000 # Limite de vitesse maximale (en pixels par seconde)
+        self.max_speed = 7500 # Limite de vitesse maximale (en pixels par seconde)
         self.has_launched = False #le joueur n'a jamais été lancé
         
 
