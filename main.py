@@ -434,6 +434,12 @@ while running:
                         game.load_level(8)
                         game.camera.anchored = True
                         game.camera.recenter_on_player()
+                    elif level10_button.is_clicked(event.pos):
+                        show_menu = False
+                        show_levels = False
+                        game.load_level(9)
+                        game.camera.anchored = True
+                        game.camera.recenter_on_player()
 
                 if game.end_screen_active:
                     if game.victoire:
