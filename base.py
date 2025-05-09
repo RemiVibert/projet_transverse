@@ -5,7 +5,7 @@ class Base:
         self.image = image
         self.pos = pygame.Vector2(x, y)
         original_rect = self.image.get_rect(center=(x, y))
-        reduction = 100
+        reduction = 260
 
         self.rect = pygame.Rect(
             original_rect.x + reduction // 2,
