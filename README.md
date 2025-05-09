@@ -11,7 +11,7 @@ Kévin-Seng TEK: Développement, Level Design, Physique, Debug, ReadME
 
 Rémi VIBERT: Développement, Level Design, Sound Design
 
-Eliott LE GUEN: Power Point, Collaboration Ponctuelle
+Eliott LE GUEN: Power Point, Monday et Notion Managment, Collaboration Ponctuelle
 
 Valentin BOINAY: Collaboration Ponctuelle
 
@@ -46,10 +46,10 @@ Internet pour la documentation sur pygame
 - Une fois main.py lancé, il ne suffit plus que d'appuyer sur lancer le programme. Profitez du jeu !
 
 ### ALGORITHME DU JEU
+30 niveaux
 Une partie se déroulera ainsi dans le programme:
 1. Menu principal, choix entre démarrer la partie, choisir le niveau ou lire les règles
-2.
-- Commencer la partie:
+2. Commencer la partie:
   - Lance le niveau 1
 - Sélectionner un niveau:
   - Affiche des astéroïdes contenant les niveaux, cliquer sur un pour pouvoir le lancer !
@@ -57,33 +57,60 @@ Une partie se déroulera ainsi dans le programme:
   - Affiche les règles
 
 3. Durant une partie:
-
- 
-   
-
+- Le joueur apparait à un point donné et doit rejoindre l'arrivée.
+- Il se déplace en tirant la souris dans le sens opposé comme un lance-pierre et la puissance est ajustable
+- Des planètes rocheuses et gazeuses ainsi que des astéroïdes existent pour faire obstacle au joueur:
+  - Planète rocheuse:  Attire le joueur vers elle. Le joueur meurt et échoue le niveau à l'impact
+  - Planète gazeuse: Attire le joueur vers elle et le piège au centre, forçant le joueur à utiliser un grand tir pour s'échapper
+  - Astéroide: n'attire pas le joueur et sert de mur. Le joueur meurt et échoue le niveau à l'impact
+De plus, une jauge de carburant est présente et se vide en fonction de la puissance de tir du joueur. Le joueur échoue le niveau si la jauge de carburant atteint 0 (réprésentée par la jauge à gauche de l'éccran)
+Du carburant peut-être collecté dans un niveau pour recharger la jauge. Existe sous différentes itérations qui donnent chacun une quantié différente.
+Plusieurs Astronautes sont dispersés dans les niveaux et servent de bonus. Le joueur les sauve en passant de dessus et aura un score en fonction du pourcentage sauvés: respectivement 1/3, 2/3 et tous.
+Lors de la mort, le joueur à la possibilité de retourner à l'écran titre ou de recommencer le niveau
+Lors de la victoire, le joueur à l'écran titre, rejouer ou passer au niveau suivant.
 
 ### DETAIL DES FICHIERS
-Voici une liste des implémentés et leur utilité au programme (A compléter)
+Voici une liste des implémentés et leur utilité au programme
 
 #### MAIN
-Le "squelette" qui gère le projet entier
-#### BASE
-#### LEVELS
-#### PLANET
-#### BUTTONS
-#### CAMERA
-#### COLLECTIBLE
-#### FUEL
-#### GAME
-#### GRAPHISMES
-#### PLAYERS
+Le "squelette" qui gère le projet entier et qui fait appel à tous les autres fichiers
 
+#### BASE
+Gère la base (la ligne d'arrivée)
+
+#### LEVELS (JSON)
+Gère l'agencement des différents niveaux (position des obstacles, collectibles, départ/arrivée)
+
+#### PLANET
+Gère les planètes, leurs propriétés et la physique
+
+#### BUTTONS
+Gère l'interaction avec les différents boutons du jeu, leurs changements d'état etc.
+
+#### CAMERA
+Gère la caméra du jeu, le positionnement, le zoom et le dézoom
+
+#### COLLECTIBLE
+Gère les collectibles du jeu (les Astronautes)
+
+#### FUEL
+Gère le carburant, la jauge et les différentes itérations du collectible carburant
+
+#### GAME
+Gère le déroulement d'une partie et ce qui y est affiché
+
+#### GRAPHISMES
+Gère le background étoilé
+
+#### PLAYER
+Gère le contrôle du vaisseau joueur et ses intéractions avec les autres éléments
 
 ### GESTION DES ENTREES ET DES ERREURS
-A remplir
+Beaucoup de déboggage a été fait: Commencençant par une physique qui ne marchait pas apparement: c'était un problème de planet.py
+Les bugs ont été présents et nombreux et ont été une majeure partie du développement: nous pouvons citer la base qui ne s'affiche pas ou une inversion des états des boutons...
 
 ## JOURNAL DE BORD
-Sur Notion
+Rendu en .pdf
 
 ### CHRONOLOGIE DU PROJET
 Sur Notion
@@ -97,7 +124,9 @@ Eliott LE GUEN: A fait le PowerPoint et a été présent aux réunions.
 Valentin BOINAY: A été présent aux réunions.
 
 ## TESTS ET VALIDATION
-A remplir
+De nombreux tests ont été faits et ont mené petit à petit au succès du projet
+
 
 ### STRATEGIES DE TEST
-A remplir
+Avant l'introduction des niveaux, nous avons crée un niveau temporaire dans lequel nous avons pu interagir avec tous les éléments du jeu, permettant un fix rapide et efficace en cas de soucis.
+Pour limiter les aller-retour inutiles dans le code, nous avons décidé de structurer la construction du projet, spécialement vers la fin: ne pas construire des niveaux tant que la base ne marche pas correctement.
