@@ -34,7 +34,7 @@ Internet pour la documentation sur pygame
 
 ### INSTALLATION DU PROJET 
 - Aller sur le Github du projet et appuyer sur le bouton Code (bouton vert, exemple ci-dessous)
-- [Où est le bouton Code ?][lien à mettre]
+- [Où est le bouton Code ?][https://github.com/RemiVibert/projet_transverse.git]
 - Puis choisissez "Download ZIP"
 - Une fois le fichier ZIP téléchargé, le projet sera bien copié, il suffira d'avoir alors un éditeur Python 3 pour pouvoir l'exploiter
 - Il est aussi possible de cloner le projet en copiant l'URL qui se trouve après avoir appuyé sur le bouton Code
