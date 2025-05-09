@@ -175,6 +175,21 @@ class Player(pygame.sprite.Sprite):
             hauteur_diminution = int((fuel_apres_tir / self.max_fuel) * fuel_bar_height)
 
             # Dessiner la diminution prévue (orange)
+            pygame.draw.rect(screen, (255, 165, 0), (
+            fuel_bar_x, fuel_bar_y + (fuel_bar_height - current_fuel_height), fuel_bar_width,
+            current_fuel_height - hauteur_diminution))
+
+        # Afficher les bordures rouges en plus ou moins transparentes en fonction de la distance du out of bounds
+        max_distance = self.game.MAX_DISTANCE_OUT_OF_SPACE
+        closest_distance = min(self.pos.distance_to(planet.pos) for planet in self.game.planets)
+        closest_distance = min(closest_distance, max_distance)  # Limiter la distance à la distance maximale
+
+        # Afficher la diminution prévue
+        if self.fuel_cost is not None:
+            fuel_apres_tir = max(self.fuel - self.fuel_cost, 0)
+            hauteur_diminution = int((fuel_apres_tir / self.max_fuel) * fuel_bar_height)
+
+            # Dessiner la diminution prévue (orange)
             pygame.draw.rect(screen, (255, 165, 0), (fuel_bar_x, fuel_bar_y + (fuel_bar_height - current_fuel_height), fuel_bar_width, current_fuel_height - hauteur_diminution))
 
 
