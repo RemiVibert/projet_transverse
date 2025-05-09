@@ -1,6 +1,6 @@
 # PROJET TRANSVERSE: DERIVE
 
-## Un jeu de vaisseau spatial et de planètes
+## Un jeu d'aventure spatiale à la rescousse d'astronautes
 
 ## PRESENTATION DU PROJET
 
@@ -16,7 +16,8 @@ Eliott LE GUEN: Power Point, Monday et Notion Managment, Collaboration Ponctuell
 Valentin BOINAY: Collaboration Ponctuelle
 
 ### DESCRIPTION
-Ce jeu simule un vaisseau traversant l'espace, secourant les astronautes sur le chemin et atteignant la base, tout en évitant de tomber à court de carburant en plein milieu du niveau
+Vous êtes le Capitaine Meko, traversant l'espace pour rejoindre la station spatiale. En cours de route, vous rencontrez des astronautes qui ont l'air d'avoir besoin d'aide...
+Ce jeu simule un vaisseau traversant l'espace, secourant les astronautes sur le chemin et atteignant la base, tout en évitant de tomber à court de carburant en plein milieu du niveau.
 ### FONCTIONNALITES PRINCIPALES
 
 Le joueur devra traverser les différents niveaux en atteignant la ligne d'arrivée avec un carburant limité, représenté par une barre qui se vide et dépendant de la puissance du lancer. Des astronautes à secourir servent de bonus à ramasser pour obtenir les étoiles.
