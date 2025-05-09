@@ -12,6 +12,12 @@ from base import Base
 
 
 class Game():
+    def clear_end_states(self): #permet de tout réinitialiser quand une partie se termine
+        self.player.fuel_empty = False
+        self.player.fuel_empty_time = 0
+        self.player.collision_occurred = False
+        self.player.collision_time = 0
+        self.end_screen_active = False
     def __init__(self, screen):
         self.MAX_DISTANCE_OUT_OF_SPACE = 20_000
         self.screen = screen # Référence vers la surface d'affichage
@@ -210,6 +216,10 @@ class Game():
             screen.blit(image, (100, 200))
 
     def check_victory(self):
+        if pygame.sprite.collide_rect(self.player, self.base):
+            self.clear_end_states()
+            self.victory = True
+            self.end_screen_active = True
         if self.end_screen_active or not self.player.has_launched:
             return
         if self.base.check_collision(self.player.rect):
