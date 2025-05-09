@@ -188,14 +188,12 @@ while running:
     elif show_levels:
         # Ecran pour les niveaux
         overlay = pygame.Surface((1920, 1080), pygame.SRCALPHA)
-        overlay.fill((0, 0, 0, 200))
+        overlay.fill((0, 0, 0, ))
         screen.blit(overlay, (0, 0))
 
         levels_rect = pygame.Rect(300, 150, 1320, 780)
-        pygame.draw.rect(screen, (50, 50, 80), levels_rect)
-        pygame.draw.rect(screen, (100, 100, 150), levels_rect, 5)
 
-        title = pygame.font.SysFont('DIN', 60).render("Choisissez votre niveau", True, (255, 255, 0))
+        title = pygame.font.SysFont('DIN', 60).render("Choisissez votre niveau : ", True, (255, 255, 0))
         screen.blit(title, (levels_rect.centerx - title.get_width() // 2, levels_rect.y + 30))
 
         # Boutons des niveaux
@@ -272,8 +270,6 @@ while running:
         screen.blit(overlay, (0, 0))
 
         rules_rect = pygame.Rect(300, 150, 1320, 780)
-        pygame.draw.rect(screen, (50, 50, 80), rules_rect)
-        pygame.draw.rect(screen, (100, 100, 150), rules_rect, 5)
 
         title = pygame.font.SysFont('DIN', 60).render("Règles du Jeu", True, (255, 255, 255))
         screen.blit(title, (rules_rect.centerx - title.get_width() // 2, rules_rect.y + 30))
@@ -282,7 +278,7 @@ while running:
         rules_text = [
             "Bienvenue dans Derive!",
             "Derive est un jeu indépendant créé par des étudiants en ingénierie. Nous espérons que vous passerez un bon moment !",
-            "L'objectif du jeu est de naviguer dans l'espace et collecter tous les carburants avant de rejoindre la station spatiale d'arrivée.",
+            "L'objectif du jeu est de naviguer dans l'espace et de rejoindre la station spatiale d'arrivée tout en évitant de tomber à court de carburant.",
             "",
             "Contrôles:",
             "- Tirer la souris dans une direction pour lancer le vaisseau dans la direction opposée !",
@@ -292,7 +288,8 @@ while running:
             "",
             "CONSEILS",
             "Attention aux planètes (surtout les gazeuses) !",
-            "Jouer à la souris est recommandé",
+            "Ramassez les astronautes pour obtenir des étoiles !",
+            "N'oubliez pas de récupérer du carburant !",
             "Bonne chance dans votre mission spatiale Commandant !",
         ]
         y_offset = 150
@@ -323,6 +320,7 @@ while running:
         for fuel in game.fuels:
             fuel.draw(screen, game.camera)
         game.player.draw(screen, game.camera)
+        base.draw(screen)
         quit_button.draw(screen)
 
     pygame.display.flip()
