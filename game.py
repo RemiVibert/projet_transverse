@@ -7,6 +7,7 @@ from planet import Planet
 from collectible import Collectible
 from fuel import Fuel
 import json
+from base import Base
 
 
 
@@ -54,6 +55,7 @@ class Game():
         self.end_message = ""  # Message à afficher à la fin
         self.victoire = False
         self.end_background = None
+        self.base = None
 
         level_data = self.levels[self.niveau_actuel]
         self.total_collectibles = len(level_data["collectibles"])
@@ -135,6 +137,14 @@ class Game():
         self.collectibles = []
         self.fuels = []
 
+        base_init = pygame.image.load("assets/sprites/base/base.png").convert_alpha()
+        new_width = 800
+        new_height = 800
+        base_init_resized = pygame.transform.scale(base_init, (new_width, new_height))
+        base_x, base_y = level["end"]
+        self.base = Base(base_x, base_y, base_init_resized)
+
+
         for planete in level["planetes"]:
             self.planets.append(Planet(planete["position"],
                                        planete["type"]))  # Crée une instance de planète avec sa position et son type
@@ -183,7 +193,7 @@ class Game():
             image_path = "assets/level_end_screen/dead_crash.png"
         elif message == "win" or victoire:
             victoire = True
-            image_path = "assets/level_end_screen/victory.png"
+            image_path = "assets/level_end_screen/image_fin_niveau.PNG"
         else:
             msg = "Fin de niveau."
         if image_path:
@@ -196,15 +206,21 @@ class Game():
         if image:
             screen.blit(image, (100, 200))
 
-def calculate_stars(self):
-    if self.total_collectibles == 0:
-        return 0
-    ratio = self.collected_collectibles / self.total_collectibles
-    if ratio >= 1:
-        return 3
-    elif ratio >= 2/3:
-        return 2
-    elif ratio >= 1/3:
-        return 1
-    else:
-        return 0
+    def check_victory(self):
+        if self.end_screen_active or not self.player.has_launched:
+            return
+        if self.base.check_collision(self.player.rect):
+            self.game_over("win", victoire=True)
+
+    def calculate_stars(self):
+        if self.total_collectibles == 0:
+            return 0
+        ratio = self.collected_collectibles / self.total_collectibles
+        if ratio >= 1:
+            return 3
+        elif ratio >= 2/3:
+            return 2
+        elif ratio >= 1/3:
+            return 1
+        else:
+            return 0
