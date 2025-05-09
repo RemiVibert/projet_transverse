@@ -76,16 +76,16 @@
                 {"position": [0, 900], "type": "petite-rocheuse"},
                 {"position": [2200, 900], "type": "petite-rocheuse"}
             ],
-            "collectibles": [[2000, 0], [3000, 0], [4000, 0]],
-            "carburant": [{"position": [1000, 0], "quantité": 10}
+            "collectibles": [[-170000, -170000]],
+            "carburant": [{"position": [-190000, -190000], "quantité": 1}
 ]
         },
         {
             "difficulté": 5,
             "taille": {
-                "min_x": -20000,
-                "max_x": 20000,
-                "min_y": -20000,
+                "min_x": -200000,
+                "max_x": 200000,
+                "min_y": -200000,
                 "max_y": 20000
             },
             "spawn": [0, 0],
