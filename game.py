@@ -69,7 +69,6 @@ class Game():
 
 
 
-
     def update(self, screen):
         self.keys = pygame.key.get_pressed() # Liste des touches pressées en continu
         pan_speed = 300 * self.dt / self.camera.zoom # Vitesse de déplacement caméra dépendant du temps + zoom
