@@ -105,7 +105,12 @@ class Game():
         # win : déclenché dans la gestion des collisions
 
         # Out of space
-        if all(self.player.pos.distance_to(planet.pos) >= planet.radius + self.MAX_DISTANCE_OUT_OF_SPACE for planet in self.planets):
+        if self.planets:  # Vérifie si la liste des planètes n'est pas vide
+            distance_to_closest_thing = min([self.player.pos.distance_to(planet.pos) for planet in self.planets])
+            
+        closest_thing = min(distance_to_closest_thing, self.player.pos.distance_to(self.base.pos)) 
+
+        if closest_thing > self.MAX_DISTANCE_OUT_OF_SPACE:
             self.game_over("out_of_space", False)
 
     def load_levels(self):
