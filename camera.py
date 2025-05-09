@@ -53,4 +53,5 @@ class Camera: # Gère le zoom, le déplacement et le suivi du joueur
         self.offset = self.game.player.pos - (screen_center / self.zoom) # Replace la caméra de façon à centrer directement le joueur
 
 
-
+    def apply(self, obj):
+        return self.world_rect_to_screen_rect(obj.rect)

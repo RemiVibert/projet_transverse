@@ -20,8 +20,7 @@ screen = pygame.display.set_mode(SCREEN_SIZE)
 # Chargement des éléments
 background = pygame.image.load('assets/UI/background.png')
 clock = pygame.time.Clock()
-base_img = pygame.image.load("assets/sprites/base/base.png").convert_alpha()
-base = Base(2000, 2000, base_img)
+
 
 # images de fin de niveau
 end_background_victory = pygame.image.load("assets/level_end_screen/image_fin_niveau.PNG").convert()
@@ -65,7 +64,7 @@ main_menu_button_victory = ImageButton(805, 540, "assets/sprites/buttons/button_
 
 play_again_button_victory = ImageButton(925, 540, "assets/sprites/buttons/button_play_again.png", width=70, height=70)
 
-next_level_button = ImageButton(1115, 540, "assets/sprites/buttons/button_next_level.png", width=70, height=70)
+next_level_button = ImageButton(1095, 540, "assets/sprites/buttons/button_next_level.png", width=70, height=70)
 
 # Boutons pour les niveaux
 level1_button = ImageButton(500, 300, "assets/sprites/buttons/button_level1.png",
@@ -167,9 +166,9 @@ while running:
             next_level_button.draw(screen)
             quit_button.draw(screen)
 
-            star_image = pygame.image.load("assets/ui/star.png").convert_alpha()
-            star_spacing = 70
-            star_size = 64
+            star_image = pygame.image.load("assets/level_end_screen/star_end_level.png").convert_alpha()
+            star_spacing = 150
+            star_size = 200
             num_stars = game.calculate_stars()
             for i in range(num_stars):
                 x = screen.get_width() // 2 - (star_spacing * (num_stars - 1)) // 2 + i * star_spacing
@@ -311,6 +310,7 @@ while running:
         screen.fill((0, 0, 0))  # Efface l'écran pour afficher la scène du jeu
         game.camera.update()
         game.update(screen)
+        game.check_victory()
         game.etoiles.draw(screen, game.camera)
         for planet in game.planets:
             planet.draw(screen, game.camera)
@@ -320,7 +320,7 @@ while running:
         for fuel in game.fuels:
             fuel.draw(screen, game.camera)
         game.player.draw(screen, game.camera)
-        base.draw(screen)
+        game.base.draw(screen, game.camera)
         quit_button.draw(screen)
 
     pygame.display.flip()
