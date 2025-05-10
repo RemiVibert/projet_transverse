@@ -482,8 +482,8 @@
                 {"position": [-450, -2000], "type": "x-asteroide"}
 
             ],
-            "collectibles": [[0, -1800], [720, -120], [2650, -120], [2550, -190]],
-            "carburant": [{"position": [2400, 28], "quantité": 10}
+            "collectibles": [[0, -1600], [720, -220], [2950, 120], [2750, 360]],
+            "carburant": [{"position": [2200, 350], "quantité": 10}
 ]
         },
         {
