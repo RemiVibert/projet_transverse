@@ -69,11 +69,16 @@ class Player(pygame.sprite.Sprite):
 
 
             for planet in self.game.planets:  # Appliquer la gravité de chaque planète
+                distance = self.pos.distance_to(planet.pos) # distance entre le joueur et la planète
+                total_radius = self.radius + planet.radius  # Rayon total (vaisseau + planète)
+                
+                if planet.type == "gazeuse":
+                    if distance < total_radius:
+                        # Collision avec une planète gazeuse : ralentir fortement le joueur
+                        self.velocity *= 0.95
+                        continue
                 direction_x = planet.pos[0] - self.pos[0]
                 direction_y = planet.pos[1] - self.pos[1]
-                distance = self.pos.distance_to(planet.pos) # distance entre le joueur et la planète
-
-                total_radius = self.radius + planet.radius  # Rayon total (vaisseau + planète)
 
                 if distance > 0:
                     force = (planet.masse * G * 50 ) / (distance ** 2) # Force gravitationnelle
