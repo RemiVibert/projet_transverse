@@ -143,16 +143,6 @@ def start():
                             "assets/sprites/buttons/button_level19_hover.png", width=80, height=80)
     level20_button = ImageButton(1400, 750, "assets/sprites/buttons/button_level20.png",
                             "assets/sprites/buttons/button_level20_hover.png", width=80, height=80)
-    level21_button = ImageButton(500, 1100, "assets/sprites/buttons/button_level21.png",
-                            "assets/sprites/buttons/button_level21_hover.png", width=80, height=80)
-    level22_button = ImageButton(700, 1100, "assets/sprites/buttons/button_level22.png",
-                            "assets/sprites/buttons/button_level22_hover.png", width=80, height=80)
-    level23_button = ImageButton(900, 1100, "assets/sprites/buttons/button_level23.png",
-                            "assets/sprites/buttons/button_level23_hover.png", width=80, height=80)
-    level24_button = ImageButton(1100, 1100, "assets/sprites/buttons/button_level24.png",
-                            "assets/sprites/buttons/button_level24_hover.png", width=80, height=80)
-    level25_button = ImageButton(1300, 1100, "assets/sprites/buttons/button_level25.png",
-                            "assets/sprites/buttons/button_level25_hover.png", width=80, height=80)
 
     # Image en bas à droite
     image_bas_droite = pygame.image.load("assets/UI/astronaute_haute_def.PNG")
