@@ -559,7 +559,7 @@ def start():
                                     n = 0
                                     game.load_level(n)
 
-                        else:
+                        else:  # Si le joueur a perdu
                             if main_menu_button_game_over.is_clicked(event.pos):
                                 play_button_sound = True
                                 game.end_screen_active = False
@@ -569,11 +569,11 @@ def start():
                                 game.load_level(n)
 
                     if play_button_sound:
-                        pygame.mixer.Sound("assets/audio/clic.mp3").play()
+                        pygame.mixer.Sound("assets/audio/clic.mp3").play() # Joue le son du clic
 
                 elif event.type == pygame.MOUSEBUTTONUP:
                     if event.button == 1:
-                        game.camera.dragging = False
+                        game.camera.dragging = False # Arrête le drag de la caméra
             game.player.handle_event(event, game.camera)
 
 # Détection de la taille de l'écran physique en tenant compte de la mise à l'échelle Windows
