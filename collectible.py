@@ -14,7 +14,6 @@ class Collectible:
         """
         self.pos = pos
         self.image = pygame.image.load('assets/sprites/collectibles/collectible.png').convert_alpha()
-        self.rect = self.image.get_rect(center=self.pos)  # Crée un rectangle de collision
         self.original_image = self.image  # Garde l’image de base pour les rescalings
         self.rotation = random.randint(0, 360)
         self.rotation_speed = random.randint(1, 4) # Vitesse de rotation aléatoire
@@ -25,6 +24,13 @@ class Collectible:
         # Met à jour la rotation du collectible
         self.rotation += self.rotation_speed
         self.rotation %= 360
+        self.rect_visuel = self.image.get_rect(center=self.pos)  # Crée un rectangle de collision
+        self.rect = pygame.Rect(  # Rectangle de collision avec un offset et des dimensions réduites
+            self.rect_visuel.x + 50,
+            self.rect_visuel.y + 50,
+            self.rect_visuel.width - 10,
+            self.rect_visuel.height - 10
+        )
 
     def collect(self):
         #Retire l'objet de la liste des collectibles

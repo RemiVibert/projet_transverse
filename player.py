@@ -107,7 +107,7 @@ class Player(pygame.sprite.Sprite):
             for collectible in self.game.collectibles:
                 if self.rect.colliderect(collectible.rect):
                     collectible.collect()
-                    pygame.mixer.Sound("assets/audio/collect.mp3").play()  # Son de collecte
+                    pygame.mixer.Sound("assets/audio/collect.mp3").play()
 
 
 
