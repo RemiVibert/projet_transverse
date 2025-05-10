@@ -6,6 +6,7 @@ from base import Base
 from player import Player
 
 
+n = 0
 SCREEN_SIZE = (1920, 1080)
 # SCREEN_SIZE = (960, 540)  # Pour le test sur l'ordinateur portable
 
@@ -409,54 +410,70 @@ while running:
                         show_menu = False
                         show_levels = False
                         game.load_level(0)
+                        n = 0
                         game.camera.anchored = True
                         game.camera.recenter_on_player()
                     elif level2_button.is_clicked(event.pos):
                         show_menu = False
                         show_levels = False
                         game.load_level(1)
+                        n = 1
                         game.camera.anchored = True
                         game.camera.recenter_on_player()
                     elif level3_button.is_clicked(event.pos):
                         show_menu = False
                         show_levels = False
                         game.load_level(2)
+                        n = 2
                         game.camera.anchored = True
                         game.camera.recenter_on_player()
                     elif level4_button.is_clicked(event.pos):
                         show_menu = False
                         show_levels = False
                         game.load_level(3)
+                        n = 3
                         game.camera.anchored = True
                         game.camera.recenter_on_player()
                     elif level5_button.is_clicked(event.pos):
                         show_menu = False
                         show_levels = False
                         game.load_level(4)
+                        n = 4
                         game.camera.anchored = True
                         game.camera.recenter_on_player()
                     elif level6_button.is_clicked(event.pos):
                         show_menu = False
                         show_levels = False
                         game.load_level(5)
+                        n = 5
                         game.camera.anchored = True
                         game.camera.recenter_on_player()
                     elif level7_button.is_clicked(event.pos):
                         show_menu = False
                         show_levels = False
                         game.load_level(6)
+                        n = 6
                         game.camera.anchored = True
                         game.camera.recenter_on_player()
                     elif level8_button.is_clicked(event.pos):
                         show_menu = False
                         show_levels = False
                         game.load_level(7)
+                        n = 7
                         game.camera.anchored = True
                         game.camera.recenter_on_player()
                     elif level9_button.is_clicked(event.pos):
                         show_menu = False
                         show_levels = False
                         game.load_level(8)
+                        n = 8
+                        game.camera.anchored = True
+                        game.camera.recenter_on_player()
+                    elif level10_button.is_clicked(event.pos):
+                        show_menu = False
+                        show_levels = False
+                        game.load_level(9)
+                        n = 9
                         game.camera.anchored = True
                         game.camera.recenter_on_player()
 
@@ -468,10 +485,13 @@ while running:
                             show_menu = True
                         elif play_again_button_victory.is_clicked(event.pos):
                             game.end_screen_active = False
-                            game.load_level()
+                            game.load_level(n)
+
                         elif next_level_button.is_clicked(event.pos):
                             game.end_screen_active = False
-                            game.next_level()
+                            n += 1
+                            game.load_level(n)
+
                     else:
                         if main_menu_button_game_over.is_clicked(event.pos):
                             play_button_sound = True
@@ -479,7 +499,7 @@ while running:
                             show_menu = True
                         elif play_again_button_game_over.is_clicked(event.pos):
                             game.end_screen_active = False
-                            game.load_level()
+                            game.load_level(n)
 
                 if play_button_sound:
                     pygame.mixer.Sound("assets/audio/clic.mp3").play()
