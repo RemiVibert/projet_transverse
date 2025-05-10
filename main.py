@@ -24,7 +24,7 @@ clock = pygame.time.Clock()
 
 
 # images de fin de niveau
-end_background_victory = pygame.image.load("assets/level_end_screen/image_fin_niveau.PNG").convert()
+end_background_victory = pygame.image.load("assets/level_end_screen/image_fin_niveau.png").convert()
 end_background_game_over = pygame.image.load("assets/level_end_screen/game_over_screen.png").convert()
 dead_crash_img = pygame.image.load("assets/level_end_screen/dead_crash.png").convert_alpha()
 dead_no_fuel_img = pygame.image.load("assets/level_end_screen/dead_no_fuel.png").convert_alpha()
@@ -63,11 +63,11 @@ main_menu_button_game_over = ImageButton(855, 640, "assets/sprites/buttons/butto
 
 play_again_button_game_over = ImageButton(995, 640, "assets/sprites/buttons/button_play_again.png", width=70, height=70)
 
-main_menu_button_victory = ImageButton(805, 540, "assets/sprites/buttons/button_return_main_menu.png", width=70, height=70)
+main_menu_button_victory = ImageButton(825, 680, "assets/sprites/buttons/button_return_main_menu.png", width=70, height=70)
 
-play_again_button_victory = ImageButton(925, 540, "assets/sprites/buttons/button_play_again.png", width=70, height=70)
+play_again_button_victory = ImageButton(945, 680, "assets/sprites/buttons/button_play_again.png", width=70, height=70)
 
-next_level_button = ImageButton(1045, 540, "assets/sprites/buttons/button_next_level.png", width=70, height=70)
+next_level_button = ImageButton(1065, 680, "assets/sprites/buttons/button_next_level.png", width=70, height=70)
 
 ok_button = ImageButton(890, 720, "assets/sprites/buttons/button_ok.PNG", width=140, height=70)
 
