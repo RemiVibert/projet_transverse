@@ -229,6 +229,7 @@ class Player(pygame.sprite.Sprite):
             if self.velocity.length() > self.max_speed:
                 self.velocity.scale_to_length(self.max_speed)
 
+            pygame.mixer.Sound("assets/audio/woosh.mp3").play()
             self.dragging = False
             self.has_launched = True  # Le vaisseau a été lancé une fois
 

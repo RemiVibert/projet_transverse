@@ -377,6 +377,7 @@ while running:
                 game.camera.drag_start = pygame.Vector2(event.pos)
                 game.camera.drag_offset_start = game.camera.offset.copy()
             if event.button == 1:
+                play_button_sound = False
                 if quit_button.is_clicked(event.pos):
                     running = False
                 if show_menu and not show_rules:
@@ -387,17 +388,21 @@ while running:
                         game.camera.anchored = True
                         game.camera.recenter_on_player()
                     elif rules_button.is_clicked(event.pos):
+                        play_button_sound = True
                         show_rules = True
                     elif levels_button.is_clicked(event.pos):
+                        play_button_sound = True
                         show_levels = True
                         show_menu = False
 
                 if show_rules and back_button.is_clicked(event.pos):
+                    play_button_sound = True
                     show_rules = False
                     show_menu = True
 
                 if show_levels:
                     if back_button.is_clicked(event.pos):
+                        play_button_sound = True
                         show_levels = False
                         show_menu = True
                     elif level1_button.is_clicked(event.pos):
@@ -458,6 +463,7 @@ while running:
                 if game.end_screen_active:
                     if game.victoire:
                         if main_menu_button_victory.is_clicked(event.pos):
+                            play_button_sound = True
                             game.end_screen_active = False
                             show_menu = True
                         elif play_again_button_victory.is_clicked(event.pos):
@@ -468,11 +474,15 @@ while running:
                             game.next_level()
                     else:
                         if main_menu_button_game_over.is_clicked(event.pos):
+                            play_button_sound = True
                             game.end_screen_active = False
                             show_menu = True
                         elif play_again_button_game_over.is_clicked(event.pos):
                             game.end_screen_active = False
                             game.load_level()
+
+                if play_button_sound:
+                    pygame.mixer.Sound("assets/audio/clic.mp3").play()
 
             elif event.type == pygame.MOUSEBUTTONUP:
                 if event.button == 1:

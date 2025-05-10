@@ -162,6 +162,8 @@ class Game():
             quantité = fuel["quantité"]  # Récupère la quantité de carburant
             self.fuels.append(Fuel(position, quantité, self))
 
+        pygame.mixer.Sound("assets/audio/spawn_clic.mp3").play()
+
         self.camera.recenter_on_player()
 
     def next_level(self):
@@ -191,13 +193,17 @@ class Game():
 
         if message == "out of fuel":
             image_path = "assets/level_end_screen/dead_no_fuel.png"
+            pygame.mixer.Sound("assets/audio/power_down.mp3").play()
         elif message == "out_of_space":
             image_path = "assets/level_end_screen/dead_lost.png"
+            pygame.mixer.Sound("assets/audio/power_down.mp3").play()
         elif message == "crash":
             image_path = "assets/level_end_screen/dead_crash.png"
+            pygame.mixer.Sound("assets/audio/explode.mp3").play()
         elif message == "win" or victoire:
             victoire = True
             image_path = "assets/level_end_screen/image_fin_niveau.PNG"
+            pygame.mixer.Sound("assets/audio/win.mp3").play()
         else:
             msg = "Fin de niveau."
         if image_path:
