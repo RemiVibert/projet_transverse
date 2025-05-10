@@ -106,35 +106,35 @@ def start():
                             "assets/sprites/buttons/button_level4_hover.png", width=80, height=80)
     level5_button = ImageButton(1300, 300, "assets/sprites/buttons/button_level5.png",
                             "assets/sprites/buttons/button_level5_hover.png", width=80, height=80)
-    level6_button = ImageButton(600, 400, "assets/sprites/buttons/button_level6.png",
+    level6_button = ImageButton(600, 450, "assets/sprites/buttons/button_level6.png",
                             "assets/sprites/buttons/button_level6_hover.png", width=80, height=80)
-    level7_button = ImageButton(800, 400, "assets/sprites/buttons/button_level7.png",
+    level7_button = ImageButton(800, 450, "assets/sprites/buttons/button_level7.png",
                             "assets/sprites/buttons/button_level7_hover.png", width=80, height=80)
-    level8_button = ImageButton(1000, 400, "assets/sprites/buttons/button_level8.png",
+    level8_button = ImageButton(1000, 450, "assets/sprites/buttons/button_level8.png",
                             "assets/sprites/buttons/button_level8_hover.png", width=80, height=80)
-    level9_button = ImageButton(1200, 400, "assets/sprites/buttons/button_level9.png",
+    level9_button = ImageButton(1200, 450, "assets/sprites/buttons/button_level9.png",
                             "assets/sprites/buttons/button_level9_hover.png", width=80, height=80)
-    level10_button = ImageButton(1400, 400, "assets/sprites/buttons/button_level10.png",
+    level10_button = ImageButton(1400, 450, "assets/sprites/buttons/button_level10.png",
                             "assets/sprites/buttons/button_level10_hover.png", width=80, height=80)
-    level11_button = ImageButton(500, 500, "assets/sprites/buttons/button_level11.png",
+    level11_button = ImageButton(500, 600, "assets/sprites/buttons/button_level11.png",
                             "assets/sprites/buttons/button_level11_hover.png", width=80, height=80)
-    level12_button = ImageButton(700, 500, "assets/sprites/buttons/button_level12.png",
+    level12_button = ImageButton(700, 600, "assets/sprites/buttons/button_level12.png",
                             "assets/sprites/buttons/button_level12_hover.png", width=80, height=80)
-    level13_button = ImageButton(900, 500, "assets/sprites/buttons/button_level13.png",
+    level13_button = ImageButton(900, 600, "assets/sprites/buttons/button_level13.png",
                             "assets/sprites/buttons/button_level13_hover.png", width=80, height=80)
-    level14_button = ImageButton(1100, 500, "assets/sprites/buttons/button_level14.png",
+    level14_button = ImageButton(1100, 600, "assets/sprites/buttons/button_level14.png",
                             "assets/sprites/buttons/button_level14_hover.png", width=80, height=80)
-    level15_button = ImageButton(1300, 500, "assets/sprites/buttons/button_level15.png",
+    level15_button = ImageButton(1300, 600, "assets/sprites/buttons/button_level15.png",
                             "assets/sprites/buttons/button_level15_hover.png", width=80, height=80)
-    level16_button = ImageButton(600, 600, "assets/sprites/buttons/button_level16.png",
+    level16_button = ImageButton(600, 750, "assets/sprites/buttons/button_level16.png",
                             "assets/sprites/buttons/button_level16_hover.png", width=80, height=80)
-    level17_button = ImageButton(800, 600, "assets/sprites/buttons/button_level17.png",
+    level17_button = ImageButton(800, 750, "assets/sprites/buttons/button_level17.png",
                             "assets/sprites/buttons/button_level17_hover.png", width=80, height=80)
-    level18_button = ImageButton(1000, 600, "assets/sprites/buttons/button_level18.png",
+    level18_button = ImageButton(1000, 750, "assets/sprites/buttons/button_level18.png",
                             "assets/sprites/buttons/button_level18_hover.png", width=80, height=80)
-    level19_button = ImageButton(1200, 600, "assets/sprites/buttons/button_level19.png",
+    level19_button = ImageButton(1200, 750, "assets/sprites/buttons/button_level19.png",
                             "assets/sprites/buttons/button_level19_hover.png", width=80, height=80)
-    level20_button = ImageButton(1400, 600, "assets/sprites/buttons/button_level20.png",
+    level20_button = ImageButton(1400, 750, "assets/sprites/buttons/button_level20.png",
                             "assets/sprites/buttons/button_level20_hover.png", width=80, height=80)
 
 
