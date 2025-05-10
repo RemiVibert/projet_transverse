@@ -1,6 +1,5 @@
 import pygame
 
-
 class Fuel:
     def __init__(self, pos: pygame.Vector2, charges: int, game):
         """
@@ -22,36 +21,21 @@ class Fuel:
             self.image = pygame.image.load('assets/sprites/carburant/plein.PNG').convert_alpha()
         else:
             self.image = pygame.image.load('assets/sprites/carburant/plusieurs.PNG').convert_alpha()
-        
-        #divise la taille de l'image par 10
+
+        # Redimensionne l'image pour l'affichag en divisant par 10
         self.image = pygame.transform.scale(self.image, (self.image.get_width() // 10, self.image.get_height() // 15))  # Redimensionne l'image
 
 
-        self.rect = self.image.get_rect(center=self.pos)  # Rectangle de collision
-        self.original_image = self.image  # Garde l'image originale pour les transformations
+        self.rect = self.image.get_rect(center=self.pos)  # Crée le rectangle de collision
+        self.original_image = self.image
 
     def collect(self):
-        """
-        Ajoute le fuel au joueur et retire le bidon du jeu.
-        """
         self.game.player.fuel = min(self.game.player.fuel + self.charges, self.game.player.max_fuel)  # Ajoute le fuel au joueur sans dépasser le maximum
         pygame.mixer.Sound('assets/audio/refuel.mp3').play()
         self.game.fuels.remove(self)  # Retire le bidon de la liste des fuels
 
     def draw(self, screen, camera):
-        """
-        Affiche le bidon de fuel à l'écran.
-
-        Args:
-            screen: Surface d'affichage.
-            camera: Caméra pour gérer le zoom et le décalage.
-        """
+        # Affiche le bidon de fuel à l'écran.
         scaled_image = pygame.transform.rotozoom(self.original_image, 0, camera.zoom)  # Applique un zoom à l'image
         new_rect = scaled_image.get_rect(center=camera.world_pos_to_screen_pos(self.pos))  # Calcule la position à l'écran
         screen.blit(scaled_image, new_rect)  # Affiche l'image
-
-        # === DEBUG === #
-        # Affiche le rect du fuel avec un rectangle bleu transparent
-        # rect_surface = pygame.Surface((new_rect.width, new_rect.height), pygame.SRCALPHA)
-        # rect_surface.fill((0, 0, 255, 50))  # Bleu transparent
-        # screen.blit(rect_surface, new_rect.topleft)

@@ -2,7 +2,6 @@ import pygame
 from player import Player
 from graphismes import Etoiles
 from camera import Camera
-import levels
 from planet import Planet
 from collectible import Collectible
 from fuel import Fuel
@@ -13,7 +12,13 @@ from base import Base
 
 class Game():
     def __init__(self, screen):
-        self.MAX_DISTANCE_OUT_OF_SPACE = 20_000
+        """
+            Permet de gérer les éléments principaux du jeu.
+
+            Args:
+                screen (pygame.Surface) : surface d'affichage sur laquelle dessiner les éléments visuels liés au fuel
+        """
+        self.MAX_DISTANCE_OUT_OF_SPACE = 20_000 # Constante définissant la distance max avant de considérer le joueur comme perdu dans l'espace
         self.screen = screen # Référence vers la surface d'affichage
         self.dt:float = 0 # Temps écoulé entre deux frames
         self.player = Player(self) # Instancie le joueur
@@ -26,20 +31,14 @@ class Game():
         self.camera = Camera(self)
 
         self.cam_speed = 30  # Vitesse de déplacement manuel de la caméra
-        self.zoom = 1  # Facteur de zoom initial
+        self.zoom = 1  # Facteur de zoom initial (100%)
         self.zoom_speed = 0.1  # Vitesse de changement de zoom
-        self.zoom_min = 0.01  # Zoom minimal autorisé
-        self.zoom_max = 10  # Zoom maximal autorisé
+        self.zoom_min = 0.01
+        self.zoom_max = 10
 
         self.levels = []  # Liste des niveaux
-        self.niveau_actuel = 0  # Niveau actuel
+        self.niveau_actuel = 0
         self.load_levels()  # Charge les niveaux depuis le fichier JSON
-
-        self.cam_speed = 30 # Vitesse de déplacement manuel de la caméra
-        self.zoom = 1 # Facteur de zoom initial
-        self.zoom_speed = 0.1 # Vitesse de changement de zoom
-        self.zoom_min = 0.01 # Zoom minimal autorisé
-        self.zoom_max = 10 # Zoom maximal autorisé
 
         nb_etoiles = (self.max_cam_x - self.min_cam_x) * (self.max_cam_y - self.min_cam_y) // 500_000 #  # Calcule un nombre d’étoiles basé sur la taille de la carte
         self.etoiles = Etoiles(nb_etoiles, self.max_cam_x*2, self.max_cam_y*2, self.min_cam_x, self.min_cam_y)  # Crée les étoiles avec une zone étendue pour éviter qu’elles disparaissent
@@ -58,10 +57,10 @@ class Game():
         self.base = None
 
         level_data = self.levels[self.niveau_actuel]
-        self.total_collectibles = len(level_data["collectibles"])
-        self.collected_collectibles = 0
 
-    def is_pressed(self, key): # Retourne l’état d’une touche si elle est surveillée
+
+    def is_pressed(self, key):
+        # Retourne l’état d’une touche si elle est surveillée
         if key in self.pressed:
             return self.pressed[key]
         else:
@@ -73,7 +72,7 @@ class Game():
         self.keys = pygame.key.get_pressed() # Liste des touches pressées en continu
         pan_speed = 300 * self.dt / self.camera.zoom # Vitesse de déplacement caméra dépendant du temps + zoom
 
-        # === Déplacement manuel de la caméra via les touches fléchées === #
+        # Déplacement manuel de la caméra via les touches fléchées
         if not self.camera.anchored:
             if self.keys[pygame.K_LEFT]:
                 self.camera.offset.x -= pan_speed
@@ -97,21 +96,18 @@ class Game():
             if self.player.rect.colliderect(fuel.rect):
                 fuel.collect()  # Collecte le fuel
 
-        # === Conditions de fin de niveau === #
 
-        # mort par crash : déclenché dans la gestion des collisions
-        # mort d'out of fuel : declenché dans la gestion du tir
-        # win : déclenché dans la gestion des collisions
+        #Les différentes conditions de fin de niveau : mort par crash  et win : déclenché dans la gestion des collisions et mort d'out of fuel : declenché dans la gestion du tir
 
-        # Out of space
-        if self.planets:  # Vérifie si la liste des planètes n'est pas vide
+        # Partie qui permet de déterminer si le vaisseau est "out of space"
+        if self.planets:
             distance_to_closest_thing = min([self.player.pos.distance_to(planet.pos) for planet in self.planets])
         else:
             distance_to_closest_thing = 1_000_000
             
-        closest_thing = min(distance_to_closest_thing, self.player.pos.distance_to(self.base.pos))  # type: ignore
+        closest_thing = min(distance_to_closest_thing, self.player.pos.distance_to(self.base.pos))
 
-        if closest_thing > self.MAX_DISTANCE_OUT_OF_SPACE:
+        if closest_thing > self.MAX_DISTANCE_OUT_OF_SPACE: # Si le joueur est trop loin de toute planète
             self.game_over("out_of_space", False)
 
     def load_levels(self):
@@ -122,9 +118,7 @@ class Game():
     def load_level(self, niveau_index=None):
         if niveau_index is None:
             niveau_index = self.niveau_actuel
-
         level = self.levels[niveau_index]  # Charge le niveau spécifié
-
 
         self.cam_x = level["spawn"][0]  # Position caméra x initiale
         self.cam_y = level["spawn"][1]  # Position caméra y initiale
@@ -138,7 +132,7 @@ class Game():
         self.player.pos = pygame.Vector2(level["spawn"])  # Position initiale du joueur
         self.player.max_fuel = level["max_fuel"]
         self.player.fuel = level["start_fuel"]
-        self.player.collected_collectibles = 0
+
 
         self.planets = []  # Liste des planètes dans le niveau
         self.collectibles = []
@@ -149,7 +143,7 @@ class Game():
         new_height = 800
         base_init_resized = pygame.transform.scale(base_init, (new_width, new_height))
         base_x, base_y = level["end"]
-        self.base = Base(base_x, base_y, base_init_resized)
+        self.base = Base(base_x, base_y, base_init_resized) # Initialise la base de fin de niveau
 
 
         for planete in level["planetes"]:
@@ -166,10 +160,13 @@ class Game():
         self.nb_collectibles = len(self.collectibles)
         pygame.mixer.Sound("assets/audio/spawn_clic.mp3").play()
 
+        self.player.collected_collectibles = 0
+        self.total_collectibles = len(level["collectibles"])
         self.camera.recenter_on_player()
 
     def next_level(self):
-        self.niveau_actuel = (self.niveau_actuel + 1) % len(self.levels)  # Passe au niveau suivant et retourne au début si on dépasse le dernier niveau
+        # Passe au niveau suivant et retourne au début si on dépasse le dernier niveau
+        self.niveau_actuel = (self.niveau_actuel + 1) % len(self.levels)
         self.load_level()
 
 
@@ -179,8 +176,7 @@ class Game():
 
         print(f"\033[1;31mFIN DU NIVEAU : {message}\033[0m")
 
-        if self.player.godmod and not victoire:
-            return
+        # Réinitialise les variables du niveau
         self.end_screen_active = True
         self.victoire = victoire
         self.camera.anchored = True
@@ -193,6 +189,7 @@ class Game():
         self.player.last_direction = pygame.Vector2(0, -1)
         image_path = None
 
+        # Choix de l’image de fin et du son en fonction de la cause de la mort
         if message == "out of fuel":
             image_path = "assets/level_end_screen/dead_no_fuel.png"
             pygame.mixer.Sound("assets/audio/power_down.mp3").play()
@@ -209,32 +206,35 @@ class Game():
             sound.set_volume(0.2)  # Régle le volume à 20%
             sound.play()
         else:
-            msg = "Fin de niveau."
+            msg = "Fin de niveau." # Message par défaut si non reconnu
+
+        # Charge et redimensionne l'image de fin pour affichage
         if image_path:
             death_overlay = pygame.image.load(image_path).convert_alpha()
             self.death_overlay = pygame.transform.scale(death_overlay, (500, 500))
 
     def show_end_screen(self, message: str, victoire: bool, screen: pygame.Surface, image: pygame.Surface|None = None):
-        self.end_screen_active = True
+        self.end_screen_active = True # Active l'écran de fin
         self.victoire = victoire
         if image:
             screen.blit(image, (100, 200))
 
     def check_victory(self):
-        if self.end_screen_active or not self.player.has_launched:
+        if self.end_screen_active or not self.player.has_launched: # Ignore si fin déjà déclenchée ou si le joueur n’a pas été lancé
             return
         if self.base.check_collision(self.player.rect): # type: ignore
-            self.game_over("win", victoire=True)
+            self.game_over("win", victoire=True) # Déclenche la victoire
 
     def calculate_stars(self):
-        if self.total_collectibles == 0:
-            return 0
-        ratio = self.collected_collectibles / self.total_collectibles
-        if ratio >= 1:
+        # Calcule le nombre d'étoiles à afficher une fois la victoire du niveau déclenchée
+        if self.total_collectibles == 0: # Si aucun collectible, accorde directement 3 étoiles
             return 3
-        elif ratio >= 2/3:
+        ratio = self.player.collected_collectibles / self.total_collectibles # Calcule le ratio de collectibles récupérés et accorde des étoiles en fonction
+        if ratio >= 1.0:
+            return 3
+        elif ratio >= 2.0 / 3.0:
             return 2
-        elif ratio >= 1/3:
+        elif ratio >= 1.0 / 3.0:
             return 1
         else:
             return 0

@@ -1,7 +1,6 @@
 import pygame
 from game import Game
 from button import ImageButton
-from levels import level1, level2, level3
 from base import Base
 from player import Player
 
@@ -11,7 +10,7 @@ import ctypes
 def warn_message():
     """Ouvre une fenêtre pycharm avec l'image de fond indiquant le problème, qui se ferme quand on clique."""
     user32 = ctypes.windll.user32
-    user32.SetProcessDPIAware()
+    user32.SetProcessDPIAware() # Ajuste la DPI pour l'écran de l'utilisateur
     screen_width = user32.GetSystemMetrics(0)
     screen_height = user32.GetSystemMetrics(1)
 
@@ -20,7 +19,7 @@ def warn_message():
     screen = pygame.display.set_mode((screen_width, screen_height))
 
     background = pygame.image.load('assets/UI/screen_res_background.PNG').convert()
-    background = pygame.transform.scale(background, (screen_width, screen_height))
+    background = pygame.transform.scale(background, (screen_width, screen_height)) # Redimensionner le fond pour couvrir tout l'écran
 
     running = True
     while running:
@@ -34,12 +33,8 @@ def warn_message():
     pygame.quit()
 
 def start():
-    blink_timer = 0 #ajout pour le panneau de sélection des missions
-    blink_state = True  #True = Jaune et False = Blanc
-    blink_speed = 0.5
     n = 0
-    SCREEN_SIZE = (1920, 1080)
-    # SCREEN_SIZE = (960, 540)  # Pour le test sur l'ordinateur portable
+    SCREEN_SIZE = (1920, 1080) # Taille de l'écran du jeu
 
 
     pygame.init()
@@ -54,29 +49,27 @@ def start():
     clock = pygame.time.Clock()
 
 
-    # images de fin de niveau
+    # Images du fond de fin de niveau
     end_background_victory = pygame.image.load("assets/level_end_screen/image_fin_niveau.png").convert()
     end_background_game_over = pygame.image.load("assets/level_end_screen/game_over_screen.png").convert()
     dead_crash_img = pygame.image.load("assets/level_end_screen/dead_crash.png").convert_alpha()
     dead_no_fuel_img = pygame.image.load("assets/level_end_screen/dead_no_fuel.png").convert_alpha()
     dead_lost_img = pygame.image.load("assets/level_end_screen/dead_lost.png").convert_alpha()
-    background_screen_res = pygame.image.load("assets/UI/screen_res_background.PNG").convert()
+
+    background_screen_res = pygame.image.load("assets/UI/screen_res_background.PNG").convert() #Fond pour avertir d'une mauvaise résolution
 
     game = Game(screen)
     player = game.player
 
-
-    # Police pour les règles
-    rules_font = pygame.font.SysFont('DIN', 18)
+    rules_font = pygame.font.SysFont('DIN', 18) # Police pour les règles
 
     # États de l'interface
     show_menu = True
     show_rules = False
     show_end_screen = False
     show_levels = False
-    show_screen_res = False
 
-    # Boutons
+    # Boutons de menus
     quit_button = ImageButton(1856, 0, "assets/sprites/buttons/button_close.png", width=64, height=64)
 
     play_button = ImageButton(350, 550, "assets/sprites/buttons/button_play_inerte.png",
@@ -113,38 +106,39 @@ def start():
                             "assets/sprites/buttons/button_level4_hover.png", width=80, height=80)
     level5_button = ImageButton(1300, 300, "assets/sprites/buttons/button_level5.png",
                             "assets/sprites/buttons/button_level5_hover.png", width=80, height=80)
-    level6_button = ImageButton(600, 450, "assets/sprites/buttons/button_level6.png",
+    level6_button = ImageButton(600, 400, "assets/sprites/buttons/button_level6.png",
                             "assets/sprites/buttons/button_level6_hover.png", width=80, height=80)
-    level7_button = ImageButton(800, 450, "assets/sprites/buttons/button_level7.png",
+    level7_button = ImageButton(800, 400, "assets/sprites/buttons/button_level7.png",
                             "assets/sprites/buttons/button_level7_hover.png", width=80, height=80)
-    level8_button = ImageButton(1000, 450, "assets/sprites/buttons/button_level8.png",
+    level8_button = ImageButton(1000, 400, "assets/sprites/buttons/button_level8.png",
                             "assets/sprites/buttons/button_level8_hover.png", width=80, height=80)
-    level9_button = ImageButton(1200, 450, "assets/sprites/buttons/button_level9.png",
+    level9_button = ImageButton(1200, 400, "assets/sprites/buttons/button_level9.png",
                             "assets/sprites/buttons/button_level9_hover.png", width=80, height=80)
-    level10_button = ImageButton(1400, 450, "assets/sprites/buttons/button_level10.png",
+    level10_button = ImageButton(1400, 400, "assets/sprites/buttons/button_level10.png",
                             "assets/sprites/buttons/button_level10_hover.png", width=80, height=80)
-    level11_button = ImageButton(500, 600, "assets/sprites/buttons/button_level11.png",
+    level11_button = ImageButton(500, 500, "assets/sprites/buttons/button_level11.png",
                             "assets/sprites/buttons/button_level11_hover.png", width=80, height=80)
-    level12_button = ImageButton(700, 600, "assets/sprites/buttons/button_level12.png",
+    level12_button = ImageButton(700, 500, "assets/sprites/buttons/button_level12.png",
                             "assets/sprites/buttons/button_level12_hover.png", width=80, height=80)
-    level13_button = ImageButton(900, 600, "assets/sprites/buttons/button_level13.png",
+    level13_button = ImageButton(900, 500, "assets/sprites/buttons/button_level13.png",
                             "assets/sprites/buttons/button_level13_hover.png", width=80, height=80)
-    level14_button = ImageButton(1100, 600, "assets/sprites/buttons/button_level14.png",
+    level14_button = ImageButton(1100, 500, "assets/sprites/buttons/button_level14.png",
                             "assets/sprites/buttons/button_level14_hover.png", width=80, height=80)
-    level15_button = ImageButton(1300, 600, "assets/sprites/buttons/button_level15.png",
+    level15_button = ImageButton(1300, 500, "assets/sprites/buttons/button_level15.png",
                             "assets/sprites/buttons/button_level15_hover.png", width=80, height=80)
-    level16_button = ImageButton(600, 750, "assets/sprites/buttons/button_level16.png",
+    level16_button = ImageButton(600, 600, "assets/sprites/buttons/button_level16.png",
                             "assets/sprites/buttons/button_level16_hover.png", width=80, height=80)
-    level17_button = ImageButton(800, 750, "assets/sprites/buttons/button_level17.png",
+    level17_button = ImageButton(800, 600, "assets/sprites/buttons/button_level17.png",
                             "assets/sprites/buttons/button_level17_hover.png", width=80, height=80)
-    level18_button = ImageButton(1000, 750, "assets/sprites/buttons/button_level18.png",
+    level18_button = ImageButton(1000, 600, "assets/sprites/buttons/button_level18.png",
                             "assets/sprites/buttons/button_level18_hover.png", width=80, height=80)
-    level19_button = ImageButton(1200, 750, "assets/sprites/buttons/button_level19.png",
+    level19_button = ImageButton(1200, 600, "assets/sprites/buttons/button_level19.png",
                             "assets/sprites/buttons/button_level19_hover.png", width=80, height=80)
-    level20_button = ImageButton(1400, 750, "assets/sprites/buttons/button_level20.png",
+    level20_button = ImageButton(1400, 600, "assets/sprites/buttons/button_level20.png",
                             "assets/sprites/buttons/button_level20_hover.png", width=80, height=80)
 
-    # Image en bas à droite
+
+    # Image en bas à droite du menu des règles
     image_bas_droite = pygame.image.load("assets/UI/astronaute_haute_def.PNG")
     image_bas_droite = pygame.transform.scale(image_bas_droite, (250, 250))
 
@@ -173,13 +167,8 @@ def start():
     while running:
         game.dt = clock.tick(60) / 1000
         mouse_pos = pygame.mouse.get_pos()
-        if show_screen_res :
-            screen.blit(background_screen_res, (0, 0))
-            ok_button.update(mouse_pos)
-            ok_button.draw(screen)
-            quit_button.draw(screen)
-        elif show_menu and not show_rules:
 
+        if show_menu and not show_rules:
             # Menu principal
             screen.blit(background, (0, 0))  # Affiche le fond du menu
             screen.blit(image_planete, (1000, -128)) 
@@ -232,13 +221,7 @@ def start():
 
             levels_rect = pygame.Rect(300, 150, 1320, 780)
 
-            blink_timer += game.dt #se met au temps du jeu
-            if blink_timer >= blink_speed: #au démarrage
-                blink_timer = 0
-                blink_state = not blink_state #etat par défaut
-
-            title_color = (255, 255, 0) if blink_state else (255, 255, 255) #oscille entre blanc ou jaune en fonction de l'état de blink_state
-            title = pygame.font.SysFont('DIN', 60).render("Choisissez votre Mission : ", True, title_color) #est affecté par la couleur qui s'adapte
+            title = pygame.font.SysFont('DIN', 60).render("Choisissez votre niveau : ", True, (255, 255, 255))
             screen.blit(title, (levels_rect.centerx - title.get_width() // 2, levels_rect.y + 30))
 
             # Boutons des niveaux
@@ -262,6 +245,7 @@ def start():
             level18_button.update(mouse_pos)
             level19_button.update(mouse_pos)
             level20_button.update(mouse_pos)
+
             level1_button.draw(screen)
             level2_button.draw(screen)
             level3_button.draw(screen)
@@ -282,6 +266,7 @@ def start():
             level18_button.draw(screen)
             level19_button.draw(screen)
             level20_button.draw(screen)
+
 
             back_button.update(mouse_pos)
             back_button.draw(screen)
@@ -361,36 +346,33 @@ def start():
                     pygame.mixer.music.play(-1)  # Jouer la musique de loop en boucle infinie
 
             if event.type == pygame.QUIT:
-                running = False
+                running = False # Arrête la boucle de jeu si la fenêtre est fermée
 
             if event.type == pygame.KEYDOWN:
                 game.pressed[event.key] = True
                 if event.key == pygame.K_SPACE:
-                    game.camera.anchored = not game.camera.anchored
+                    game.camera.anchored = not game.camera.anchored # Inverse l'ancrage de la caméra
                     if game.camera.anchored:
-                        game.camera.recenter_on_player()
+                        game.camera.recenter_on_player() # Recentre la caméra sur le joueur
 
             if event.type == pygame.KEYUP:
                 game.pressed[event.key] = False
 
             if event.type == pygame.MOUSEWHEEL:
-                zoom_factor = 1.1 if event.y > 0 else 0.9
+                zoom_factor = 1.1 if event.y > 0 else 0.9 # Détermine le facteur de zoom
                 game.camera.set_zoom(zoom_factor)
 
 
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 world_mouse = game.camera.offset + pygame.Vector2(event.pos) / game.camera.zoom
-                if not game.player.rect.collidepoint(world_mouse):
+                if not game.player.rect.collidepoint(world_mouse):  # Si la souris ne touche pas le joueur
                     game.camera.dragging = True
-                    game.camera.drag_start = pygame.Vector2(event.pos)
-                    game.camera.drag_offset_start = game.camera.offset.copy()
+                    game.camera.drag_start = pygame.Vector2(event.pos) # Sauvegarde la position de départ du drag
+                    game.camera.drag_offset_start = game.camera.offset.copy() # Sauvegarde la position de départ de l'offset de la caméra
                 if event.button == 1:
-                    play_button_sound = False
+                    play_button_sound = False # Variable pour gérer le son des boutons
                     if quit_button.is_clicked(event.pos):
                         running = False
-                    if show_screen_res and ok_button.is_clicked(event.pos):
-                        show_screen_res = False
-                        show_menu = True
                     if show_menu and not show_rules:
                         if play_button.is_clicked(event.pos):
                             show_menu = False
@@ -416,6 +398,7 @@ def start():
                             play_button_sound = True
                             show_levels = False
                             show_menu = True
+                        # Gestion des clics sur les différents boutons de niveaux
                         elif level1_button.is_clicked(event.pos):
                             show_menu = False
                             show_levels = False
