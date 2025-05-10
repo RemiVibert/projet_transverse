@@ -8,7 +8,30 @@ from player import Player
 
 import ctypes
 
+def warn_message():
+    """Ouvre une fenêtre pycharm avec l'image de fond indiquant le problème, qui se ferme quand on clique."""
+    user32 = ctypes.windll.user32
+    user32.SetProcessDPIAware()
+    screen_width = user32.GetSystemMetrics(0)
+    screen_height = user32.GetSystemMetrics(1)
 
+    pygame.init()
+    pygame.display.set_caption("Résolution insuffisante")
+    screen = pygame.display.set_mode((screen_width, screen_height))
+
+    background = pygame.image.load('assets/UI/screen_res_background.PNG').convert()
+    background = pygame.transform.scale(background, (screen_width, screen_height))
+
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT or event.type == pygame.MOUSEBUTTONDOWN:
+                running = False
+
+        screen.blit(background, (0, 0))
+        pygame.display.flip()
+
+    pygame.quit()
 
 def start():
     n = 0
@@ -44,11 +67,11 @@ def start():
     rules_font = pygame.font.SysFont('DIN', 18)
 
     # États de l'interface
-    show_menu = False
+    show_menu = True
     show_rules = False
     show_end_screen = False
     show_levels = False
-    show_screen_res = True
+    show_screen_res = False
 
     # Boutons
     quit_button = ImageButton(1856, 0, "assets/sprites/buttons/button_close.png", width=64, height=64)
@@ -533,7 +556,8 @@ user32.SetProcessDPIAware()  # Prend en compte la mise à l'échelle Windows
 screen_width = user32.GetSystemMetrics(0)
 screen_height = user32.GetSystemMetrics(1)
 if screen_width < 1920 or screen_height < 1080:
-    print("Pas la bonne taille")
+    print(f"\033[1;31mLa fenêtre de jeu n'a pas la bonne taille\033[0m")
+    warn_message()
 else:
     start()
     pygame.quit()
