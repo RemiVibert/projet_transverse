@@ -405,16 +405,15 @@
                 "max_y": 20000
             },
             "spawn": [0, 0],
-            "end": [5000, 0],
-            "max_fuel": 30,
-            "start_fuel": 30,
+            "end": [4000, -200],
+            "max_fuel": 8,
+            "start_fuel": 8,
             "planetes": [
-                {"position": [3000, 8000], "type": "petite-rocheuse"},
-                {"position": [0, -8000], "type": "moyenne-rocheuse"},
-                {"position": [-4000, 8000], "type": "grande-rocheuse"}
+                {"position": [1500, 1100], "type": "grande-rocheuse"},
+                {"position": [1500, -1100], "type": "grande-gazeuse"}
             ],
-            "collectibles": [[2000, 0], [3000, 0], [4000, 0]],
-            "carburant": [{"position": [1000, 0], "quantité": 10}
+            "collectibles": [[900, 0], [1400, 0], [1900, 0]],
+            "carburant": [
 ]
         },
         {
@@ -425,16 +424,101 @@
                 "min_y": -50000,
                 "max_y": 50000
             },
-            "spawn": [500, 40000],
-            "end": [10000, 0],
-            "max_fuel": 40,
-            "start_fuel": 40,
+            "spawn": [0, 0],
+            "end": [900, -300],
+            "max_fuel": 15,
+            "start_fuel": 15,
             "planetes": [
-              {"position": [1000, 100], "type": "petite-gazeuse"},
-              {"position": [0, 6000], "type": "moyenne-gazeuse"}
+              {"position": [1200, 0], "type": "grande-gazeuse"}
             ],
-            "collectibles": [[0, 1000], [1000, 2000]],
-            "carburant": [{ "position": [-1000, 500], "quantité": 50 }]
+            "collectibles": [[1200, 1000], [1200, -1000], [2400,0]],
+            "carburant": []
+        },
+        {
+            "difficulté": 17,
+            "taille": {
+                "min_x": -200000,
+                "max_x": 200000,
+                "min_y": -200000,
+                "max_y": 200000
+            },
+            "spawn": [0, 0],
+            "end": [700, 700],
+            "max_fuel": 50,
+            "start_fuel": 50,
+            "planetes": [
+            ],
+            "collectibles": [],
+            "carburant": [
+]
+        },
+        {
+            "difficulté": 18,
+            "taille": {
+                "min_x": -200000,
+                "max_x": 200000,
+                "min_y": -200000,
+                "max_y": 200000
+            },
+            "spawn": [0, 0],
+            "end": [750, 750],
+            "max_fuel": 50,
+            "start_fuel": 50,
+            "planetes": [
+                {"position": [353, 353], "type": "petite-rocheuse"}
+            ],
+            "collectibles": [],
+            "carburant": [
+]
+        },
+        {
+            "difficulté": 19,
+            "taille": {
+                "min_x": -200000,
+                "max_x": 200000,
+                "min_y": -200000,
+                "max_y": 200000
+            },
+            "spawn": [0, 0],
+            "end": [2200, 0],
+            "max_fuel": 50,
+            "start_fuel": 50,
+            "planetes": [
+                {"position": [1000, 0], "type": "petite-rocheuse"},
+                {"position": [0, 900], "type": "petite-rocheuse"},
+                {"position": [2200, 900], "type": "petite-rocheuse"}
+            ],
+            "collectibles": [],
+            "carburant": [
+]
+        },
+        {
+            "difficulté": 20,
+            "taille": {
+                "min_x": -200000,
+                "max_x": 200000,
+                "min_y": -200000,
+                "max_y": 200000
+            },
+            "spawn": [0, 0],
+            "end": [10000, -400],
+            "max_fuel": 50,
+            "start_fuel": 50,
+            "planetes": [
+                {"position": [1500, 0], "type": "moyenne-rocheuse"},
+                {"position": [3000, 0], "type": "moyenne-rocheuse"},
+                {"position": [4500, 0], "type": "moyenne-rocheuse"},
+                {"position": [6000, 0], "type": "moyenne-rocheuse"},
+                {"position": [7500, 0], "type": "moyenne-rocheuse"},
+                {"position": [4500, 1500], "type": "moyenne-rocheuse"},
+                {"position": [4500, 3000], "type": "moyenne-rocheuse"},
+                {"position": [4500, -1500], "type": "moyenne-rocheuse"},
+                {"position": [4500, -3000], "type": "moyenne-rocheuse"}
+
+            ],
+            "collectibles": [[2250, 0], [3750, 0], [5250,0],[6750, 0], [4500, 750], [4500,2250],[4500, 3750], [4500, -750], [4500,-2250]],
+            "carburant": [{"position": [4500, -3750], "quantité": 50}]
         }
     ]
+
 }
