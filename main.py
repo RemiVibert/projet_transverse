@@ -136,26 +136,7 @@ def start():
                             "assets/sprites/buttons/button_level19_hover.png", width=80, height=80)
     level20_button = ImageButton(1400, 600, "assets/sprites/buttons/button_level20.png",
                             "assets/sprites/buttons/button_level20_hover.png", width=80, height=80)
-    level21_button = ImageButton(500, 700, "assets/sprites/buttons/button_level21.png",
-                            "assets/sprites/buttons/button_level21_hover.png", width=80, height=80)
-    level22_button = ImageButton(700, 700, "assets/sprites/buttons/button_level22.png",
-                            "assets/sprites/buttons/button_level22_hover.png", width=80, height=80)
-    level23_button = ImageButton(900, 700, "assets/sprites/buttons/button_level23.png",
-                            "assets/sprites/buttons/button_level23_hover.png", width=80, height=80)
-    level24_button = ImageButton(1100, 700, "assets/sprites/buttons/button_level24.png",
-                            "assets/sprites/buttons/button_level24_hover.png", width=80, height=80)
-    level25_button = ImageButton(1300, 700, "assets/sprites/buttons/button_level25.png",
-                            "assets/sprites/buttons/button_level25_hover.png", width=80, height=80)
-    level26_button = ImageButton(600, 800, "assets/sprites/buttons/button_level26.png",
-                            "assets/sprites/buttons/button_level26_hover.png", width=80, height=80)
-    level27_button = ImageButton(800, 800, "assets/sprites/buttons/button_level27.png",
-                            "assets/sprites/buttons/button_level27_hover.png", width=80, height=80)
-    level28_button = ImageButton(1000, 800, "assets/sprites/buttons/button_level28.png",
-                            "assets/sprites/buttons/button_level28_hover.png", width=80, height=80)
-    level29_button = ImageButton(1200, 800, "assets/sprites/buttons/button_level29.png",
-                            "assets/sprites/buttons/button_level29_hover.png", width=80, height=80)
-    level30_button = ImageButton(1400, 800, "assets/sprites/buttons/button_level30.png",
-                            "assets/sprites/buttons/button_level30_hover.png", width=80, height=80)
+
 
     # Image en bas à droite du menu des règles
     image_bas_droite = pygame.image.load("assets/UI/astronaute_haute_def.PNG")
@@ -264,16 +245,7 @@ def start():
             level18_button.update(mouse_pos)
             level19_button.update(mouse_pos)
             level20_button.update(mouse_pos)
-            level21_button.update(mouse_pos)
-            level22_button.update(mouse_pos)
-            level23_button.update(mouse_pos)
-            level24_button.update(mouse_pos)
-            level25_button.update(mouse_pos)
-            level26_button.update(mouse_pos)
-            level27_button.update(mouse_pos)
-            level28_button.update(mouse_pos)
-            level29_button.update(mouse_pos)
-            level30_button.update(mouse_pos)
+
             level1_button.draw(screen)
             level2_button.draw(screen)
             level3_button.draw(screen)
@@ -294,16 +266,7 @@ def start():
             level18_button.draw(screen)
             level19_button.draw(screen)
             level20_button.draw(screen)
-            level21_button.draw(screen)
-            level22_button.draw(screen)
-            level23_button.draw(screen)
-            level24_button.draw(screen)
-            level25_button.draw(screen)
-            level26_button.draw(screen)
-            level27_button.draw(screen)
-            level28_button.draw(screen)
-            level29_button.draw(screen)
-            level30_button.draw(screen)
+
 
             back_button.update(mouse_pos)
             back_button.draw(screen)
@@ -383,31 +346,31 @@ def start():
                     pygame.mixer.music.play(-1)  # Jouer la musique de loop en boucle infinie
 
             if event.type == pygame.QUIT:
-                running = False
+                running = False # Arrête la boucle de jeu si la fenêtre est fermée
 
             if event.type == pygame.KEYDOWN:
                 game.pressed[event.key] = True
                 if event.key == pygame.K_SPACE:
-                    game.camera.anchored = not game.camera.anchored
+                    game.camera.anchored = not game.camera.anchored # Inverse l'ancrage de la caméra
                     if game.camera.anchored:
-                        game.camera.recenter_on_player()
+                        game.camera.recenter_on_player() # Recentre la caméra sur le joueur
 
             if event.type == pygame.KEYUP:
                 game.pressed[event.key] = False
 
             if event.type == pygame.MOUSEWHEEL:
-                zoom_factor = 1.1 if event.y > 0 else 0.9
+                zoom_factor = 1.1 if event.y > 0 else 0.9 # Détermine le facteur de zoom
                 game.camera.set_zoom(zoom_factor)
 
 
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 world_mouse = game.camera.offset + pygame.Vector2(event.pos) / game.camera.zoom
-                if not game.player.rect.collidepoint(world_mouse):
+                if not game.player.rect.collidepoint(world_mouse):  # Si la souris ne touche pas le joueur
                     game.camera.dragging = True
-                    game.camera.drag_start = pygame.Vector2(event.pos)
-                    game.camera.drag_offset_start = game.camera.offset.copy()
+                    game.camera.drag_start = pygame.Vector2(event.pos) # Sauvegarde la position de départ du drag
+                    game.camera.drag_offset_start = game.camera.offset.copy() # Sauvegarde la position de départ de l'offset de la caméra
                 if event.button == 1:
-                    play_button_sound = False
+                    play_button_sound = False # Variable pour gérer le son des boutons
                     if quit_button.is_clicked(event.pos):
                         running = False
                     if show_menu and not show_rules:
@@ -435,6 +398,7 @@ def start():
                             play_button_sound = True
                             show_levels = False
                             show_menu = True
+                        # Gestion des clics sur les différents boutons de niveaux
                         elif level1_button.is_clicked(event.pos):
                             show_menu = False
                             show_levels = False
