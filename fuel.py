@@ -17,11 +17,11 @@ class Fuel:
 
         # Déterminer le type de bidon en fonction des charges
         if charges <= 10:
-            self.image = pygame.image.load('assets/sprites/carburant/vide.png').convert_alpha()
+            self.image = pygame.image.load('assets/sprites/carburant/vide.PNG').convert_alpha()
         elif charges <= 30:
-            self.image = pygame.image.load('assets/sprites/carburant/plein.png').convert_alpha()
+            self.image = pygame.image.load('assets/sprites/carburant/plein.PNG').convert_alpha()
         else:
-            self.image = pygame.image.load('assets/sprites/carburant/plusieurs.png').convert_alpha()
+            self.image = pygame.image.load('assets/sprites/carburant/plusieurs.PNG').convert_alpha()
         
         #divise la taille de l'image par 10
         self.image = pygame.transform.scale(self.image, (self.image.get_width() // 10, self.image.get_height() // 15))  # Redimensionne l'image
