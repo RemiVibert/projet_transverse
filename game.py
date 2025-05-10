@@ -231,11 +231,11 @@ class Game():
         if self.total_collectibles == 0:
             return 3
         ratio = self.player.collected_collectibles / self.total_collectibles
-        if ratio >= 2.0:
+        if ratio >= 1.0:
             return 3
-        elif ratio >= 4.0 / 3.0:
-            return 2
         elif ratio >= 2.0 / 3.0:
+            return 2
+        elif ratio >= 1.0 / 3.0:
             return 1
         else:
             return 0

@@ -97,12 +97,11 @@ class Player(pygame.sprite.Sprite):
                         self.velocity = self.velocity.reflect(direction) # On reflète la vélocité pour simuler un rebond
                         self.velocity *= 0.8  # On peut aussi réduire un peu la vitesse pour simuler de la perte d'énergie
 
-            # === Collection des collectibles === #
+            # Collection des collectibles
             for collectible in self.game.collectibles:
                 if self.rect.colliderect(collectible.rect):
                     collectible.collect()
-                    self.collected_collectibles += 1  # Incrémente le nombre de collectibles ramassés
-                    pygame.mixer.Sound("assets/audio/collect.mp3").play()  # Joue le son de collecte
+                    pygame.mixer.Sound("assets/audio/collect.mp3").play()  # Son de collecte
 
 
 
