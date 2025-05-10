@@ -5,13 +5,13 @@
 ## PRESENTATION DU PROJET
 
 ### CONTRIBUTEURS
-Myriam MOUTTALIB: Chef Développement, Direction Artistique, Art, Test, Debug
+Myriam MOUTTALIB: Chef Développement, Direction Artistique, Notion Managment, Art, Test, Debug, Level Implementation, Journal de Bord
 
-Kévin-Seng TEK: Développement, Level Design, Physique, Debug, ReadME
+Kévin-Seng TEK: Développement, Level Implementation, Physique, Chef Debug, ReadME et Notion Managment
 
 Rémi VIBERT: Développement, Level Design, Sound Design
 
-Eliott LE GUEN: Power Point, Monday et Notion Managment, Collaboration Ponctuelle
+Eliott LE GUEN: Power Point, Monday et Collaboration Ponctuelle
 
 Valentin BOINAY: Collaboration Ponctuelle
 
@@ -118,10 +118,10 @@ Sur Notion
 
 ### REPARTITION DES TACHES
 Les tâches se sont crées petit à petit au fur et à mesure du projet. 
-Myriam MOUTTALIB: A codé une partie importante du projet, implémenté les différents designs artistiques et a testé et débuggé le projet.
-Kévin-Seng TEK: A codé les différents menus du projet, la physique, crée et implémenté les différents niveaux et rédigé le readME et testé et débuggé le projet.
-Rémi VIBERT: A codé la base du projet, et a crée et implenté les différents niveaux.
-Eliott LE GUEN: A fait le PowerPoint, géré le Notion et le Monday et a été présent aux réunions.
+Myriam MOUTTALIB: A codé une partie majeure du projet, implémenté les différents designs artistiques, implenté les différents niveaux, géré le Notion et a testé et débuggé le projet.
+Kévin-Seng TEK: A codé une partie importante du projet incluant les différents menus du projet, la physique, implémenté les différents niveaux, géré le Notion et rédigé le readME et testé et débuggé le projet.
+Rémi VIBERT: A codé la base du projet, et a crée  les différents niveaux, ainsi que le sound design.
+Eliott LE GUEN: A fait le PowerPoint, géré le Monday et a été présent aux réunions.
 Valentin BOINAY: A été présent aux réunions.
 
 ## TESTS ET VALIDATION
