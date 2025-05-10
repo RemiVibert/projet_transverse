@@ -13,10 +13,9 @@
             "max_fuel": 50,
             "start_fuel": 50,
             "planetes": [
-                {"position": [19000, 19000], "type": "petite-rocheuse"}
             ],
-            "collectibles": [[-100000, -100000]],
-            "carburant": [{"position": [-19000, -19000], "quantité": 1}
+            "collectibles": [],
+            "carburant": [
 ]
         },
         {
@@ -34,8 +33,8 @@
             "planetes": [
                 {"position": [353, 353], "type": "petite-rocheuse"}
             ],
-            "collectibles": [[-170000, -170000]],
-            "carburant": [{"position": [-190000, -190000], "quantité": 1}
+            "collectibles": [],
+            "carburant": [
 ]
         },
         {
@@ -55,8 +54,8 @@
                 {"position": [0, 900], "type": "petite-rocheuse"},
                 {"position": [2200, 900], "type": "petite-rocheuse"}
             ],
-            "collectibles": [[-170000, -170000]],
-            "carburant": [{"position": [-190000, -190000], "quantité": 1}
+            "collectibles": [],
+            "carburant": [
 ]
         },
         {
@@ -76,8 +75,8 @@
                 {"position": [0, 900], "type": "petite-rocheuse"},
                 {"position": [2200, 900], "type": "petite-rocheuse"}
             ],
-            "collectibles": [[-170000, -170000]],
-            "carburant": [{"position": [-190000, -190000], "quantité": 1}
+            "collectibles": [],
+            "carburant": [
 ]
         },
         {
@@ -96,7 +95,7 @@
                 {"position": [1250, 0], "type": "petite-rocheuse"}
             ],
             "collectibles": [[1250, 400]],
-            "carburant": [{"position": [100000, 100000], "quantité": 10}
+            "carburant": [
 ]
         },
         {
@@ -115,7 +114,7 @@
                 {"position": [1000, 0], "type": "petite-rocheuse"}
             ],
             "collectibles": [[1000, 300], [1000, -300]],
-            "carburant": [{"position": [100000, 100000], "quantité": 10}
+            "carburant": [
 ]
         },
         {
@@ -135,7 +134,7 @@
                 {"position": [500, 600], "type": "petite-rocheuse"}
             ],
             "collectibles": [[500, -1000], [500, 0],[500, 1000] ],
-            "carburant": [{"position": [100000, 0], "quantité": 10}
+            "carburant": [
 ]
         },
         {
@@ -204,7 +203,7 @@
                 {"position": [-500, 550], "type": "x-asteroide"}
             ],
             "collectibles": [[0, -1350], [900, 400]],
-            "carburant": [{"position": [100000, 0], "quantité": 10}
+            "carburant": [
 ]
         },
         {
@@ -289,7 +288,7 @@
                 {"position": [-400, 500], "type": "x-asteroide"}
             ],
             "collectibles": [[0, -700], [2000, 300] ],
-            "carburant": [{"position": [100000, 0], "quantité": 10}
+            "carburant": [
 ]
         },
         {
@@ -310,7 +309,7 @@
                 {"position": [-4000, 8000], "type": "grande-rocheuse"}
             ],
             "collectibles": [[2000, 0], [3000, 0], [4000, 0]],
-            "carburant": [{"position": [1000, 0], "quantité": 10}
+            "carburant": [
 ]
         },
         {
