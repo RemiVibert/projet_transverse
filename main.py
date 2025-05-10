@@ -517,6 +517,76 @@ def start():
                             n = 9
                             game.camera.anchored = True
                             game.camera.recenter_on_player()
+                        elif level11_button.is_clicked(event.pos):
+                            show_menu = False
+                            show_levels = False
+                            game.load_level(10)
+                            n = 10
+                            game.camera.anchored = True
+                            game.camera.recenter_on_player()
+                        elif level12_button.is_clicked(event.pos):
+                            show_menu = False
+                            show_levels = False
+                            game.load_level(11)
+                            n = 11
+                            game.camera.anchored = True
+                            game.camera.recenter_on_player()
+                        elif level13_button.is_clicked(event.pos):
+                            show_menu = False
+                            show_levels = False
+                            game.load_level(12)
+                            n = 12
+                            game.camera.anchored = True
+                            game.camera.recenter_on_player()
+                        elif level14_button.is_clicked(event.pos):
+                            show_menu = False
+                            show_levels = False
+                            game.load_level(13)
+                            n = 13
+                            game.camera.anchored = True
+                            game.camera.recenter_on_player()
+                        elif level15_button.is_clicked(event.pos):
+                            show_menu = False
+                            show_levels = False
+                            game.load_level(14)
+                            n = 14
+                            game.camera.anchored = True
+                            game.camera.recenter_on_player()
+                        elif level16_button.is_clicked(event.pos):
+                            show_menu = False
+                            show_levels = False
+                            game.load_level(15)
+                            n = 15
+                            game.camera.anchored = True
+                            game.camera.recenter_on_player()
+                        elif level17_button.is_clicked(event.pos):
+                            show_menu = False
+                            show_levels = False
+                            game.load_level(16)
+                            n = 16
+                            game.camera.anchored = True
+                            game.camera.recenter_on_player()
+                        elif level18_button.is_clicked(event.pos):
+                            show_menu = False
+                            show_levels = False
+                            game.load_level(17)
+                            n = 17
+                            game.camera.anchored = True
+                            game.camera.recenter_on_player()
+                        elif level19_button.is_clicked(event.pos):
+                            show_menu = False
+                            show_levels = False
+                            game.load_level(18)
+                            n = 18
+                            game.camera.anchored = True
+                            game.camera.recenter_on_player()
+                        elif level20_button.is_clicked(event.pos):
+                            show_menu = False
+                            show_levels = False
+                            game.load_level(19)
+                            n = 19
+                            game.camera.anchored = True
+                            game.camera.recenter_on_player()
 
                     if game.end_screen_active:
                         if game.victoire:
@@ -531,7 +601,11 @@ def start():
                             elif next_level_button.is_clicked(event.pos):
                                 game.end_screen_active = False
                                 n += 1
-                                game.load_level(n)
+                                if n != 20:
+                                    game.load_level(n)
+                                else:
+                                    n = 0
+                                    game.load_level(n)
 
                         else:
                             if main_menu_button_game_over.is_clicked(event.pos):
