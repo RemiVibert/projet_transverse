@@ -18,7 +18,7 @@ class ImageButton:
             self.hover_image = self.default_image  # Sinon, le bouton reste identique au survol
 
         self.image = self.default_image
-        self.rect = self.image.get_rect(topleft=(x, y)) # Détermine la zone de collision du bouton
+        self.rect = self.image.get_rect(topleft=(x, y))  # Rectangle du bouton pour la gestion des clics
 
     def update(self, mouse_pos):
         if self.rect.collidepoint(mouse_pos): # Si la souris est sur le bouton affiche l'image de survol
