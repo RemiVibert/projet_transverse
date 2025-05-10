@@ -41,7 +41,7 @@ class Game():
         self.zoom_min = 0.01 # Zoom minimal autorisé
         self.zoom_max = 10 # Zoom maximal autorisé
 
-        nb_etoiles = (self.max_cam_x - self.min_cam_x) * (self.max_cam_y - self.min_cam_y) // 500000 #  # Calcule un nombre d’étoiles basé sur la taille de la carte
+        nb_etoiles = (self.max_cam_x - self.min_cam_x) * (self.max_cam_y - self.min_cam_y) // 500_000 #  # Calcule un nombre d’étoiles basé sur la taille de la carte
         self.etoiles = Etoiles(nb_etoiles, self.max_cam_x*2, self.max_cam_y*2, self.min_cam_x, self.min_cam_y)  # Crée les étoiles avec une zone étendue pour éviter qu’elles disparaissent
         
         self.pressed = {  # Dictionnaire pour gérer l’état des touches fléchées.
@@ -108,7 +108,7 @@ class Game():
         if self.planets:  # Vérifie si la liste des planètes n'est pas vide
             distance_to_closest_thing = min([self.player.pos.distance_to(planet.pos) for planet in self.planets])
             
-        closest_thing = min(distance_to_closest_thing, self.player.pos.distance_to(self.base.pos)) 
+        closest_thing = min(distance_to_closest_thing, self.player.pos.distance_to(self.base.pos))  # type: ignore
 
         if closest_thing > self.MAX_DISTANCE_OUT_OF_SPACE:
             self.game_over("out_of_space", False)
@@ -177,7 +177,7 @@ class Game():
 
         print(f"\033[1;31mFIN DU NIVEAU : {message}\033[0m")
 
-        if self.player.godmod:
+        if self.player.godmod and not victoire:
             return
         self.end_screen_active = True
         self.victoire = victoire
@@ -210,7 +210,7 @@ class Game():
             death_overlay = pygame.image.load(image_path).convert_alpha()
             self.death_overlay = pygame.transform.scale(death_overlay, (500, 500))
 
-    def show_end_screen(self, message: str, victoire: bool, screen: pygame.Surface, image: pygame.Surface = None):
+    def show_end_screen(self, message: str, victoire: bool, screen: pygame.Surface, image: pygame.Surface|None = None):
         self.end_screen_active = True
         self.victoire = victoire
         if image:
@@ -219,7 +219,7 @@ class Game():
     def check_victory(self):
         if self.end_screen_active or not self.player.has_launched:
             return
-        if self.base.check_collision(self.player.rect):
+        if self.base.check_collision(self.player.rect): # type: ignore
             self.game_over("win", victoire=True)
 
     def calculate_stars(self):

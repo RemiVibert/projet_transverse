@@ -339,7 +339,7 @@ while running:
         for fuel in game.fuels:
             fuel.draw(screen, game.camera)
         game.player.draw(screen, game.camera)
-        game.base.draw(screen, game.camera)
+        game.base.draw(screen, game.camera) # type: ignore
         quit_button.draw(screen)
 
     pygame.display.flip()
