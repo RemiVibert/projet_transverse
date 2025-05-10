@@ -106,6 +106,8 @@ class Game():
         # Out of space
         if self.planets:  # Vérifie si la liste des planètes n'est pas vide
             distance_to_closest_thing = min([self.player.pos.distance_to(planet.pos) for planet in self.planets])
+        else:
+            distance_to_closest_thing = 1_000_000
             
         closest_thing = min(distance_to_closest_thing, self.player.pos.distance_to(self.base.pos))  # type: ignore
 
