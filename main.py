@@ -1,7 +1,6 @@
 import pygame
 from game import Game
 from button import ImageButton
-from levels import level1, level2, level3
 from base import Base
 from player import Player
 
@@ -11,7 +10,7 @@ import ctypes
 def warn_message():
     """Ouvre une fenêtre pycharm avec l'image de fond indiquant le problème, qui se ferme quand on clique."""
     user32 = ctypes.windll.user32
-    user32.SetProcessDPIAware()
+    user32.SetProcessDPIAware() # Ajuste la DPI pour l'écran de l'utilisateur
     screen_width = user32.GetSystemMetrics(0)
     screen_height = user32.GetSystemMetrics(1)
 
@@ -20,7 +19,7 @@ def warn_message():
     screen = pygame.display.set_mode((screen_width, screen_height))
 
     background = pygame.image.load('assets/UI/screen_res_background.PNG').convert()
-    background = pygame.transform.scale(background, (screen_width, screen_height))
+    background = pygame.transform.scale(background, (screen_width, screen_height)) # Redimensionner le fond pour couvrir tout l'écran
 
     running = True
     while running:
@@ -35,8 +34,7 @@ def warn_message():
 
 def start():
     n = 0
-    SCREEN_SIZE = (1920, 1080)
-    # SCREEN_SIZE = (960, 540)  # Pour le test sur l'ordinateur portable
+    SCREEN_SIZE = (1920, 1080) # Taille de l'écran du jeu
 
 
     pygame.init()
@@ -51,29 +49,27 @@ def start():
     clock = pygame.time.Clock()
 
 
-    # images de fin de niveau
+    # Images du fond de fin de niveau
     end_background_victory = pygame.image.load("assets/level_end_screen/image_fin_niveau.png").convert()
     end_background_game_over = pygame.image.load("assets/level_end_screen/game_over_screen.png").convert()
     dead_crash_img = pygame.image.load("assets/level_end_screen/dead_crash.png").convert_alpha()
     dead_no_fuel_img = pygame.image.load("assets/level_end_screen/dead_no_fuel.png").convert_alpha()
     dead_lost_img = pygame.image.load("assets/level_end_screen/dead_lost.png").convert_alpha()
-    background_screen_res = pygame.image.load("assets/UI/screen_res_background.PNG").convert()
+
+    background_screen_res = pygame.image.load("assets/UI/screen_res_background.PNG").convert() #Fond pour avertir d'une mauvaise résolution
 
     game = Game(screen)
     player = game.player
 
-
-    # Police pour les règles
-    rules_font = pygame.font.SysFont('DIN', 18)
+    rules_font = pygame.font.SysFont('DIN', 18) # Police pour les règles
 
     # États de l'interface
     show_menu = True
     show_rules = False
     show_end_screen = False
     show_levels = False
-    show_screen_res = False
 
-    # Boutons
+    # Boutons de menus
     quit_button = ImageButton(1856, 0, "assets/sprites/buttons/button_close.png", width=64, height=64)
 
     play_button = ImageButton(350, 550, "assets/sprites/buttons/button_play_inerte.png",
@@ -161,7 +157,7 @@ def start():
     level30_button = ImageButton(1400, 800, "assets/sprites/buttons/button_level30.png",
                             "assets/sprites/buttons/button_level30_hover.png", width=80, height=80)
 
-    # Image en bas à droite
+    # Image en bas à droite du menu des règles
     image_bas_droite = pygame.image.load("assets/UI/astronaute_haute_def.PNG")
     image_bas_droite = pygame.transform.scale(image_bas_droite, (250, 250))
 
@@ -190,13 +186,8 @@ def start():
     while running:
         game.dt = clock.tick(60) / 1000
         mouse_pos = pygame.mouse.get_pos()
-        if show_screen_res :
-            screen.blit(background_screen_res, (0, 0))
-            ok_button.update(mouse_pos)
-            ok_button.draw(screen)
-            quit_button.draw(screen)
-        elif show_menu and not show_rules:
 
+        if show_menu and not show_rules:
             # Menu principal
             screen.blit(background, (0, 0))  # Affiche le fond du menu
             screen.blit(image_planete, (1000, -128)) 
@@ -419,9 +410,6 @@ def start():
                     play_button_sound = False
                     if quit_button.is_clicked(event.pos):
                         running = False
-                    if show_screen_res and ok_button.is_clicked(event.pos):
-                        show_screen_res = False
-                        show_menu = True
                     if show_menu and not show_rules:
                         if play_button.is_clicked(event.pos):
                             show_menu = False

@@ -2,7 +2,6 @@ import pygame
 from player import Player
 from graphismes import Etoiles
 from camera import Camera
-import levels
 from planet import Planet
 from collectible import Collectible
 from fuel import Fuel
@@ -177,8 +176,6 @@ class Game():
 
         print(f"\033[1;31mFIN DU NIVEAU : {message}\033[0m")
 
-        if not victoire:
-            return
         # Réinitialise les variables du niveau
         self.end_screen_active = True
         self.victoire = victoire
