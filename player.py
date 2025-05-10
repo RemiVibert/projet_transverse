@@ -185,8 +185,19 @@ class Player(pygame.sprite.Sprite):
 
         # Afficher les bordures rouges en plus ou moins transparentes en fonction de la distance du out of bounds
         max_distance = self.game.MAX_DISTANCE_OUT_OF_SPACE
-        closest_distance = min(self.pos.distance_to(planet.pos) for planet in self.game.planets)
-        closest_distance = min(closest_distance, max_distance)  # Limiter la distance à la distance maximale
+        if self.game.planets:
+            closest_distance = min(self.pos.distance_to(planet.pos) for planet in self.game.planets)
+        else:
+            closest_distance = 1_000_000
+        closest_distance = min(closest_distance, self.pos.distance_to(self.game.base.pos))  # Limiter la distance à la distance maximale
+
+        transparency = 255- (max(0, min(255, int(500 * (1 - closest_distance / max_distance)))))  # Calculer la transparence proportionnellement
+
+        self.image_out_of_bounds.set_alpha(transparency)  # Appliquer la transparence
+        # new_rect_out_of_bounds = self.image_out_of_bounds.get_rect(center=camera.world_pos_to_screen_pos(self.pos))  # Position sur l’écran
+        
+        self.rect_out_of_bounds.center = (screen.get_width() // 2, screen.get_height() // 2)  # Centrer sur l'écran
+        screen.blit(self.image_out_of_bounds, self.rect_out_of_bounds)  # Affichage du vaisseau
 
         # Afficher la diminution prévue
         if self.fuel_cost is not None:
