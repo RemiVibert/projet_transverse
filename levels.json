@@ -446,16 +446,44 @@
                 "max_y": 20000
             },
             "spawn": [0, 0],
-            "end": [5000, 0],
+            "end": [4400, -70],
             "max_fuel": 30,
             "start_fuel": 30,
             "planetes": [
-                {"position": [3000, 8000], "type": "petite-rocheuse"},
-                {"position": [0, -8000], "type": "moyenne-rocheuse"},
-                {"position": [-4000, 8000], "type": "grande-rocheuse"}
+                {"position": [700, -28], "type": "petite-rocheuse"},
+                {"position": [2500, -28], "type": "petite-rocheuse"},
+                {"position": [50, 200], "type": "x-asteroide"},
+                {"position": [-50, 200], "type": "x-asteroide"},
+                {"position": [-150, 200], "type": "x-asteroide"},
+                {"position": [-250, 200], "type": "x-asteroide"},
+                {"position": [-350, 200], "type": "x-asteroide"},
+                {"position": [-450, 200], "type": "x-asteroide"},
+                {"position": [-450, 100], "type": "x-asteroide"},
+                {"position": [-450, 0], "type": "x-asteroide"},
+                {"position": [-450, -100], "type": "x-asteroide"},
+                {"position": [-450, -200], "type": "x-asteroide"},
+                {"position": [-450, -300], "type": "x-asteroide"},
+                {"position": [-450, -400], "type": "x-asteroide"},
+                {"position": [-450, -500], "type": "x-asteroide"},
+                {"position": [-450, -600], "type": "x-asteroide"},
+                {"position": [-450, -700], "type": "x-asteroide"},
+                {"position": [-450, -800], "type": "x-asteroide"},
+                {"position": [-450, -900], "type": "x-asteroide"},
+                {"position": [-450, -1000], "type": "x-asteroide"},
+                {"position": [-450, -1100], "type": "x-asteroide"},
+                {"position": [-450, -1200], "type": "x-asteroide"},
+                {"position": [-450, -1300], "type": "x-asteroide"},
+                {"position": [-450, -1400], "type": "x-asteroide"},
+                {"position": [-450, -1500], "type": "x-asteroide"},
+                {"position": [-450, -1600], "type": "x-asteroide"},
+                {"position": [-450, -1700], "type": "x-asteroide"},
+                {"position": [-450, -1800], "type": "x-asteroide"},
+                {"position": [-450, -1900], "type": "x-asteroide"},
+                {"position": [-450, -2000], "type": "x-asteroide"}
+
             ],
-            "collectibles": [[2000, 0], [3000, 0], [4000, 0]],
-            "carburant": [{"position": [1000, 0], "quantité": 10}
+            "collectibles": [[0, -1800], [720, -120], [2650, -120], [2550, -190]],
+            "carburant": [{"position": [2400, 28], "quantité": 10}
 ]
         },
         {
