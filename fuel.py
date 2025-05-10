@@ -35,7 +35,7 @@ class Fuel:
         Ajoute le fuel au joueur et retire le bidon du jeu.
         """
         self.game.player.fuel = min(self.game.player.fuel + self.charges, self.game.player.max_fuel)  # Ajoute le fuel au joueur sans dépasser le maximum
-        pygame.mixer.Sound('assets/sounds/refuel.mp3').play()
+        pygame.mixer.Sound('assets/audio/refuel.mp3').play()
         self.game.fuels.remove(self)  # Retire le bidon de la liste des fuels
 
     def draw(self, screen, camera):
