@@ -177,7 +177,7 @@ class Game():
 
         print(f"\033[1;31mFIN DU NIVEAU : {message}\033[0m")
 
-        if self.player.godmod and not victoire: # Ignore si godmod activé (debug)
+        if not victoire:
             return
         # Réinitialise les variables du niveau
         self.end_screen_active = True
