@@ -97,6 +97,7 @@ class Player(pygame.sprite.Sprite):
                 if self.rect.colliderect(collectible.rect):
                     collectible.collect()
                     self.collected_collectibles += 1  # Incrémente le nombre de collectibles ramassés
+                    pygame.mixer.Sound("assets/audio/collect.mp3").play()  # Joue le son de collecte
 
 
 

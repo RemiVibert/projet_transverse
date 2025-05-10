@@ -202,7 +202,9 @@ class Game():
         elif message == "win" or victoire:
             victoire = True
             image_path = "assets/level_end_screen/image_fin_niveau.PNG"
-            pygame.mixer.Sound("assets/audio/win.mp3").play()
+            sound = pygame.mixer.Sound("assets/audio/Sekiro - Shinobi Execution sound effect.mp3")
+            sound.set_volume(0.2)  # Régle le volume à 20%
+            sound.play()
         else:
             msg = "Fin de niveau."
         if image_path:
