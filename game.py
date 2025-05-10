@@ -58,8 +58,7 @@ class Game():
         self.base = None
 
         level_data = self.levels[self.niveau_actuel]
-        self.total_collectibles = len(level_data["collectibles"])
-        self.collected_collectibles = 0
+
 
     def is_pressed(self, key): # Retourne l’état d’une touche si elle est surveillée
         if key in self.pressed:
@@ -138,7 +137,7 @@ class Game():
         self.player.pos = pygame.Vector2(level["spawn"])  # Position initiale du joueur
         self.player.max_fuel = level["max_fuel"]
         self.player.fuel = level["start_fuel"]
-        self.player.collected_collectibles = 0
+
 
         self.planets = []  # Liste des planètes dans le niveau
         self.collectibles = []
@@ -166,6 +165,8 @@ class Game():
         self.nb_collectibles = len(self.collectibles)
         pygame.mixer.Sound("assets/audio/spawn_clic.mp3").play()
 
+        self.player.collected_collectibles = 0
+        self.total_collectibles = len(level["collectibles"])
         self.camera.recenter_on_player()
 
     def next_level(self):
@@ -228,13 +229,13 @@ class Game():
 
     def calculate_stars(self):
         if self.total_collectibles == 0:
-            return 0
-        ratio = self.collected_collectibles / self.total_collectibles
-        if ratio >= 1:
             return 3
-        elif ratio >= 2/3:
+        ratio = self.player.collected_collectibles / self.total_collectibles
+        if ratio >= 2.0:
+            return 3
+        elif ratio >= 4.0 / 3.0:
             return 2
-        elif ratio >= 1/3:
+        elif ratio >= 2.0 / 3.0:
             return 1
         else:
             return 0

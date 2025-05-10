@@ -1,5 +1,6 @@
 import pygame
 import random
+from player import Player
 
 
 class Collectible:
@@ -23,7 +24,7 @@ class Collectible:
             self.collected = True
             if self in self.game.collectibles:
                 self.game.collectibles.remove(self)
-            self.game.collected_collectibles += 1
+            self.game.player.collected_collectibles += 1
         
         
 
