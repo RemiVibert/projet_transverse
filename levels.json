@@ -148,8 +148,8 @@
             },
             "spawn": [0, 0],
             "end": [-300, 1000],
-            "max_fuel": 50,
-            "start_fuel": 50,
+            "max_fuel": 30,
+            "start_fuel": 30,
             "planetes": [
                 {"position": [900, 0], "type": "petite-rocheuse"},
                 {"position": [-500, -1350], "type": "x-asteroide"},
@@ -217,8 +217,8 @@
             },
             "spawn": [0, 0],
             "end": [650, 0],
-            "max_fuel": 30,
-            "start_fuel": 30,
+            "max_fuel": 15,
+            "start_fuel": 15,
             "planetes": [
                 {"position": [-500, -1000], "type": "x-asteroide"},
                 {"position": [-400, -1000], "type": "x-asteroide"},
