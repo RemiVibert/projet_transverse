@@ -235,6 +235,16 @@
                 {"position": [800, -1000], "type": "x-asteroide"},
                 {"position": [900, -1000], "type": "x-asteroide"},
                 {"position": [1000, -1000], "type": "x-asteroide"},
+                {"position": [1100, -1000], "type": "x-asteroide"},
+                {"position": [1200, -1000], "type": "x-asteroide"},
+                {"position": [1300, -1000], "type": "x-asteroide"},
+                {"position": [1400, -1000], "type": "x-asteroide"},
+                {"position": [1500, -1000], "type": "x-asteroide"},
+                {"position": [1600, -1000], "type": "x-asteroide"},
+                {"position": [1700, -1000], "type": "x-asteroide"},
+                {"position": [1800, -1000], "type": "x-asteroide"},
+                {"position": [1900, -1000], "type": "x-asteroide"},
+                {"position": [2000, -1000], "type": "x-asteroide"},
                 {"position": [-500, -900], "type": "x-asteroide"},
                 {"position": [-500, -800], "type": "x-asteroide"},
                 {"position": [-500, -700], "type": "x-asteroide"},
@@ -426,8 +436,8 @@
             },
             "spawn": [0, 0],
             "end": [900, -300],
-            "max_fuel": 15,
-            "start_fuel": 15,
+            "max_fuel": 20,
+            "start_fuel": 20,
             "planetes": [
               {"position": [1200, 0], "type": "grande-gazeuse"}
             ],
@@ -443,12 +453,13 @@
                 "max_y": 200000
             },
             "spawn": [0, 0],
-            "end": [700, 700],
-            "max_fuel": 50,
-            "start_fuel": 50,
+            "end": [5000, -300],
+            "max_fuel": 20,
+            "start_fuel": 20,
             "planetes": [
+                {"position": [1200, 0], "type": "grande-gazeuse"}
             ],
-            "collectibles": [],
+            "collectibles": [[1200, 1000], [1200, -1000], [2400,0]],
             "carburant": [
 ]
         },
