@@ -198,19 +198,7 @@ class Player(pygame.sprite.Sprite):
 
 
 
-        # Afficher les bordures rouges en plus ou moins transparentes en fonction de la distance du out of bounds
-        max_distance = self.game.MAX_DISTANCE_OUT_OF_SPACE
-        closest_distance = min(self.pos.distance_to(planet.pos) for planet in self.game.planets)
-        closest_distance = min(closest_distance, self.pos.distance_to(self.game.base.pos))  # Limiter la distance à la distance maximale
-
         
-        transparency = 255- (max(0, min(255, int(500 * (1 - closest_distance / max_distance)))))  # Calculer la transparence proportionnellement
-
-        self.image_out_of_bounds.set_alpha(transparency)  # Appliquer la transparence
-        # new_rect_out_of_bounds = self.image_out_of_bounds.get_rect(center=camera.world_pos_to_screen_pos(self.pos))  # Position sur l’écran
-        
-        self.rect_out_of_bounds.center = (screen.get_width() // 2, screen.get_height() // 2)  # Centrer sur l'écran
-        screen.blit(self.image_out_of_bounds, self.rect_out_of_bounds)  # Affichage du vaisseau
 
 
         # === DEBUG === # 
@@ -222,9 +210,18 @@ class Player(pygame.sprite.Sprite):
 
         # === Afficher le nombre de collectibles collectés === #
         font = pygame.font.Font(None, 36)  # Police par défaut
-        text = font.render(f"Collectibles: {self.collected_collectibles}", True, (255, 255, 255))  # Texte blanc
-        text_rect = text.get_rect(topleft=(10, 10))
-        screen.blit(text, text_rect)  # Affiche le texte à l'écran
+        text = font.render(f"{self.collected_collectibles}/{self.game.nb_collectibles}", True, (255, 255, 255))  # Texte blanc
+        # Charger et redimensionner l'image du collectible une seule fois
+        if not hasattr(self, 'collectible_icon'):
+            collectible_icon_original = pygame.image.load('assets/sprites/collectibles/collectible.png').convert_alpha()
+            self.collectible_icon = pygame.transform.scale(collectible_icon_original, (36, 36))
+
+        # Afficher l'icône du collectible à côté du texte
+        if self.game.nb_collectibles:  # Afficher seulement si le nombre de collectibles est supérieur à 0
+            icon_rect = self.collectible_icon.get_rect(topleft=(10, 10))
+            screen.blit(self.collectible_icon, icon_rect)
+            text_rect = text.get_rect(topleft=(50, 10))
+            screen.blit(text, text_rect)  # Affiche le texte à l'écran
 
     def handle_event(self, event, camera):
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:  # Début du drag

@@ -138,6 +138,7 @@ class Game():
         self.player.pos = pygame.Vector2(level["spawn"])  # Position initiale du joueur
         self.player.max_fuel = level["max_fuel"]
         self.player.fuel = level["start_fuel"]
+        self.player.collected_collectibles = 0
 
         self.planets = []  # Liste des planètes dans le niveau
         self.collectibles = []
@@ -162,7 +163,7 @@ class Game():
             position = pygame.Vector2(fuel["position"])  # Utilise "position" du carburant
             quantité = fuel["quantité"]  # Récupère la quantité de carburant
             self.fuels.append(Fuel(position, quantité, self))
-
+        self.nb_collectibles = len(self.collectibles)
         pygame.mixer.Sound("assets/audio/spawn_clic.mp3").play()
 
         self.camera.recenter_on_player()
