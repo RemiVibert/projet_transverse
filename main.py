@@ -24,11 +24,12 @@ clock = pygame.time.Clock()
 
 
 # images de fin de niveau
-end_background_victory = pygame.image.load("assets/level_end_screen/image_fin_niveau.PNG").convert()
+end_background_victory = pygame.image.load("assets/level_end_screen/image_fin_niveau.png").convert()
 end_background_game_over = pygame.image.load("assets/level_end_screen/game_over_screen.png").convert()
 dead_crash_img = pygame.image.load("assets/level_end_screen/dead_crash.png").convert_alpha()
 dead_no_fuel_img = pygame.image.load("assets/level_end_screen/dead_no_fuel.png").convert_alpha()
 dead_lost_img = pygame.image.load("assets/level_end_screen/dead_lost.png").convert_alpha()
+background_screen_res = pygame.image.load("assets/UI/screen_res_background.PNG").convert()
 
 game = Game(screen)
 player = game.player
@@ -38,10 +39,11 @@ player = game.player
 rules_font = pygame.font.SysFont('DIN', 18)
 
 # États de l'interface
-show_menu = True
+show_menu = False
 show_rules = False
 show_end_screen = False
 show_levels = False
+show_screen_res = True
 
 # Boutons
 quit_button = ImageButton(1856, 0, "assets/sprites/buttons/button_close.png", width=64, height=64)
@@ -61,11 +63,13 @@ main_menu_button_game_over = ImageButton(855, 640, "assets/sprites/buttons/butto
 
 play_again_button_game_over = ImageButton(995, 640, "assets/sprites/buttons/button_play_again.png", width=70, height=70)
 
-main_menu_button_victory = ImageButton(805, 540, "assets/sprites/buttons/button_return_main_menu.png", width=70, height=70)
+main_menu_button_victory = ImageButton(825, 680, "assets/sprites/buttons/button_return_main_menu.png", width=70, height=70)
 
-play_again_button_victory = ImageButton(925, 540, "assets/sprites/buttons/button_play_again.png", width=70, height=70)
+play_again_button_victory = ImageButton(945, 680, "assets/sprites/buttons/button_play_again.png", width=70, height=70)
 
-next_level_button = ImageButton(1045, 540, "assets/sprites/buttons/button_next_level.png", width=70, height=70)
+next_level_button = ImageButton(1065, 680, "assets/sprites/buttons/button_next_level.png", width=70, height=70)
+
+ok_button = ImageButton(890, 720, "assets/sprites/buttons/button_ok.PNG", width=140, height=70)
 
 # Boutons pour les niveaux
 level1_button = ImageButton(500, 300, "assets/sprites/buttons/button_level1.png",
@@ -158,10 +162,14 @@ loop_music_path = "assets/audio/Happy Hills - Pianomations_loop.mp3"
 while running:
     game.dt = clock.tick(60) / 1000
     mouse_pos = pygame.mouse.get_pos()
-
-    if show_menu and not show_rules:
+    if show_screen_res :
+        screen.blit(background_screen_res, (0, 0))
+        ok_button.update(mouse_pos)
+        ok_button.draw(screen)
+        quit_button.draw(screen)
+    elif show_menu and not show_rules:
         # Menu principal
-        screen.blit(background, (0, 0))  # Affiche le fond du menu
+        screen.blit(background, (0, 0))
         screen.blit(logo, logo_rect)
         play_button.update(mouse_pos)
         rules_button.update(mouse_pos)
@@ -381,6 +389,9 @@ while running:
                 play_button_sound = False
                 if quit_button.is_clicked(event.pos):
                     running = False
+                if show_screen_res and ok_button.is_clicked(event.pos):
+                    show_screen_res = False
+                    show_menu = True
                 if show_menu and not show_rules:
                     if play_button.is_clicked(event.pos):
                         show_menu = False
