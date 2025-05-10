@@ -463,8 +463,9 @@ while running:
 
                         elif next_level_button.is_clicked(event.pos):
                             game.end_screen_active = False
-                            game.next_level()
-                            n = n+1
+                            n += 1
+                            game.load_level(n)
+
                     else:
                         if main_menu_button_game_over.is_clicked(event.pos):
                             game.end_screen_active = False
