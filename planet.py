@@ -4,12 +4,12 @@ import os
 class Planet:
     def __init__(self, pos, type):
         """
+            Initialise une planète.
 
-                Args:
-                    pos (Vector2): position de la planète
-                    masse (int): masse de la planète
-                    type (str): type de planète : "{taille-type}" : taille = "petite", "moyenne", "grande" ; type = "terre", "gazeuse", "asteroide"
-                """
+            Args:
+            pos (Vector2): position de la planète
+            type (str): type de planète : "{taille-type}" : taille = "petite", "moyenne", "grande" ; type = "terre", "gazeuse", "asteroide"
+        """
         self.pos = pygame.math.Vector2(pos)  # Position monde convertie en vecteur
         self.type = type.split('-') # Sépare la chaîne en deux parties : taille et type
         self.taille = self.type[0] # Extrait la taille

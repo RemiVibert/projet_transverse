@@ -8,6 +8,12 @@ g = 9.81 # Gravité terrestre
 
 
 class Player(pygame.sprite.Sprite):
+    """
+            Initialise un bouton.
+
+            Args:
+            game: référence au jeu pour accéder aux éléments globaux.
+    """
     def __init__(self, game):
         super().__init__()
         self.game = game

@@ -1,7 +1,17 @@
 import pygame
 
 class Base:
+
     def __init__(self, x, y, image):
+        """
+            Initialise la base.
+
+            Args:
+            x (int) : position en x de la base dans le monde
+            y (int) : position en y de la base dans le monde (coordonnée verticale).
+            image (pygame.Surface) : image représentant la base.
+        """
+
         self.image = image
         self.pos = pygame.Vector2(x, y)
         self.rect = self.image.get_rect(topleft=(x, y)) # Rectangle de l'image pour gestion de la position

@@ -2,7 +2,17 @@ import pygame
 import random
 
 class Etoiles(pygame.sprite.Sprite):
-    def __init__(self, nb_etoiles, max_x, max_y, min_x, min_y): # Prend en paramètres le nombre d'étoiles et les limites de leur position.
+    def __init__(self, nb_etoiles, max_x, max_y, min_x, min_y):
+        """
+            Initialise les étoiles dans le fond du jeu.
+
+            Args:
+            nb_etoiles (int) : nombre d'étoiles à faire apparaitre
+            max_x (int) : position en minimum en x des étoiles
+            max_y (int) : position en minimum en y des étoiles
+            min_x (int) : position au maximum en x des étoiles
+            min_y (int) : position au maximum en y des étoiles
+        """
         super().__init__()
         self.image = pygame.image.load("assets/sprites/decor/star.png") # Charge l'image des étoiles
         self.image = pygame.transform.scale(self.image, (50, 50))  # Redimensionne l'image de l’étoile à une taille de 50x50 pixels

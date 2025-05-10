@@ -13,6 +13,12 @@ from base import Base
 
 class Game():
     def __init__(self, screen):
+        """
+            Permet de gérer les éléments principaux du jeu.
+
+            Args:
+                screen (pygame.Surface) : surface d'affichage sur laquelle dessiner les éléments visuels liés au fuel
+        """
         self.MAX_DISTANCE_OUT_OF_SPACE = 20_000
         self.screen = screen # Référence vers la surface d'affichage
         self.dt:float = 0 # Temps écoulé entre deux frames

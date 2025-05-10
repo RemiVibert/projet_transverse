@@ -5,7 +5,14 @@ from player import Player
 
 class Collectible:
     def __init__(self, pos:pygame.Vector2, game):
-        self.pos = pos 
+        """
+            Initialise un collectible (=astronaute).
+
+            Args:
+            pos (pygame.Vector2): Position du collectible dans le monde.
+            game: Référence au jeu pour accéder aux éléments globaux.
+        """
+        self.pos = pos
         self.image = pygame.image.load('assets/sprites/collectibles/collectible.png').convert_alpha()
         self.rect = self.image.get_rect(center=self.pos)  # Crée un rectangle de collision
         self.original_image = self.image  # Garde l’image de base pour les rescalings
@@ -26,7 +33,7 @@ class Collectible:
             if self in self.game.collectibles:
                 self.game.collectibles.remove(self)
             self.game.player.collected_collectibles += 1
-        
+
 
 
     def draw(self, screen, camera):

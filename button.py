@@ -3,6 +3,17 @@ import pygame
 
 class ImageButton:
     def __init__(self, x, y, image_path, hover_image_path = None, width=None, height=None):
+        """
+                 Initialise un bouton.
+
+                Args:
+              x (int) : position en x de la base dans le monde
+              y (int) : position en y de la base dans le monde
+              image_path (str) : chemin d'accès vers l'image du bouton au repos
+              hover_image_path (str) : chemin d'accès vers l'image du bouton une fois survolé
+              width (int) : largeur du bouton
+              height (int) : longueur du bouton
+        """
 
         default_raw = pygame.image.load(image_path).convert_alpha() # Charge l'image de base du bouton avec transparence
         target_size = (  # Détermine la taille finale du bouton

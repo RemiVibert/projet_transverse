@@ -3,6 +3,12 @@ import pygame
 #Cette classe gère le zoom, le déplacement et le suivi du joueur
 class Camera:
     def __init__(self, game):
+        """
+                Permet la gestion de la camera.
+
+                Args:
+                game: référence au jeu pour accéder aux éléments globaux.
+        """
         self.game = game
         self.zoom = 1 # Niveau de zoom initial à 100%
         self.offset = pygame.Vector2(0, 0)  # Décalage de la caméra
