@@ -154,7 +154,7 @@ pygame.mixer.music.set_endevent(MUSIC_END_EVENT)
 
 # Musique de loop
 loop_music_path = "assets/audio/Happy Hills - Pianomations_loop.mp3"
-
+image_planete = pygame.image.load("assets/sprites/planetes/grande-rocheuse.png")
 while running:
     game.dt = clock.tick(60) / 1000
     mouse_pos = pygame.mouse.get_pos()
@@ -162,6 +162,7 @@ while running:
     if show_menu and not show_rules:
         # Menu principal
         screen.blit(background, (0, 0))  # Affiche le fond du menu
+        screen.blit(image_planete, (1000, -128)) 
         screen.blit(logo, logo_rect)
         play_button.update(mouse_pos)
         rules_button.update(mouse_pos)
