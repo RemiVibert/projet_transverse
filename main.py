@@ -141,6 +141,19 @@ game = Game(screen)
 
 running = True
 
+# Initialisation des musiques
+intro_musique = True
+pygame.mixer.music.load("assets/audio/Happy Hills - Pianomations_intro.mp3")
+pygame.mixer.music.set_volume(0.5)  # Ajuster le volume (0.0 à 1.0)
+pygame.mixer.music.play()  # Jouer la musique d'intro une seule fois
+
+# Configurer un événement pour détecter la fin de la musique d'intro
+MUSIC_END_EVENT = pygame.USEREVENT + 1
+pygame.mixer.music.set_endevent(MUSIC_END_EVENT)
+
+# Musique de loop
+loop_music_path = "assets/audio/Happy Hills - Pianomations_loop.mp3"
+
 while running:
     game.dt = clock.tick(60) / 1000
     mouse_pos = pygame.mouse.get_pos()
@@ -332,6 +345,13 @@ while running:
     pygame.display.flip()
 
     for event in pygame.event.get():
+         # Vérifier si l'événement de fin de musique est déclenché
+        if event.type == MUSIC_END_EVENT:
+            if intro_musique:
+                intro_musique = False
+                pygame.mixer.music.load(loop_music_path)
+                pygame.mixer.music.play(-1)  # Jouer la musique de loop en boucle infinie
+
         if event.type == pygame.QUIT:
             running = False
 
