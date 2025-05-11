@@ -1,6 +1,16 @@
 import pygame
 import random # utilisé pour choisir une couleur aléatoire d'asteroide
 import os
+
+pygame.display.init()  # Initialise le display pour permettre convert_alpha()
+pygame.display.set_mode((1, 1))  # Crée une petite fenêtre temporaire
+
+images_asteroide:list = []
+for file_name in os.listdir('assets/sprites/asteroide'):
+        image = pygame.image.load('assets/sprites/asteroide/'+file_name).convert_alpha()
+        image = pygame.transform.scale(image, (image.get_width() // 20, image.get_height() // 20))  # Redimensionne l'image
+        images_asteroide.append(image) # Charge toutes les images d'astéroïdes dans une liste
+
 class Planet:
     def __init__(self, pos, type):
         """
@@ -17,8 +27,7 @@ class Planet:
         if self.type == "asteroide":
             nb_fichiers = len(os.listdir('assets/sprites/asteroide'))
             #permet d'ajouter une apparence un peu aléatoire et plus naturelle aux murs d'astéroides
-            self.image = pygame.image.load(f'assets/sprites/asteroide/x-asteroide{random.randint(1, nb_fichiers)}.png').convert_alpha()
-            self.image = pygame.transform.scale(self.image, (self.image.get_width() // 20, self.image.get_height() // 20))  # Redimensionne l'image
+            self.image = random.choice(images_asteroide)  # Choisit une image d'astéroïde aléatoire
             self.image = pygame.transform.rotate(self.image, random.randint(0, 360))  # Tourne l'image d'un angle aléatoire
         else:
             self.image = pygame.image.load('assets/sprites/planetes/'+type+'.png').convert_alpha()
