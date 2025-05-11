@@ -7,7 +7,7 @@ from collectible import Collectible
 from fuel import Fuel
 import json
 from base import Base
-
+import os
 
 
 class Game():
@@ -18,6 +18,13 @@ class Game():
             Args:
                 screen (pygame.Surface) : surface d'affichage sur laquelle dessiner les éléments visuels liés au fuel
         """
+
+        self.images_asteroide:list = []
+        for file_name in os.listdir('assets/sprites/asteroide'):
+                image = pygame.image.load('assets/sprites/asteroide/'+file_name).convert_alpha()
+                image = pygame.transform.scale(image, (image.get_width() // 20, image.get_height() // 20))  # Redimensionne l'image
+                self.images_asteroide.append(image) # Charge toutes les images d'astéroïdes dans une liste
+
         self.MAX_DISTANCE_OUT_OF_SPACE = 20_000 # Constante définissant la distance max avant de considérer le joueur comme perdu dans l'espace
         self.screen = screen # Référence vers la surface d'affichage
         self.dt:float = 0 # Temps écoulé entre deux frames
@@ -148,7 +155,7 @@ class Game():
 
 
         for planete in level["planetes"]:
-            self.planets.append(Planet(planete["position"],planete["type"]))  # Crée une instance de planète avec sa position et son type
+            self.planets.append(Planet(planete["position"],planete["type"], self))  # Crée une instance de planète avec sa position et son type
 
         for collectible in level["collectibles"]:
             self.collectibles.append(
