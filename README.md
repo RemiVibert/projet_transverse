@@ -111,10 +111,10 @@ Beaucoup de déboggage a été fait: Commencençant par une physique qui ne marc
 Les bugs ont été présents et nombreux et ont été une majeure partie du développement: nous pouvons citer la base qui ne s'affiche pas ou une inversion des états des boutons...
 
 ## JOURNAL DE BORD
-Rendu sur Monday
+Rendu sur Monday[https://efrei681330.monday.com/boards/1746704228/pulses/1798848489]
 
 ### CHRONOLOGIE DU PROJET
-Sur Notion
+Sur Notion[https://www.notion.so/Projet-Transverse-Equipe-1-18fef785d30a8017bca9de6e4e69deba]
 
 ### REPARTITION DES TACHES
 Les tâches se sont crées petit à petit au fur et à mesure du projet. 
