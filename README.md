@@ -5,13 +5,13 @@
 ## PRESENTATION DU PROJET
 
 ### CONTRIBUTEURS
-Myriam MOUTTALIB: Chef Développement, Direction Artistique, Notion Managment, Art, Test, Debug, Level Implementation, Journal de Bord
+Myriam MOUTTALIB: Chef Développement, Direction Artistique, Notion Managment, Art, Test, Debug, Level Implementation, Journal de Bord, PowerPoint
 
-Kévin-Seng TEK: Développement, Level Design, Level Implementation, Physique, Chef Debug, ReadME et Notion Managment
+Kévin-Seng TEK: Développement, Level Design, Level Implementation, Physique, Test, Bug Report, Debug, ReadM, Monday et Notion Managment
 
 Rémi VIBERT: Développement, Level Design, Sound Design, Debug
 
-Eliott LE GUEN: Power Point, Monday et Collaboration Ponctuelle
+Eliott LE GUEN: Power Point et Collaboration Ponctuelle
 
 Valentin BOINAY: Collaboration Ponctuelle
 
@@ -111,7 +111,7 @@ Beaucoup de déboggage a été fait: Commencençant par une physique qui ne marc
 Les bugs ont été présents et nombreux et ont été une majeure partie du développement: nous pouvons citer la base qui ne s'affiche pas ou une inversion des états des boutons...
 
 ## JOURNAL DE BORD
-Rendu en .pdf
+Rendu sur Monday
 
 ### CHRONOLOGIE DU PROJET
 Sur Notion
@@ -119,9 +119,9 @@ Sur Notion
 ### REPARTITION DES TACHES
 Les tâches se sont crées petit à petit au fur et à mesure du projet. 
 Myriam MOUTTALIB: A codé une partie majeure du projet, implémenté les différents designs artistiques, implenté les différents niveaux, géré le Notion et a testé et débuggé le projet.
-Kévin-Seng TEK: A codé une partie importante du projet incluant les différents menus du projet, la physique, implémenté les différents niveaux, géré le Notion et rédigé le readME et testé et débuggé le projet.
-Rémi VIBERT: A codé la base du projet, et a crée  les différents niveaux, ainsi que le sound design.
-Eliott LE GUEN: A fait le PowerPoint, géré le Monday et a été présent aux réunions.
+Kévin-Seng TEK: A codé le projet incluant les différents menus du projet, la physique, implémenté les différents niveaux, géré le Notion et rédigé le readME et testé et débuggé le projet.
+Rémi VIBERT: A codé le projet, et a crée les différents niveaux, ainsi que le sound design.
+Eliott LE GUEN: A fait une base de PowerPoint et a été présent aux réunions.
 Valentin BOINAY: A été présent aux réunions.
 
 ## TESTS ET VALIDATION
