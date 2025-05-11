@@ -16,10 +16,10 @@ class Base:
         self.pos = pygame.Vector2(x, y)
         self.rect = self.image.get_rect(topleft=(x, y)) # Rectangle de l'image pour gestion de la position
         self.collision_rect = pygame.Rect( # Rectangle de collision avec un offset et des dimensions réduites
-            self.rect.x + 50,
-            self.rect.y + 50,
-            self.rect.width - 600,
-            self.rect.height - 600
+            self.rect.x +200,
+            self.rect.y +200,
+            self.rect.width - 400,
+            self.rect.height - 400
         )
 
     def draw(self, screen, camera):
