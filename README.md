@@ -1,6 +1,6 @@
 # PROJET TRANSVERSE: DERIVE
 
-## Un jeu d'aventure spatiale à la rescousse d'astronautes
+## Un jeu d'aventure spatiale à la rescousse d'astronautes !
 
 ## PRESENTATION DU PROJET
 
