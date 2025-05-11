@@ -7,9 +7,9 @@
 ### CONTRIBUTEURS
 Myriam MOUTTALIB: Chef Développement, Direction Artistique, Notion Managment, Art, Test, Debug, Level Implementation, Journal de Bord
 
-Kévin-Seng TEK: Développement, Level Implementation, Physique, Chef Debug, ReadME et Notion Managment
+Kévin-Seng TEK: Développement, Level Design, Level Implementation, Physique, Chef Debug, ReadME et Notion Managment
 
-Rémi VIBERT: Développement, Level Design, Sound Design
+Rémi VIBERT: Développement, Level Design, Sound Design, Debug
 
 Eliott LE GUEN: Power Point, Monday et Collaboration Ponctuelle
 
