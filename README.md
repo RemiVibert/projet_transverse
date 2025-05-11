@@ -113,7 +113,7 @@ Les bugs ont été présents et nombreux et ont été une majeure partie du dév
 ## JOURNAL DE BORD
 Rendu sur Monday[https://efrei681330.monday.com/boards/1746704228/pulses/1798848489]
 
-### CHRONOLOGIE DU PROJET
+## CHRONOLOGIE DU PROJET
 Sur Notion[https://www.notion.so/Projet-Transverse-Equipe-1-18fef785d30a8017bca9de6e4e69deba]
 
 ### REPARTITION DES TACHES
@@ -125,7 +125,7 @@ Les tâches se sont crées petit à petit au fur et à mesure du projet.
 - Valentin BOINAY: A été présent aux réunions.
 
 ## TESTS ET VALIDATION
-De nombreux tests ont été faits et ont mené petit à petit au succès du projet
+De nombreux tests ont été faits et ont mené petit à petit au succès du projet:
 
 
 ### STRATEGIES DE TEST
