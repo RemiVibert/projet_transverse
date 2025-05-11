@@ -47,8 +47,8 @@ Internet pour la documentation sur pygame
 - Une fois main.py lancé, il ne suffit plus que d'appuyer sur lancer le programme. Profitez du jeu !
 
 ### ALGORITHME DU JEU
-30 niveaux
-Une partie se déroulera ainsi dans le programme:
+- 30 niveaux
+- Une partie se déroulera ainsi dans le programme:
 1. Menu principal, choix entre démarrer la partie, choisir le niveau ou lire les règles
 2. Commencer la partie:
   - Lance le niveau 1
