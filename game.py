@@ -79,11 +79,13 @@ class Game():
             else:
                 # Zoom progressif avec ease-out
                 target_zoom = 0.9
-                if self.camera.zoom < target_zoom:
+                if self.camera.zoom < target_zoom - 0.01 and not self.player.has_launched:
                     self.camera.zoom += (target_zoom - self.camera.zoom) * 1.5 * self.dt
                     # self.camera.zoom *= 1.1
                 else:
+                    self.camera.zoom = target_zoom  # Forcer exactement la valeur cible (optionnel mais propre)
                     self.is_zooming = False
+                    self.wait_before_zooming = 0
 
 
         # Déplacement manuel de la caméra via les touches fléchées
