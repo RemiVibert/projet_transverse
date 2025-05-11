@@ -12,11 +12,10 @@
             "end": [700, 700],
             "max_fuel": 50,
             "start_fuel": 50,
-            "planetes": [
-            ],
+            "planetes": [],
             "collectibles": [],
-            "carburant": [
-]
+            "carburant": [],
+            "start_zoom": 0.23
         },
         {
             "difficulté": 2,
@@ -34,8 +33,8 @@
                 {"position": [353, 353], "type": "petite-rocheuse"}
             ],
             "collectibles": [],
-            "carburant": [
-]
+            "carburant": [],
+            "start_zoom": 0.21
         },
         {
             "difficulté": 3,
@@ -55,8 +54,8 @@
                 {"position": [2200, 900], "type": "petite-rocheuse"}
             ],
             "collectibles": [],
-            "carburant": [
-]
+            "carburant": [],
+            "start_zoom": 0.27
         },
         {
             "difficulté": 4,
@@ -76,8 +75,8 @@
                 {"position": [2200, 900], "type": "petite-rocheuse"}
             ],
             "collectibles": [],
-            "carburant": [
-]
+            "carburant": [],
+            "start_zoom": 0.25
         },
         {
             "difficulté": 5,
@@ -95,8 +94,8 @@
                 {"position": [1250, 0], "type": "petite-rocheuse"}
             ],
             "collectibles": [[1250, 400]],
-            "carburant": [
-]
+            "carburant": [],
+            "start_zoom": 0.28
         },
         {
             "difficulté": 6,
@@ -114,8 +113,8 @@
                 {"position": [1000, 0], "type": "petite-rocheuse"}
             ],
             "collectibles": [[1000, 300], [1000, -300]],
-            "carburant": [
-]
+            "carburant": [],
+            "start_zoom": 0.3
         },
         {
             "difficulté": 7,
@@ -134,8 +133,8 @@
                 {"position": [500, 600], "type": "petite-rocheuse"}
             ],
             "collectibles": [[500, -1000], [500, 0],[500, 1000] ],
-            "carburant": [
-]
+            "carburant": [],
+            "start_zoom": 0.15
         },
         {
             "difficulté": 8,
@@ -171,7 +170,7 @@
                 {"position": [-500, 450], "type": "x-asteroide"},
                 {"position": [-500, 550], "type": "x-asteroide"},
                 {"position": [-500, 50], "type": "x-asteroide"},
-                 {"position": [500, -1350], "type": "x-asteroide"},
+                {"position": [500, -1350], "type": "x-asteroide"},
                 {"position": [500, -1250], "type": "x-asteroide"},
                 {"position": [500, -1150], "type": "x-asteroide"},
                 {"position": [500, -1050], "type": "x-asteroide"},
@@ -203,8 +202,8 @@
                 {"position": [-500, 550], "type": "x-asteroide"}
             ],
             "collectibles": [[0, -1350], [900, 400]],
-            "carburant": [
-]
+            "carburant": [],
+            "start_zoom": 0.18
         },
         {
             "difficulté": 9,
@@ -298,8 +297,8 @@
                 {"position": [-400, 500], "type": "x-asteroide"}
             ],
             "collectibles": [[0, -700], [2000, 300] ],
-            "carburant": [
-]
+            "carburant": [],
+            "start_zoom": 0.22
         },
         {
             "difficulté": 10,
@@ -381,7 +380,7 @@
                 {"position": [-200, 500], "type": "x-asteroide"},
                 {"position": [-300, 500], "type": "x-asteroide"},
                 {"position": [-400, 500], "type": "x-asteroide"},
-                 {"position": [-3000, -900], "type": "x-asteroide"},
+                {"position": [-3000, -900], "type": "x-asteroide"},
                 {"position": [-3000, -800], "type": "x-asteroide"},
                 {"position": [-3000, -700], "type": "x-asteroide"},
                 {"position": [-3000, -600], "type": "x-asteroide"},
@@ -444,8 +443,8 @@
                 {"position": [-3000, -900], "type": "x-asteroide"}
             ],
             "collectibles": [[0,-600], [3000, 0]],
-            "carburant": [{"position": [1000, 350], "quantité": 25}
-]
+            "carburant": [{"position": [1000, 350], "quantité": 25}],
+            "start_zoom": 0.15
         },
         {
             "difficulté": 11,
@@ -493,8 +492,8 @@
 
             ],
             "collectibles": [[0, -1600], [720, -220], [2950, 120], [2750, 360]],
-            "carburant": [{"position": [2200, 350], "quantité": 10}
-]
+            "carburant": [{"position": [2200, 350], "quantité": 10}],
+            "start_zoom": 0.16
         },
         {
             "difficulté": 12,
@@ -514,8 +513,8 @@
                 {"position": [3000, 200], "type": "moyenne-rocheuse"}
             ],
             "collectibles": [[-1200, -600], [-1200, 1000], [-900, 30]],
-            "carburant": [{"position": [-1200, 850], "quantité": 10}
-]
+            "carburant": [{"position": [-1200, 850], "quantité": 10}],
+            "start_zoom": 0.16
         },
         {
             "difficulté": 13,
@@ -540,8 +539,8 @@
                 {"position": [-1100, 300], "type": "x-asteroide"}
             ],
             "collectibles": [[-1100, -40], [3500, 989]],
-            "carburant": [{"position": [2500, 1100], "quantité": 20}
-]
+            "carburant": [{"position": [2500, 1100], "quantité": 20}],
+            "start_zoom": 0.13
         },
         {
             "difficulté": 14,
@@ -654,8 +653,8 @@
                 {"position": [-250, -450], "type": "x-asteroide"}
             ],
             "collectibles": [[1200, 0], [3000, 0]],
-            "carburant": [
-]
+            "carburant": [],
+            "start_zoom": 0.13
         },
         {
             "difficulté": 15,
@@ -674,8 +673,8 @@
                 {"position": [1500, -1100], "type": "grande-gazeuse"}
             ],
             "collectibles": [[900, 0], [1400, 0], [1900, 0]],
-            "carburant": [
-]
+            "carburant": [],
+            "start_zoom": 0.14
         },
         {
             "difficulté": 16,
@@ -693,7 +692,8 @@
               {"position": [1200, 0], "type": "grande-gazeuse"}
             ],
             "collectibles": [[1200, 1000], [1200, -1000], [2400,0]],
-            "carburant": []
+            "carburant": [],
+            "start_zoom": 0.34
         },
         {
             "difficulté": 17,
@@ -711,8 +711,8 @@
                 {"position": [1200, 0], "type": "grande-gazeuse"}
             ],
             "collectibles": [[1200, 1000], [1200, -1000], [2400,0]],
-            "carburant": [
-]
+            "carburant": [],
+            "start_zoom": 0.14
         },
         {
             "difficulté": 18,
@@ -733,8 +733,8 @@
                 {"position": [2250, -750], "type": "moyenne-rocheuse"}
             ],
             "collectibles": [[450,-1050 ], [450, 1050], [2550,1050],[2550, -1050]],
-            "carburant": [{"position": [1500, 0], "quantité": 10}
-]
+            "carburant": [{"position": [1500, 0], "quantité": 10}],
+            "start_zoom": 0.16
         },
         {
             "difficulté": 19,
@@ -756,8 +756,8 @@
                 {"position": [-5500, 0], "type": "grande-rocheuse"}
             ],
             "collectibles": [[-10200,0], [-2800, -1400], [-2800,500],[-5000, 2300],[-650,1300]],
-            "carburant": [{"position": [-7300, -2300], "quantité": 10}
-]
+            "carburant": [{"position": [-7300, -2300], "quantité": 10}],
+            "start_zoom": 0.07
         },
         {
             "difficulté": 20,
@@ -784,7 +784,8 @@
 
             ],
             "collectibles": [[2250, 0], [3750, 0], [5250,0],[6750, 0], [4500, 750], [4500,2250],[4500, 3750], [4500, -750], [4500,-2250]],
-            "carburant": [{"position": [4500, -3750], "quantité": 50}]
+            "carburant": [{"position": [4500, -3750], "quantité": 50}],
+            "start_zoom": 0.07
         }
     ]
 

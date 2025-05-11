@@ -38,6 +38,7 @@ class Game():
 
         self.levels = []  # Liste des niveaux
         self.niveau_actuel = 0
+        self.wait_before_zooming = 0
         self.load_levels()  # Charge les niveaux depuis le fichier JSON
 
         nb_etoiles = (self.max_cam_x - self.min_cam_x) * (self.max_cam_y - self.min_cam_y) // 500_000 #  # Calcule un nombre d’étoiles basé sur la taille de la carte
@@ -71,6 +72,19 @@ class Game():
     def update(self, screen):
         self.keys = pygame.key.get_pressed() # Liste des touches pressées en continu
         pan_speed = 300 * self.dt / self.camera.zoom # Vitesse de déplacement caméra dépendant du temps + zoom
+
+        if self.is_zooming:
+            if self.wait_before_zooming < 1.5:
+                self.wait_before_zooming += self.dt
+            else:
+                # Zoom progressif avec ease-out
+                target_zoom = 0.9
+                if self.camera.zoom < target_zoom:
+                    self.camera.zoom += (target_zoom - self.camera.zoom) * 1.5 * self.dt
+                    # self.camera.zoom *= 1.1
+                else:
+                    self.is_zooming = False
+
 
         # Déplacement manuel de la caméra via les touches fléchées
         if not self.camera.anchored:
@@ -134,6 +148,7 @@ class Game():
         self.player.fuel = level["start_fuel"]
 
 
+
         self.planets = []  # Liste des planètes dans le niveau
         self.collectibles = []
         self.fuels = []
@@ -162,7 +177,10 @@ class Game():
 
         self.player.collected_collectibles = 0
         self.total_collectibles = len(level["collectibles"])
-        self.camera.recenter_on_player()
+
+        self.camera.zoom = level["start_zoom"]
+        self.wait_before_zooming = 0
+        self.is_zooming = True
 
     def next_level(self):
         # Passe au niveau suivant et retourne au début si on dépasse le dernier niveau
