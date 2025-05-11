@@ -310,8 +310,8 @@
             },
             "spawn": [0, 0],
             "end": [-2500, 0],
-            "max_fuel": 25,
-            "start_fuel": 25,
+            "max_fuel": 13,
+            "start_fuel": 13,
             "planetes": [
                 {"position": [-500, -1000], "type": "x-asteroide"},
                 {"position": [-400, -1000], "type": "x-asteroide"},
@@ -456,8 +456,8 @@
             },
             "spawn": [0, 0],
             "end": [4400, -70],
-            "max_fuel": 30,
-            "start_fuel": 30,
+            "max_fuel": 20,
+            "start_fuel": 20,
             "planetes": [
                 {"position": [700, -28], "type": "petite-rocheuse"},
                 {"position": [2500, -28], "type": "petite-rocheuse"},
@@ -505,8 +505,8 @@
             },
             "spawn": [0, 0],
             "end": [3500, 120],
-            "max_fuel": 30,
-            "start_fuel": 30,
+            "max_fuel": 20,
+            "start_fuel": 20,
             "planetes": [
                 {"position": [300, -28], "type": "petite-rocheuse"},
                 {"position": [-1200, 600], "type": "petite-rocheuse"},
@@ -526,8 +526,8 @@
             },
             "spawn": [0, 0],
             "end": [4600, 0],
-            "max_fuel": 50,
-            "start_fuel": 50,
+            "max_fuel": 27,
+            "start_fuel": 27,
             "planetes": [
                 {"position": [2500, 0], "type": "grande-gazeuse"},
                 {"position": [-1100, -300], "type": "x-asteroide"},
@@ -732,8 +732,8 @@
                 {"position": [2250, 750], "type": "moyenne-rocheuse"},
                 {"position": [2250, -750], "type": "moyenne-rocheuse"}
             ],
-            "collectibles": [[450,-1050 ], [450, 1050], [2550,1050],[2550, -1050]],
-            "carburant": [{"position": [1500, 0], "quantité": 10}],
+            "collectibles": [[450,-1050 ], [450, 1050], [2550,1050],[2550, -1050], [1500, 0]],
+            "carburant": [],
             "start_zoom": 0.65
         },
         {
