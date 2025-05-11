@@ -118,11 +118,11 @@ Sur Notion
 
 ### REPARTITION DES TACHES
 Les tâches se sont crées petit à petit au fur et à mesure du projet. 
-Myriam MOUTTALIB: A codé une partie majeure du projet, implémenté les différents designs artistiques, implenté les différents niveaux, géré le Notion et a testé et débuggé le projet.
-Kévin-Seng TEK: A codé le projet incluant les différents menus du projet, la physique, implémenté les différents niveaux, géré le Notion et rédigé le readME et testé et débuggé le projet.
-Rémi VIBERT: A codé le projet, et a crée les différents niveaux, ainsi que le sound design.
-Eliott LE GUEN: A fait une base de PowerPoint et a été présent aux réunions.
-Valentin BOINAY: A été présent aux réunions.
+- Myriam MOUTTALIB: A codé une partie majeure du projet, implémenté les différents designs artistiques, implenté les différents niveaux, géré le Notion et a testé et débuggé le projet.
+- Kévin-Seng TEK: A codé le projet incluant les différents menus du projet, la physique, implémenté les différents niveaux, géré le Notion et rédigé le readME et testé et débuggé le projet.
+- Rémi VIBERT: A codé le projet, et a crée les différents niveaux, ainsi que le sound design.
+- Eliott LE GUEN: A fait une base de PowerPoint et a été présent aux réunions.
+- Valentin BOINAY: A été présent aux réunions.
 
 ## TESTS ET VALIDATION
 De nombreux tests ont été faits et ont mené petit à petit au succès du projet
